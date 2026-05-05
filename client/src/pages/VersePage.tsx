@@ -64,6 +64,67 @@ function formatText(text: string) {
   });
 }
 
+/**
+ * Split narrative vs. closing takeaway (backlog #100).
+ * Prefer `\n\n` blocks; most `gitaData` story/more_stories bodies use only `\n` between paragraphs, so fall back to last line.
+ */
+function splitLeadingAndTakeawayParagraphs(text: string): { lead: string; takeaway: string | null } {
+  const normalized = text.trim();
+  if (!normalized) {
+    return { lead: "", takeaway: null };
+  }
+
+  const doubleBreakParts = normalized
+    .split(/\n\n+/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+  if (doubleBreakParts.length >= 2) {
+    const takeaway = doubleBreakParts[doubleBreakParts.length - 1]!;
+    const lead = doubleBreakParts.slice(0, -1).join("\n\n");
+    return { lead, takeaway };
+  }
+
+  const lines = normalized.split("\n").map((l) => l.trim()).filter(Boolean);
+  if (lines.length >= 2) {
+    const takeaway = lines[lines.length - 1]!;
+    const lead = lines.slice(0, -1).join("\n");
+    return { lead, takeaway };
+  }
+
+  return { lead: normalized, takeaway: null };
+}
+
+function StoryTakeawayCallout({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      className="mt-6 flex gap-3 rounded-2xl border-2 border-amber-300 bg-gradient-to-br from-amber-50 via-yellow-50/90 to-orange-50/80 p-4 lg:p-5 shadow-md ring-1 ring-amber-200/70"
+      role="note"
+      aria-label="Connection to this shloka"
+    >
+      <span
+        className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-amber-400/30 text-amber-800 shadow-inner"
+        aria-hidden
+      >
+        <Lightbulb size={22} strokeWidth={2.25} />
+      </span>
+      <div className="min-w-0 flex-1 text-amber-950 text-lg leading-relaxed [&_p]:my-2 [&_p:first-child]:mt-0 [&_p:last-child]:mb-0">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/** Renders story body with the final paragraph/line highlighted as the shloka takeaway. */
+function formatStoryWithTakeaway(text: string) {
+  const { lead, takeaway } = splitLeadingAndTakeawayParagraphs(text);
+  return (
+    <>
+      {formatText(lead)}
+      {takeaway != null ? <StoryTakeawayCallout>{formatText(takeaway)}</StoryTakeawayCallout> : null}
+    </>
+  );
+}
+
 function ImageModal({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
@@ -699,7 +760,7 @@ export default function VersePage() {
             )}
             <div className="bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-200 rounded-2xl p-5 lg:p-6">
               <div className="text-orange-900 text-lg leading-relaxed">
-                {formatText(verse.story)}
+                {formatStoryWithTakeaway(verse.story)}
               </div>
             </div>
             {verse.images?.story && verse.images.story.length >= 2 && (
@@ -1028,7 +1089,7 @@ export default function VersePage() {
 
                 <div className="px-5 pb-5">
                   <div className="text-rose-900 text-lg leading-relaxed">
-                    {formatText(story.body)}
+                    {formatStoryWithTakeaway(story.body)}
                   </div>
                 </div>
               </div>

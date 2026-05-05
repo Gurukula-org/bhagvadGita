@@ -71,11 +71,11 @@ There must be **one** summary implementation: **`ChapterSummaryPage` + `chapterS
 
 When the user says **Fix New Issue** (same intent, any reasonable casing):
 
-1. **Open that Google Sheet** and read the issue list (Status column).
+1. **Always fetch the latest sheet live from Google first** (canonical URL above) and read the issue list (Status column). Do **not** rely on previously downloaded/local copies if live fetch is available.
 2. **Work only on rows** whose status is **New Issue** or **Not Fixed** (match the sheet’s labels).
 3. **Skip** rows whose status is **Completed** (or clearly equivalent “done” state).
 4. Implement fixes **in sheet order** unless the user specifies otherwise.
-5. **Do not** add repo-local Excel files, npm scripts, or dependencies for this workflow. If the sheet is not fetchable, use a **user-provided export** or pasted rows.
+5. **Do not** add repo-local Excel files, npm scripts, or dependencies for this workflow. If the live sheet is not fetchable, use a **user-provided export** or pasted rows as fallback.
 6. After fixing, the user may mark rows **Completed** in the sheet (the repo does not store sheet edits).
 
 This workflow is also captured in `.cursor/rules/fix-new-issue.mdc` for Cursor agents.

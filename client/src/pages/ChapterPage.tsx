@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useMemo, useEffect, type MouseEvent } from "react";
+import { useState, useRef, useCallback, useMemo, useEffect, type MouseEvent, type ReactNode } from "react";
 import { Link, useParams, Redirect, useLocation } from "wouter";
 import { navigateWithViewTransition } from "@/lib/navigateWithViewTransition";
 import Layout from "@/components/Layout";
@@ -216,6 +216,38 @@ function buildSynopsis(verses: Verse[]): string {
   return [meanings[0], meanings[step], meanings[step * 2], meanings[meanings.length - 1]].join(" ");
 }
 
+function renderSynopsisWithHighlights(text: string): ReactNode[] {
+  const highlightTerms = [
+    "imperishable unmanifest brahman",
+    "dedicate all actions",
+    "primary goal",
+    "best yogis",
+    "meditate",
+    "devotees",
+    "Bhagavān",
+    "Bhagavan",
+    "Kṛṣṇa",
+    "Krishna",
+    "Arjuna",
+  ];
+  const escapedTerms = highlightTerms
+    .sort((a, b) => b.length - a.length)
+    .map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  const pattern = new RegExp(`(${escapedTerms.join("|")})`, "gi");
+  const parts = text.split(pattern);
+
+  return parts.map((part, index) => {
+    if (part && highlightTerms.some((term) => term.toLowerCase() === part.toLowerCase())) {
+      return (
+        <strong key={`${part}-${index}`} className="font-semibold text-orange-100">
+          {part}
+        </strong>
+      );
+    }
+    return <span key={`plain-${index}`}>{part}</span>;
+  });
+}
+
 export default function ChapterPage() {
   const params = useParams<{ chapterNum: string }>();
   const chapterNum = parseInt(params.chapterNum || "1");
@@ -354,8 +386,8 @@ export default function ChapterPage() {
           {/* Synopsis — below image level, full width (#68) */}
           {synopsis && (
             <div className="mt-3">
-              <p className={`text-red-100 text-sm lg:text-base leading-relaxed w-full ${!synopsisExpanded ? 'line-clamp-3 md:line-clamp-none' : ''}`}>
-                {synopsis}
+              <p className={`text-red-100 text-base lg:text-lg leading-relaxed w-full ${!synopsisExpanded ? 'line-clamp-3 md:line-clamp-none' : ''}`}>
+                {renderSynopsisWithHighlights(synopsis)}
               </p>
               <button
                 onClick={() => setSynopsisExpanded(!synopsisExpanded)}
@@ -369,14 +401,21 @@ export default function ChapterPage() {
           <div className="flex flex-wrap items-center gap-3 mt-5">
             <Link
               href={`/chapter/${chapterNum}/summary`}
+              aria-label={`Open chapter ${chapterNum} summary — full synopsis and illustrations`}
+              className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-300 via-orange-300 to-orange-400 px-5 py-2.5 text-sm font-bold text-red-950 shadow-lg shadow-black/25 ring-2 ring-white/70 hover:from-amber-200 hover:via-orange-200 hover:to-orange-300 hover:ring-white hover:shadow-xl active:scale-[0.98] transition-all touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-red-950/80"
               onClick={(e) => {
                 e.preventDefault();
                 navigateWithViewTransition(() => setLocation(`/chapter/${chapterNum}/summary`));
               }}
             >
-              <span className="inline-flex items-center gap-2 bg-white/15 hover:bg-white/25 rounded-full px-4 py-2 text-white text-sm font-semibold border border-white/20 cursor-pointer transition-colors touch-manipulation">
-                View Chapter Summary
-              </span>
+              <BookOpen size={18} strokeWidth={2.25} className="shrink-0" aria-hidden />
+              <span>View Chapter Summary</span>
+              <ChevronRight
+                size={18}
+                strokeWidth={2.25}
+                className="shrink-0 opacity-90 group-hover:translate-x-1 transition-transform"
+                aria-hidden
+              />
             </Link>
             {chapterNum === 6 && (
               <>
