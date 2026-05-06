@@ -498,23 +498,27 @@ export default function ChapterPage() {
             >
               <div className="group bg-card border-2 border-orange-200/70 [@media(hover:hover)]:hover:border-orange-400 rounded-xl p-3 sm:p-4 transition-all [@media(hover:hover)]:hover:shadow-xl active:scale-[0.995] cursor-pointer h-full flex flex-col relative touch-manipulation">
                 <div className="mb-2 border-b border-violet-200 pb-1.5">
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex flex-wrap gap-x-2 gap-y-1">
-                      {CARD_TAB_LINKS.map(({ label, tab }) => (
-                        <button
-                          type="button"
-                          key={label}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            navigateWithViewTransition(() =>
-                              setLocation(`/chapter/${chapterNum}/verse/${verse.verse}?tab=${tab}`)
-                            );
-                          }}
-                          className="inline-flex items-center border-b-2 border-transparent px-0.5 py-0 text-[10px] sm:text-[11px] font-semibold text-violet-800 hover:text-violet-900 hover:border-violet-300 transition-colors"
-                        >
-                          {label}
-                        </button>
+                  <div className="flex items-center justify-between gap-1.5">
+                    <div className="flex flex-wrap items-center gap-x-0.5 gap-y-1">
+                      {CARD_TAB_LINKS.map(({ label, tab }, idx) => (
+                        <span key={label} className="inline-flex items-center">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              navigateWithViewTransition(() =>
+                                setLocation(`/chapter/${chapterNum}/verse/${verse.verse}?tab=${tab}`)
+                              );
+                            }}
+                            className="inline-flex items-center border-b border-transparent px-1 py-0 text-[11px] sm:text-xs font-semibold text-violet-800 hover:text-violet-900 hover:border-violet-300 transition-colors"
+                          >
+                            {label}
+                          </button>
+                          {idx < CARD_TAB_LINKS.length - 1 && (
+                            <span className="text-violet-300 text-[10px] sm:text-xs select-none px-0.5">|</span>
+                          )}
+                        </span>
                       ))}
                     </div>
                     <button
@@ -526,7 +530,7 @@ export default function ChapterPage() {
                           setLocation(`/chapter/${chapterNum}/verse/${verse.verse}`)
                         );
                       }}
-                      className="inline-flex items-center gap-1 rounded-full border border-violet-300 bg-white px-2 py-0.5 text-[10px] sm:text-[11px] font-bold text-violet-800 hover:bg-violet-100 transition-colors whitespace-nowrap"
+                      className="inline-flex items-center gap-0.5 rounded-full border border-violet-300 bg-white px-1.5 py-0.5 text-[11px] sm:text-xs font-bold text-violet-800 hover:bg-violet-100 transition-colors whitespace-nowrap"
                     >
                       More
                       <ChevronRight size={11} />
