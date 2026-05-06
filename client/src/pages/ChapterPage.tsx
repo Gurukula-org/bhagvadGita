@@ -489,7 +489,7 @@ export default function ChapterPage() {
                 );
               }}
             >
-              <div className="group bg-card border border-border [@media(hover:hover)]:hover:border-orange-300 rounded-xl p-3 sm:p-4 transition-all [@media(hover:hover)]:hover:shadow-lg cursor-pointer h-full flex flex-col relative touch-manipulation">
+              <div className="group bg-card border-2 border-orange-200/70 [@media(hover:hover)]:hover:border-orange-400 rounded-xl p-3 sm:p-4 transition-all [@media(hover:hover)]:hover:shadow-xl active:scale-[0.995] cursor-pointer h-full flex flex-col relative touch-manipulation">
                 {/* Header: thumbnail + verse label + optional Listen (titles on verse page only) */}
                 <div className="flex items-start gap-3 mb-2">
                   <MeaningThumbnail chapterNum={chapterNum} verseNum={verse.verse} verse={verse} />
@@ -497,6 +497,10 @@ export default function ChapterPage() {
                     <div className="min-w-0 flex-1">
                       <span className="text-xl sm:text-2xl font-bold text-red-950 block tabular-nums tracking-tight">
                         {chapterNum}.{verse.verse}
+                      </span>
+                      <span className="inline-flex items-center gap-1 rounded-full bg-orange-100/90 border border-orange-300 px-2 py-0.5 mt-1 text-[11px] sm:text-xs font-bold text-orange-800">
+                        Open Shloka
+                        <ChevronRight size={12} />
                       </span>
                     </div>
                     {verse.audio_url && (
@@ -550,6 +554,21 @@ export default function ChapterPage() {
                 <p className="text-foreground/80 text-base leading-relaxed mb-2 flex-1">
                   {verse.one_line_meaning}
                 </p>
+                <div className="mb-2 rounded-lg border border-violet-300/70 bg-violet-50/90 px-2 py-1.5 sm:px-2.5 sm:py-2">
+                  <p className="text-[10px] sm:text-xs uppercase tracking-wide font-extrabold text-violet-700 mb-0.5 sm:mb-1">
+                    Tap to open full shloka details
+                  </p>
+                  <div className="flex flex-wrap gap-1 sm:gap-1.5">
+                    {["Meaning", "Story", "Life Impact", "Grammar"].map((tag) => (
+                      <span
+                        key={tag}
+                        className="inline-flex items-center rounded-full border border-violet-300 bg-white px-1.5 py-0.5 sm:px-2 text-[9px] sm:text-[11px] font-semibold text-violet-800"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
 
                 {/* Word-by-word meaning inline (#39.5, #54) */}
                 {verse.rich_grammar?.pratipadarthah && (
