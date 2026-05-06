@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useMemo, useEffect, type MouseEvent, type ReactNode } from "react";
+import { useState, useRef, useCallback, useMemo, useEffect, type MouseEvent } from "react";
 import { Link, useParams, Redirect, useLocation } from "wouter";
 import { navigateWithViewTransition } from "@/lib/navigateWithViewTransition";
 import Layout from "@/components/Layout";
@@ -15,7 +15,7 @@ import {
   getChapterVerses,
   hasGeneratedChapterSynopsis,
 } from "@/lib/chapterContent";
-import { getChapterIntentTerms, getTopicHubsForChapter } from "@/lib/seoKeywords";
+import { getChapterIntentTerms } from "@/lib/seoKeywords";
 import { stripTransliterationVerseSuffix } from "@/lib/transliterationDisplay";
 import { SandhiText } from "@/components/SandhiText";
 
@@ -215,38 +215,6 @@ function VerseAudioButton({ audioUrl, verseNum, onEnded }: { audioUrl: string; v
   );
 }
 
-function renderSynopsisWithHighlights(text: string): ReactNode[] {
-  const highlightTerms = [
-    "imperishable unmanifest brahman",
-    "dedicate all actions",
-    "primary goal",
-    "best yogis",
-    "meditate",
-    "devotees",
-    "Bhagavān",
-    "Bhagavan",
-    "Kṛṣṇa",
-    "Krishna",
-    "Arjuna",
-  ];
-  const escapedTerms = highlightTerms
-    .sort((a, b) => b.length - a.length)
-    .map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-  const pattern = new RegExp(`(${escapedTerms.join("|")})`, "gi");
-  const parts = text.split(pattern);
-
-  return parts.map((part, index) => {
-    if (part && highlightTerms.some((term) => term.toLowerCase() === part.toLowerCase())) {
-      return (
-        <strong key={`${part}-${index}`} className="font-semibold text-orange-100">
-          {part}
-        </strong>
-      );
-    }
-    return <span key={`plain-${index}`}>{part}</span>;
-  });
-}
-
 const CARD_TAB_LINKS = [
   { label: "Meaning", tab: "meaning" },
   { label: "Story", tab: "story" },
@@ -259,7 +227,6 @@ export default function ChapterPage() {
   const chapterNum = parseInt(params.chapterNum || "1");
   const [, setLocation] = useLocation();
   const [kidsMode, setKidsMode] = useState(false);
-  const [synopsisExpanded, setSynopsisExpanded] = useState(false);
   const [jumpMenuOpen, setJumpMenuOpen] = useState(false);
   const [jumpSelectKey, setJumpSelectKey] = useState(0);
 
@@ -315,7 +282,6 @@ export default function ChapterPage() {
   const { devanagariName, iastName } = getChapterDisplayNames(chapter);
   const headerImage = getChapterHeaderImage(data, chapter);
   const intentTerms = getChapterIntentTerms(chapterNum);
-  const chapterHubs = getTopicHubsForChapter(chapterNum).slice(0, 3);
 
   const chapterTitle = `Bhagavad Gita Chapter ${chapterNum} — ${iastName || chapter.name} (${devanagariName})`;
   const chapterDescription = synopsis ||
@@ -429,44 +395,11 @@ export default function ChapterPage() {
             </div>
           </div>
 
-          {/* Synopsis — below image level, full width (#68) */}
-          {synopsis && (
-            <div className="mt-3">
-              <p className={`text-red-100 text-base lg:text-lg leading-relaxed w-full ${!synopsisExpanded ? 'line-clamp-2' : ''}`}>
-                {renderSynopsisWithHighlights(synopsis)}
-              </p>
-              <button
-                type="button"
-                onClick={() => setSynopsisExpanded(!synopsisExpanded)}
-                className="text-orange-300 text-xs font-semibold mt-1 hover:underline"
-              >
-                {synopsisExpanded ? 'less' : 'more'}
-              </button>
-            </div>
-          )}
           {!persistedSynopsis && import.meta.env.DEV && (
             <div className="mt-2 rounded-md border border-amber-300/60 bg-amber-100/90 px-3 py-2 text-[11px] sm:text-xs text-amber-900">
               Missing <code>generated_description</code> for chapter {chapterNum}. Run <code>npm run generate-chapter-descriptions</code> and commit the JSON update.
             </div>
           )}
-          {chapterHubs.length > 0 && (
-            <div className="mt-3 flex flex-wrap items-center gap-2">
-              {chapterHubs.map((hub) => (
-                <Link
-                  key={hub.slug}
-                  href={`/topics/${hub.slug}`}
-                  className="inline-flex items-center rounded-md border border-white/35 bg-white/20 px-2.5 py-1 text-[11px] sm:text-xs font-semibold text-white hover:bg-white/30 transition-colors"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigateWithViewTransition(() => setLocation(`/topics/${hub.slug}`));
-                  }}
-                >
-                  {hub.title.replace("Gita for ", "")}
-                </Link>
-              ))}
-            </div>
-          )}
-
           {versesSorted.length > 0 && (
             <nav
               className="mt-3 w-full min-w-0"

@@ -16,7 +16,7 @@ import {
   Volume2, VolumeX, Pause, Play, RotateCcw, RotateCw, X
 } from "lucide-react";
 import { getChapterDisplayNames } from "@/lib/chapterContent";
-import { getChapterIntentTerms, getTopicHubsForChapter } from "@/lib/seoKeywords";
+import { getChapterIntentTerms } from "@/lib/seoKeywords";
 import { stripTransliterationVerseSuffix } from "@/lib/transliterationDisplay";
 import { navigateWithViewTransition } from "@/lib/navigateWithViewTransition";
 
@@ -426,7 +426,6 @@ export default function VersePage() {
 
   const moreStoriesParsed = verse.more_stories ? parseMoreStories(verse.more_stories) : [];
   const intentTerms = getChapterIntentTerms(chapterNum);
-  const topicHubs = getTopicHubsForChapter(chapterNum).slice(0, 2);
 
   const verseTitle = `Bhagavad Gita ${chapterNum}.${verseNum} — ${iastName}${verse.title ? ` — ${verse.title}` : ""}`;
   const verseDescription = verse.one_line_meaning ||
@@ -530,23 +529,6 @@ export default function VersePage() {
               </p>
               {verse.title && (
                 <p className="text-orange-900 text-lg font-display font-bold mt-1">{verse.title}</p>
-              )}
-              {topicHubs.length > 0 && (
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {topicHubs.map((hub) => (
-                    <Link
-                      key={hub.slug}
-                      href={`/topics/${hub.slug}`}
-                      className="inline-flex items-center rounded-md bg-orange-100 border border-orange-200 px-2 py-0.5 text-[11px] font-semibold text-orange-700 hover:bg-orange-200 transition-colors"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        navigateWithViewTransition(() => setLocation(`/topics/${hub.slug}`));
-                      }}
-                    >
-                      {hub.title.replace("Gita for ", "")}
-                    </Link>
-                  ))}
-                </div>
               )}
             </div>
           </div>
