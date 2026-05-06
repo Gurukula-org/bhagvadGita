@@ -65,7 +65,7 @@ export default function Layout({ children, kidsMode = false, onToggleKids, stick
       /* ignore */
     }
   }, [navCollapsed]);
-  const { user, isAdmin, signOut } = useAuth();
+  const { user, isAdmin, signOut, loading: authLoading } = useAuth();
   const { isChapterVisible } = useChapterVisibility();
 
   const chapterGroups = [
@@ -123,7 +123,7 @@ export default function Layout({ children, kidsMode = false, onToggleKids, stick
           </div>
 
           <div className="flex items-center gap-2">
-            {onToggleKids && (
+            {onToggleKids && user && !authLoading && (
               <button
                 onClick={onToggleKids}
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-sm font-semibold transition-all ${
@@ -136,17 +136,19 @@ export default function Layout({ children, kidsMode = false, onToggleKids, stick
                 {kidsMode ? "Kids Mode ON" : "Kids Mode"}
               </button>
             )}
-            <Link
-              href="/"
-              className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-full text-sm text-white hover:text-orange-100 hover:bg-white/20 transition-all touch-manipulation"
-              onClick={(e) => {
-                e.preventDefault();
-                navigateWithViewTransition(() => setLocation("/"));
-              }}
-            >
-              <Home size={15} />
-              Home
-            </Link>
+            {!isHome && (
+              <Link
+                href="/"
+                className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-full text-sm text-white hover:text-orange-100 hover:bg-white/20 transition-all touch-manipulation"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigateWithViewTransition(() => setLocation("/"));
+                }}
+              >
+                <Home size={15} />
+                Home
+              </Link>
+            )}
             {isAdmin && user && (
               <>
                 <Link

@@ -255,12 +255,16 @@ const CARD_TAB_LINKS = [
   { label: "Grammar", tab: "grammar" },
 ] as const;
 
+/** First N shlokas shown as quick chips; larger chapters use the dropdown for the rest. */
+const QUICK_SHLOKA_CHIP_COUNT = 8;
+
 export default function ChapterPage() {
   const params = useParams<{ chapterNum: string }>();
   const chapterNum = parseInt(params.chapterNum || "1");
   const [, setLocation] = useLocation();
   const [kidsMode, setKidsMode] = useState(false);
   const [synopsisExpanded, setSynopsisExpanded] = useState(false);
+  const [jumpSelectKey, setJumpSelectKey] = useState(0);
 
   useEffect(() => {
     return () => {
@@ -281,6 +285,22 @@ export default function ChapterPage() {
     : [];
 
   const synopsis = useMemo(() => buildSynopsis(verses), [verses]);
+  const versesSorted = useMemo(
+    () => [...verses].sort((a, b) => a.verse - b.verse),
+    [verses]
+  );
+  const quickVerses = useMemo(
+    () => versesSorted.slice(0, QUICK_SHLOKA_CHIP_COUNT),
+    [versesSorted]
+  );
+  const scrollToVerseCard = useCallback((verseNum: number) => {
+    const el = document.getElementById(`verse-card-${verseNum}`);
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const headerH = 64;
+    const y = window.scrollY + rect.top - headerH - 12;
+    window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+  }, []);
 
   if (!chapter) return <div className="p-8 text-center">Chapter not found</div>;
   if (!isChapterVisible(chapterNum)) return <Redirect to="/" />;
@@ -367,9 +387,14 @@ export default function ChapterPage() {
 
             <div className="flex-1 min-w-0">
               <p className="text-orange-400 text-xs font-semibold uppercase tracking-widest mb-2 flex flex-wrap items-center gap-x-3 gap-y-2">
-                <span>Chapter {chapterNum} of 18</span>
                 <span
-                  className="inline-flex items-center rounded-lg bg-white/20 border border-white/35 px-2.5 py-1 text-white shadow-md backdrop-blur-sm normal-case tracking-normal font-bold text-[11px] sm:text-xs"
+                  className="inline-flex items-center rounded-lg bg-white/20 border border-white/35 px-2.5 py-1 text-white shadow-md backdrop-blur-sm normal-case tracking-normal font-bold text-[11px] sm:text-xs whitespace-nowrap"
+                  title={`Chapter ${chapterNum} of 18 in the Bhagavad Gita`}
+                >
+                  Chapter {chapterNum} of 18
+                </span>
+                <span
+                  className="inline-flex items-center rounded-lg bg-white/20 border border-white/35 px-2.5 py-1 text-white shadow-md backdrop-blur-sm normal-case tracking-normal font-bold text-[11px] sm:text-xs whitespace-nowrap"
                   title={`This chapter has ${chapter.verses_count} verses in the Bhagavad Gita`}
                 >
                   {chapter.verses_count} {chapter.verses_count === 1 ? "Shloka" : "Shlokas"}
@@ -393,16 +418,72 @@ export default function ChapterPage() {
           {/* Synopsis — below image level, full width (#68) */}
           {synopsis && (
             <div className="mt-3">
-              <p className={`text-red-100 text-base lg:text-lg leading-relaxed w-full ${!synopsisExpanded ? 'line-clamp-3 md:line-clamp-none' : ''}`}>
+              <p className={`text-red-100 text-base lg:text-lg leading-relaxed w-full ${!synopsisExpanded ? 'line-clamp-2' : ''}`}>
                 {renderSynopsisWithHighlights(synopsis)}
               </p>
               <button
+                type="button"
                 onClick={() => setSynopsisExpanded(!synopsisExpanded)}
-                className="text-orange-300 text-xs font-semibold mt-1 hover:underline md:hidden"
+                className="text-orange-300 text-xs font-semibold mt-1 hover:underline"
               >
                 {synopsisExpanded ? 'less' : 'more'}
               </button>
             </div>
+          )}
+
+          {versesSorted.length > 0 && (
+            <nav
+              className="mt-3 w-full min-w-0"
+              aria-label={`Jump to a shloka in chapter ${chapterNum}`}
+            >
+              <div className="flex flex-col gap-2.5 sm:gap-3">
+                <div className="flex flex-wrap gap-1.5 sm:gap-2 items-center">
+                  {quickVerses.map((v) => (
+                    <button
+                      key={v.verse}
+                      type="button"
+                      onClick={() => scrollToVerseCard(v.verse)}
+                      className="flex-shrink-0 inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2 rounded-lg border-2 border-orange-300/60 bg-white/15 text-orange-50 text-sm font-bold tabular-nums shadow-sm transition-all [@media(hover:hover)]:hover:bg-orange-400/30 [@media(hover:hover)]:hover:border-orange-200 [@media(hover:hover)]:hover:text-white [@media(hover:hover)]:hover:shadow-md [@media(hover:hover)]:hover:-translate-y-px active:scale-[0.97] cursor-pointer underline-offset-2 [@media(hover:hover)]:hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200 focus-visible:ring-offset-2 focus-visible:ring-offset-red-950/90"
+                      aria-label={`Scroll to shloka ${chapterNum}.${v.verse}`}
+                    >
+                      {v.verse}
+                    </button>
+                  ))}
+                </div>
+                {versesSorted.length > QUICK_SHLOKA_CHIP_COUNT && (
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                    <label
+                      htmlFor={`jump-shloka-${chapterNum}`}
+                      className="text-orange-200/95 text-[11px] sm:text-xs font-semibold uppercase tracking-wide whitespace-nowrap"
+                    >
+                      Jump to shloka
+                    </label>
+                    <select
+                      id={`jump-shloka-${chapterNum}`}
+                      key={jumpSelectKey}
+                      defaultValue=""
+                      onChange={(e) => {
+                        const v = e.target.value;
+                        if (!v) return;
+                        scrollToVerseCard(Number(v));
+                        setJumpSelectKey((k) => k + 1);
+                      }}
+                      className="min-w-[8.5rem] max-w-full rounded-lg border-2 border-orange-300/60 bg-red-950/80 text-orange-50 text-sm font-bold tabular-nums px-3 py-2 shadow-sm cursor-pointer transition-colors [@media(hover:hover)]:hover:border-orange-200 [@media(hover:hover)]:hover:bg-red-900/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200 focus-visible:ring-offset-2 focus-visible:ring-offset-red-950/90"
+                      aria-label={`Choose a shloka number to scroll to in chapter ${chapterNum}`}
+                    >
+                      <option value="" disabled>
+                        Choose number…
+                      </option>
+                      {versesSorted.map((v) => (
+                        <option key={v.verse} value={String(v.verse)}>
+                          {v.verse}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+              </div>
+            </nav>
           )}
 
           <div className="flex flex-wrap items-center gap-3 mt-5">
@@ -497,7 +578,14 @@ export default function ChapterPage() {
               }}
             >
               <div className="group bg-card border-2 border-orange-200/70 [@media(hover:hover)]:hover:border-orange-400 rounded-xl p-3 sm:p-4 transition-all [@media(hover:hover)]:hover:shadow-xl active:scale-[0.995] cursor-pointer h-full flex flex-col relative touch-manipulation">
-                <div className="mb-2 border-b border-violet-200 pb-1.5">
+                <div
+                  className="mb-2 border-b border-violet-200 pb-1.5"
+                  onPointerDownCapture={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }}
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <div className="flex items-center justify-between gap-1.5">
                     <div className="flex flex-wrap items-center gap-x-0.5 gap-y-1">
                       {CARD_TAB_LINKS.map(({ label, tab }, idx) => (
@@ -549,6 +637,10 @@ export default function ChapterPage() {
                     {verse.audio_url && (
                       <div
                         className="shrink-0 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 rounded-lg border border-orange-200/90 bg-gradient-to-br from-orange-50/95 to-amber-50/70 px-2 py-1.5 shadow-sm max-w-[calc(100%-0.5rem)] sm:max-w-none"
+                        onPointerDownCapture={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }}
                         onClick={(e) => e.stopPropagation()}
                       >
                         <span className="text-[11px] sm:text-xs font-extrabold uppercase tracking-wide text-orange-950">

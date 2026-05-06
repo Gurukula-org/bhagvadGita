@@ -163,7 +163,7 @@ export default function Home() {
                   setHeroFeature(chip);
                   setHeroDialogOpen(true);
                 }}
-                className={`inline-flex items-center rounded-lg border font-bold px-3 py-1.5 text-xs sm:text-sm shadow-md drop-shadow-[0_1px_3px_rgba(0,0,0,0.35)] cursor-pointer transition-transform duration-200 ease-out hover:scale-[1.03] hover:brightness-[1.06] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/90 ${chip.chipClass}`}
+                className={`inline-flex items-center rounded-lg border font-bold px-3 py-1.5 text-sm sm:text-[0.9375rem] leading-snug shadow-md drop-shadow-[0_1px_3px_rgba(0,0,0,0.35)] cursor-pointer transition-transform duration-200 ease-out hover:scale-[1.03] hover:brightness-[1.06] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/90 ${chip.chipClass}`}
               >
                 {chip.label}
               </button>
@@ -254,7 +254,9 @@ export default function Home() {
                   <div className="p-4 flex-1 flex flex-col">
                     <ChapterSynopsis ch={ch as any} />
                     <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
-                      <span className="text-xs text-muted-foreground">{ch.verses_count} verses</span>
+                      <span className="text-xs text-muted-foreground">
+                        {ch.verses_count} {ch.verses_count === 1 ? "shloka" : "shlokas"}
+                      </span>
                       <span className="text-xs text-orange-600 font-semibold flex items-center gap-1 [@media(hover:hover)]:group-hover:gap-2 transition-all">
                         Explore
                         <ChevronRight size={12} />

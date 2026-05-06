@@ -4,37 +4,37 @@
       "id": "authentic-pronunciation",
       "label": "Authentic Pronunciation",
       "description": "Sandhi and Samskritam rules based lead and follow audio available for easy learning. Rewind, fast-forward, increase or decrease the speed to match your style and convenience.",
-      "chipClass": "bg-orange-600/90 text-white border-orange-800/50"
+      "chipClass": "bg-gradient-to-br from-orange-500/92 via-orange-600/88 to-orange-800/90 text-white border-orange-900/40"
     },
     {
       "id": "true-spiritual-meaning",
       "label": "True Spiritual Meaning",
       "description": "Sourced from Gurus from across centuries. Discourses from Swamis like Paramarthananda, Chinmayananda, and even Adi Shankaracharya have been incorporated.",
-      "chipClass": "bg-amber-600/88 text-white border-amber-800/48"
+      "chipClass": "bg-gradient-to-br from-amber-500/90 via-amber-600/85 to-amber-800/88 text-white border-amber-900/38"
     },
     {
       "id": "kid-friendly-stories",
       "label": "Kid-Friendly Stories",
       "description": "Every Shloka has stories relevant to the Shloka to make the meaning easy to understand. Stories are authentically sourced from Mahabharata, Ramayana, Panchatantra and Puranas. Stories of Sages, Rishis, and Gurus from the history of Bharatam are included to make it both relatable and inspiring.",
-      "chipClass": "bg-rose-600/88 text-white border-rose-800/50"
+      "chipClass": "bg-gradient-to-br from-rose-500/88 via-rose-600/86 to-rose-800/90 text-white border-rose-900/40"
     },
     {
       "id": "reflection-questions",
       "label": "Reflection Questions",
       "description": "\"Why should this Shloka matter to me?\", \"What is the relevance of this lesson in today's life?\" are answered through practical everyday reflection questions. Ask yourself, contemplate and let the spirituality flower.",
-      "chipClass": "bg-violet-700/88 text-white border-violet-900/45"
+      "chipClass": "bg-gradient-to-br from-violet-600/88 via-violet-700/86 to-violet-900/88 text-white border-violet-950/38"
     },
     {
       "id": "samskritam-grammar",
       "label": "Samskritam Grammar",
       "description": "Padacchedaḥ, Prati-padārthaḥ, Padaparicayaḥ, Anvayaḥ, Sandhi, Samāsa and many more grammatical aspects included for the serious samskritam learner.",
-      "chipClass": "bg-teal-700/86 text-white border-teal-900/42"
+      "chipClass": "bg-gradient-to-br from-teal-600/86 via-teal-700/84 to-teal-900/88 text-white border-teal-950/36"
     },
     {
       "id": "straight-from-gurus",
       "label": "Straight from Gurus",
       "description": "The meanings are not made up. They are not sourced randomly from the internet. These are words of Gurus from across history who have walked this earth. Rest assured of the authenticity of the lessons.",
-      "chipClass": "bg-red-800/90 text-white border-red-950/48"
+      "chipClass": "bg-gradient-to-br from-red-700/90 via-red-800/88 to-red-950/92 text-white border-red-950/42"
     }
   ]
 }
