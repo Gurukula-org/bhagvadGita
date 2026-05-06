@@ -181,6 +181,13 @@ async function startServer() {
   }));
 
   app.get("*", (req, res) => {
+    if (req.path.length > 1 && req.path.endsWith("/")) {
+      const normalizedPath = req.path.slice(0, -1);
+      const query = req.url.includes("?") ? req.url.slice(req.url.indexOf("?")) : "";
+      res.redirect(301, `${normalizedPath}${query}`);
+      return;
+    }
+
     res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     if (!htmlTemplate) {
       try {

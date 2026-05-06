@@ -163,10 +163,10 @@ export function getMetaForUrl(urlPath: string, data: GitaData): MetaTags {
   if (summaryMatch) {
     const chNum = parseInt(summaryMatch[1]);
     const chapter = data.chapters.find((c) => c.chapter === chNum);
-    const chapterName = chapter?.iast_name || chapter?.name || "";
+    const chapterName = chapter?.iast_name || chapter?.name || `Chapter ${chNum}`;
     return {
-      title: `Chapter ${chNum} Summary — ${chapterName} | ${SITE_NAME}`,
-      description: `Summary of Bhagavad Gita Chapter ${chNum} (${chapterName}) — ${chapter?.subtitle || ""}`,
+      title: `Gita Ch ${chNum} Summary — ${chapterName} | ${SITE_NAME}`,
+      description: `Bhagavad Gita Chapter ${chNum} summary: ${chapter?.subtitle || "key teachings and practical guidance."}`,
       url: `${BASE_URL}/chapter/${chNum}/summary`,
       image: getChapterImage(chNum, data) || DEFAULT_IMAGE,
       type: "article",
@@ -179,15 +179,16 @@ export function getMetaForUrl(urlPath: string, data: GitaData): MetaTags {
     const chapter = data.chapters.find((c) => c.chapter === chNum);
     const verses = chNum === 6 ? data.chapter6_full : chapter?.key_verses || [];
     const verse = verses.find((v) => v.verse === vNum);
-    const chapterName = chapter?.iast_name || chapter?.name || "";
-    const verseTitle = `Bhagavad Gita Chapter ${chNum} Shloka ${vNum} — ${chapterName}`;
+    const chapterName = chapter?.iast_name || chapter?.name || `Chapter ${chNum}`;
+    const verseTitle = `Gita ${chNum}.${vNum} — ${chapterName}`;
+    const verseDescription =
+      verse?.one_line_meaning ||
+      verse?.concise_journey ||
+      `Bhagavad Gita ${chNum}.${vNum} with Sanskrit, transliteration, meaning, stories, and grammar.`;
 
     return {
       title: `${verseTitle} | ${SITE_NAME}`,
-      description:
-        verse?.one_line_meaning ||
-        verse?.concise_journey ||
-        `Bhagavad Gita Chapter ${chNum} Verse ${vNum} — Sanskrit shloka with transliteration, meaning, stories, and grammar analysis.`,
+      description: `${verseDescription} (Bhagavad Gita ${chNum}.${vNum})`,
       url: `${BASE_URL}/chapter/${chNum}/verse/${vNum}`,
       image: (verse ? getVerseImage(verse) : null) || DEFAULT_IMAGE,
       type: "article",
@@ -208,8 +209,8 @@ export function getMetaForUrl(urlPath: string, data: GitaData): MetaTags {
 
   if (topicsIndexMatch) {
     return {
-      title: `Bhagavad Gita Topics for Daily Life | ${SITE_NAME}`,
-      description: "Explore Bhagavad Gita teachings by life-intent topics: stress, focus, decision making, devotion, and spiritual growth.",
+      title: `Gita Topics for Daily Life | ${SITE_NAME}`,
+      description: "Explore Bhagavad Gita guidance by life topics: anxiety, focus, decision making, devotion, and spiritual growth.",
       url: `${BASE_URL}/topics`,
       image: DEFAULT_IMAGE,
       type: "website",
@@ -220,7 +221,7 @@ export function getMetaForUrl(urlPath: string, data: GitaData): MetaTags {
     const topic = TOPIC_HUBS.find((hub) => hub.slug === topicsHubMatch[1]);
     const slugLabel = topic?.title || topicsHubMatch[1].split("-").join(" ");
     return {
-      title: `${slugLabel} — Bhagavad Gita Guidance | ${SITE_NAME}`,
+      title: `${slugLabel} | ${SITE_NAME}`,
       description: topic?.shortDescription || `Bhagavad Gita verses and chapter guidance for ${slugLabel}.`,
       url: `${BASE_URL}/topics/${topicsHubMatch[1]}`,
       image: DEFAULT_IMAGE,
@@ -231,10 +232,8 @@ export function getMetaForUrl(urlPath: string, data: GitaData): MetaTags {
   if (chapterMatch) {
     const chNum = parseInt(chapterMatch[1]);
     const chapter = data.chapters.find((c) => c.chapter === chNum);
-    const chapterName = chapter?.name || "";
-    const devName = chapter?.devanagari_name || chapter?.name_hindi || "";
-    const iastName = chapter?.iast_name || chapter?.name || "";
-    const chapterTitle = `Bhagavad Gita Chapter ${chNum} — ${chapterName} (${devName}, ${iastName})`;
+    const iastName = chapter?.iast_name || chapter?.name || `Chapter ${chNum}`;
+    const chapterTitle = `Gita Chapter ${chNum} — ${iastName}`;
 
     return {
       title: `${chapterTitle} | ${SITE_NAME}`,
