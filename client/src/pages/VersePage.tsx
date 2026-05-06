@@ -42,6 +42,10 @@ const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: "more_stories",label: "More Stories",     icon: <Library size={16} /> },
 ];
 
+function isTab(value: string | null): value is Tab {
+  return value != null && TABS.some((tab) => tab.id === value);
+}
+
 function formatText(text: string) {
   if (!text) return null;
   return text.split('\n').map((line, i) => {
@@ -234,10 +238,22 @@ export default function VersePage() {
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const tabNavRef = useRef<HTMLDivElement | null>(null);
+
+  const [, setLocation] = useLocation();
 
   useEffect(() => {
-    setActiveTab("meaning");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const requestedTab = new URLSearchParams(window.location.search).get("tab");
+    setActiveTab(isTab(requestedTab) ? requestedTab : "meaning");
+    if (isTab(requestedTab)) {
+      requestAnimationFrame(() => {
+        const tabTop = (tabNavRef.current?.getBoundingClientRect().top ?? 0) + window.scrollY;
+        const targetTop = Math.max(0, tabTop - 110);
+        window.scrollTo({ top: targetTop, behavior: "smooth" });
+      });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.removeAttribute("src");
@@ -352,7 +368,6 @@ export default function VersePage() {
     return `${m}:${s.toString().padStart(2, "0")}`;
   }
 
-  const [, setLocation] = useLocation();
   const { isChapterVisible } = useChapterVisibility();
   const chapter = data.chapters.find((c) => c.chapter === chapterNum);
   if (!isChapterVisible(chapterNum)) return <Redirect to="/" />;
@@ -691,7 +706,7 @@ export default function VersePage() {
       </div>
 
       {/* Tab Navigation — sticky at viewport top on mobile (document scroll), at top in desktop scroll container (#56) */}
-      <div className="sticky top-0 z-30 bg-white border-b border-border shadow-sm">
+      <div ref={tabNavRef} className="sticky top-0 z-30 bg-white border-b border-border shadow-sm">
         <div className="px-2 py-0.5">
           <div className="grid gap-0.5" style={{ gridTemplateColumns: `repeat(${Math.ceil(availableTabs.length / 2)}, 1fr)` }}>
             {availableTabs.slice(0, Math.ceil(availableTabs.length / 2)).map((tab) => (
