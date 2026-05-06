@@ -26,7 +26,7 @@ export default function TopicHubPage() {
     return verses.map((verse) => ({
       chapterNum: chapter.chapter,
       verseNum: verse.verse,
-      label: verse.title || verse.one_line_meaning,
+      label: verse.one_line_meaning,
     }));
   });
 
