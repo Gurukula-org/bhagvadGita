@@ -151,6 +151,20 @@ async function startServer() {
     // Template loaded lazily on first request if not available at startup
   }
 
+  let ssrRender: ((url: string) => { html: string }) | null = null;
+  try {
+    const ssrPath = path.resolve(__dirname, "ssr", "entry-server.js");
+    if (fs.existsSync(ssrPath)) {
+      const ssrModule = await import(ssrPath);
+      ssrRender = ssrModule.render;
+      console.log("SSR module loaded successfully");
+    } else {
+      console.warn("SSR bundle not found at", ssrPath, "— falling back to client-only rendering");
+    }
+  } catch (err) {
+    console.warn("Failed to load SSR module — falling back to client-only rendering:", err);
+  }
+
   app.get("/sitemap.xml", (_req, res) => {
     res.setHeader("Content-Type", "application/xml; charset=utf-8");
     res.setHeader("Cache-Control", "public, max-age=86400");
@@ -200,8 +214,19 @@ async function startServer() {
     if (!isKnownPublicRoute(req.path, gitaData)) {
       res.status(404);
     }
+
     const meta = getMetaForUrl(req.path, gitaData);
-    const html = injectMetaTags(htmlTemplate, meta);
+    let html = injectMetaTags(htmlTemplate, meta);
+
+    if (ssrRender) {
+      try {
+        const { html: appHtml } = ssrRender(req.path);
+        html = html.replace("<!--ssr-outlet-->", appHtml);
+      } catch (err) {
+        console.error("SSR render error for", req.path, err);
+      }
+    }
+
     res.send(html);
   });
 

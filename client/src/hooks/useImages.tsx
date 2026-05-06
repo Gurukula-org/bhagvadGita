@@ -46,7 +46,7 @@ export function useImageEntry(
 
 export function ImagesProvider({ children }: { children: ReactNode }) {
   const [images, setImages] = useState<ImageMap>({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(typeof window !== "undefined");
 
   useEffect(() => {
     if (!isConfigured || !db) {

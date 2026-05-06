@@ -41,7 +41,7 @@ async function getAuthToken(user: { getIdToken: () => Promise<string> } | null) 
 
 export function ChapterVisibilityProvider({ children }: { children: ReactNode }) {
   const [visibleChapters, setVisibleChapters] = useState<Set<number>>(DEFAULT_VISIBLE);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(typeof window !== "undefined");
   const { isAdmin, user } = useAuth();
 
   useEffect(() => {

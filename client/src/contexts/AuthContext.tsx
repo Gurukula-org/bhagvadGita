@@ -59,7 +59,7 @@ async function checkIsAdmin(email: string): Promise<boolean> {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(typeof window !== "undefined");
 
   useEffect(() => {
     if (!isConfigured || !auth) {
