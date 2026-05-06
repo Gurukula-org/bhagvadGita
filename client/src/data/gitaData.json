@@ -994,7 +994,7 @@
             "more_stories": [
               {
                 "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v3/ch12v3-more-stories-nachiketa.png",
-                "caption": "King Janaka sitting calm and unmoving in a palace hall while fire and chaos spread outside, courtiers running anxious..."
+                "caption": "Young Naciketā standing fearlessly before Yama in a majestic cosmic hall, Yama seated calmly on a throne, celestial t..."
               },
               {
                 "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v3/ch12v3-more-stories-svetaketu.png",
@@ -1002,7 +1002,7 @@
               },
               {
                 "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v3/ch12v3-more-stories-janaka.png",
-                "caption": "Young Naciketā standing fearlessly before Yama in a majestic cosmic hall, Yama seated calmly on a throne, celestial t..."
+                "caption": "King Janaka sitting calm and unmoving in a palace hall while fire and chaos spread outside, courtiers running anxious..."
               },
               {
                 "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v3/ch12v3-more-stories-ramana.png",
@@ -1374,15 +1374,15 @@
               },
               {
                 "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v5/ch12v5-more-stories-shuka.png",
-                "caption": "A traveler at dusk mistaking a rope for a snake, frightened expression, then a lamp revealing the rope clearly, symbo..."
-              },
-              {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v5/ch12v5-more-stories-hastamalaka.png",
                 "caption": "Śuka walking calmly through a forest path with total inward freedom while Vyāsa calls from behind with fatherly conce..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v5/ch12v5-more-stories-rope-snake.png",
+                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v5/ch12v5-more-stories-hastamalaka.png",
                 "caption": "Young Hastāmalaka standing before Śaṅkarācārya, quietly answering the question “Who are you?” with serene clarity, fa..."
+              },
+              {
+                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v5/ch12v5-more-stories-rope-snake.png",
+                "caption": "A traveler at dusk mistaking a rope for a snake, frightened expression, then a lamp revealing the rope clearly, symbo..."
               }
             ],
             "story": [
@@ -1776,7 +1776,7 @@
               },
               {
                 "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v7/ch12v7-more-stories-vibhishana.png",
-                "caption": "Ajāmila at the end of life calling the name Nārāyaṇa with fear and sudden hope, divine messengers appearing with comp..."
+                "caption": "Vibhīṣaṇa arriving humbly before Bhagavān Rāma with folded hands, vānaras looking suspicious, Rāma calm and compassio..."
               },
               {
                 "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v7/ch12v7-more-stories-markandeya.png",
@@ -1784,7 +1784,7 @@
               },
               {
                 "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v7/ch12v7-more-stories-ajamila.png",
-                "caption": "Vibhīṣaṇa arriving humbly before Bhagavān Rāma with folded hands, vānaras looking suspicious, Rāma calm and compassio..."
+                "caption": "Ajāmila at the end of life calling the name Nārāyaṇa with fear and sudden hope, divine messengers appearing with comp..."
               }
             ],
             "modern_life": {
@@ -4504,7 +4504,7 @@
               },
               {
                 "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v20/ch12v20-more-stories-shabala.png",
-                "caption": "Pothana writing the Telugu Bhāgavatam and offering the manuscript to Bhagavān Rāma instead of a worldly king, humble ..."
+                "caption": "Śabala the divine cow standing near Vasiṣṭha in the āśrama while Viśvāmitra’s royal forces try to take her away, Śaba..."
               },
               {
                 "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v20/ch12v20-more-stories-upamanyu.png",
@@ -4516,7 +4516,7 @@
               },
               {
                 "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v20/ch12v20-more-stories-pothana.png",
-                "caption": "Śabala the divine cow standing near Vasiṣṭha in the āśrama while Viśvāmitra’s royal forces try to take her away, Śaba..."
+                "caption": "Pothana writing the Telugu Bhāgavatam and offering the manuscript to Bhagavān Rāma instead of a worldly king, humble ..."
               }
             ],
             "modern_life": {
