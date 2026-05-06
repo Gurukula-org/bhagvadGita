@@ -17,7 +17,9 @@ export const TOPIC_HUBS: TopicHub[] = [
       "Bhagavad Gita for mental peace",
       "Gita anxiety relief",
     ],
-    chapterNumbers: [2, 6, 12, 14, 18],
+    // Until additional chapters are editorially ready, topic hubs intentionally point only to Chapter 12.
+    // When onboarding a new chapter, update these mappings and run the chapter SEO rollout checklist.
+    chapterNumbers: [12],
   },
   {
     slug: "decision-making-dharma",
@@ -29,7 +31,7 @@ export const TOPIC_HUBS: TopicHub[] = [
       "duty vs desire in Gita",
       "guidance for tough decisions",
     ],
-    chapterNumbers: [2, 3, 4, 16, 18],
+    chapterNumbers: [12],
   },
   {
     slug: "focus-productivity-karma-yoga",
@@ -41,7 +43,7 @@ export const TOPIC_HUBS: TopicHub[] = [
       "Bhagavad Gita productivity",
       "Gita for focus",
     ],
-    chapterNumbers: [2, 3, 5, 6, 18],
+    chapterNumbers: [12],
   },
   {
     slug: "philosophy-spiritual-wisdom",
@@ -53,7 +55,7 @@ export const TOPIC_HUBS: TopicHub[] = [
       "practical spirituality",
       "meaning of life in Bhagavad Gita",
     ],
-    chapterNumbers: [7, 8, 9, 10, 11, 12, 13, 15],
+    chapterNumbers: [12],
   },
 ];
 
