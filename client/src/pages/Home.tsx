@@ -4,10 +4,9 @@ import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
 import gitaData from "@/data/gitaData.json";
 import heroFeatureData from "@/data/heroFeatureLabels.json";
-import type { GitaData, Verse } from "@/types/gita";
+import type { ChapterMeta, GitaData } from "@/types/gita";
 import { useChapterVisibility } from "@/contexts/ChapterVisibilityContext";
 import { ChevronRight } from "lucide-react";
-import { chapterIAST, chapterDevanagari } from "@/lib/chapterMeta";
 import {
   Dialog,
   DialogContent,
@@ -16,6 +15,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { navigateWithViewTransition } from "@/lib/navigateWithViewTransition";
+import { TOPIC_HUBS } from "@/lib/seoKeywords";
+import { getChapterDisplayNames, getChapterSynopsis, getChapterVerses } from "@/lib/chapterContent";
 
 type HeroFeature = (typeof heroFeatureData.features)[number];
 
@@ -44,10 +45,10 @@ const chapterColorMap: Record<number, string> = {
   18: "from-yellow-900 to-orange-800",
 };
 
-function getChapterImage(ch: { chapter: number; key_verses: Verse[] }): string | null {
-  const verses: Verse[] = ch.chapter === 6 ? data.chapter6_full : ch.key_verses;
-  if (ch.chapter === 12) {
-    const v2 = verses.find(v => v.verse === 2);
+function getChapterImage(chapter: ChapterMeta): string | null {
+  const verses = getChapterVerses(data, chapter);
+  if (chapter.chapter === 12) {
+    const v2 = verses.find((v) => v.verse === 2);
     if (v2?.images?.meaning?.url) return v2.images.meaning.url;
   }
   for (const v of verses) {
@@ -56,19 +57,10 @@ function getChapterImage(ch: { chapter: number; key_verses: Verse[] }): string |
   return null;
 }
 
-function buildSynopsis(verses: Verse[]): string {
-  if (verses.length === 0) return "";
-  const meanings = verses.map((v) => v.one_line_meaning).filter(Boolean);
-  if (meanings.length <= 4) return meanings.join(" ");
-  const step = Math.floor(meanings.length / 4);
-  return [meanings[0], meanings[step], meanings[step * 2], meanings[meanings.length - 1]].join(" ");
-}
-
-function ChapterSynopsis({ ch }: { ch: { chapter: number; key_verses: Verse[] } }) {
+function ChapterSynopsis({ ch }: { ch: ChapterMeta }) {
   const [expanded, setExpanded] = useState(false);
-  const verses: Verse[] = ch.chapter === 6 ? data.chapter6_full : ch.key_verses;
-  const synopsis = buildSynopsis(verses);
-  if (!synopsis) return <p className="text-foreground/70 text-sm leading-relaxed line-clamp-2 flex-1">{(ch as any).summary}</p>;
+  const synopsis = getChapterSynopsis(ch);
+  if (!synopsis) return <p className="text-foreground/70 text-sm leading-relaxed line-clamp-2 flex-1">{ch.summary}</p>;
 
   return (
     <div className="flex-1">
@@ -211,8 +203,9 @@ export default function Home() {
       <section className="px-4 py-8 lg:py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {visibleChapters.map((ch) => {
-            const img = getChapterImage(ch as any);
+            const img = getChapterImage(ch);
             const chapterHref = `/chapter/${ch.chapter}`;
+            const { devanagariName, iastName } = getChapterDisplayNames(ch);
             return (
               <Link
                 key={ch.chapter}
@@ -238,10 +231,10 @@ export default function Home() {
                         Chapter {ch.chapter}
                       </span>
                       <p className="font-devanagari text-white text-2xl leading-tight mt-1">
-                        {chapterDevanagari[ch.chapter] || ch.name_hindi}
+                        {devanagariName}
                       </p>
                       <h3 className="text-white font-display font-bold text-xl leading-tight mt-0.5 truncate">
-                        {chapterIAST[ch.chapter] || ""}
+                        {iastName}
                       </h3>
                     </div>
                     {/* Chapter number watermark — visible but behind title (#82: stronger than /10) */}
@@ -252,7 +245,7 @@ export default function Home() {
 
                   {/* Body: synopsis + meta */}
                   <div className="p-4 flex-1 flex flex-col">
-                    <ChapterSynopsis ch={ch as any} />
+                    <ChapterSynopsis ch={ch} />
                     <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
                       <span className="text-xs text-muted-foreground">
                         {ch.verses_count} {ch.verses_count === 1 ? "shloka" : "shlokas"}
@@ -267,6 +260,44 @@ export default function Home() {
               </Link>
             );
           })}
+        </div>
+      </section>
+
+      <section className="px-4 pb-10 lg:pb-14">
+        <div className="rounded-2xl border border-orange-200 bg-gradient-to-r from-orange-50 to-amber-50 p-5 lg:p-6">
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <div>
+              <h2 className="font-display text-2xl text-red-950">Explore by life situation</h2>
+              <p className="text-sm text-foreground/80 mt-1">
+                Find verses for anxiety, focus, decision making, devotion, and practical spirituality.
+              </p>
+            </div>
+            <Link
+              href="/topics"
+              className="inline-flex items-center rounded-full bg-orange-600 text-white text-sm font-semibold px-4 py-2 hover:bg-orange-700 transition-colors"
+              onClick={(e) => {
+                e.preventDefault();
+                navigateWithViewTransition(() => setLocation("/topics"));
+              }}
+            >
+              View topic hubs
+            </Link>
+          </div>
+          <div className="flex flex-wrap gap-2 mt-4">
+            {TOPIC_HUBS.map((hub) => (
+              <Link
+                key={hub.slug}
+                href={`/topics/${hub.slug}`}
+                className="text-xs rounded-full border border-orange-200 bg-white px-3 py-1 font-semibold text-orange-700 hover:bg-orange-100 transition-colors"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigateWithViewTransition(() => setLocation(`/topics/${hub.slug}`));
+                }}
+              >
+                {hub.title.replace("Gita for ", "")}
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 

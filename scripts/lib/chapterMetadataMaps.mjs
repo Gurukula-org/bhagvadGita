@@ -1,4 +1,4 @@
-export const chapterIAST: Record<number, string> = {
+export const chapterIAST = {
   1: "arjunaviṣādayogaḥ",
   2: "sāṅkhyayogaḥ",
   3: "karmayogaḥ",
@@ -19,7 +19,7 @@ export const chapterIAST: Record<number, string> = {
   18: "mokṣasaṃnyāsayogaḥ",
 };
 
-export const chapterDevanagari: Record<number, string> = {
+export const chapterDevanagari = {
   1: "अर्जुनविषादयोगः",
   2: "साङ्ख्ययोगः",
   3: "कर्मयोगः",
@@ -39,3 +39,4 @@ export const chapterDevanagari: Record<number, string> = {
   17: "श्रद्धात्रयविभागयोगः",
   18: "मोक्षसंन्यासयोगः",
 };
+

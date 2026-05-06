@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { TOPIC_HUBS } from "../client/src/lib/seoKeywords";
 
 const BASE_URL = "https://gita.gurukula.com";
 const SITE_NAME = "Bhagavad Gita - Gurukula.com";
@@ -7,63 +8,25 @@ const DEFAULT_IMAGE = `${BASE_URL}/gita-og.jpg`;
 const DEFAULT_DESCRIPTION =
   "Bhagavad Gita with authentic pronunciation, detailed meaning, stories and practical application tips for kids and adults.";
 
-const chapterIAST: Record<number, string> = {
-  1: "arjunaviṣādayogaḥ",
-  2: "sāṅkhyayogaḥ",
-  3: "karmayogaḥ",
-  4: "jñānakarmasaṃnyāsayogaḥ",
-  5: "karmasaṃnyāsayogaḥ",
-  6: "dhyānayogaḥ",
-  7: "jñānavijñānayogaḥ",
-  8: "akṣarabrahmayogaḥ",
-  9: "rājavidyārājaguhyayogaḥ",
-  10: "vibhūtiyogaḥ",
-  11: "viśvarūpadarśanayogaḥ",
-  12: "bhaktiyogaḥ",
-  13: "kṣetrakṣetrajñavibhāgayogaḥ",
-  14: "guṇatrayavibhāgayogaḥ",
-  15: "puruṣottamayogaḥ",
-  16: "daivāsurasaṃpadvibhāgayogaḥ",
-  17: "śraddhātrayavibhāgayogaḥ",
-  18: "mokṣasaṃnyāsayogaḥ",
-};
-
-const chapterDevanagari: Record<number, string> = {
-  1: "अर्जुनविषादयोगः",
-  2: "साङ्ख्ययोगः",
-  3: "कर्मयोगः",
-  4: "ज्ञानकर्मसंन्यासयोगः",
-  5: "कर्मसंन्यासयोगः",
-  6: "ध्यानयोगः",
-  7: "ज्ञानविज्ञानयोगः",
-  8: "अक्षरब्रह्मयोगः",
-  9: "राजविद्याराजगुह्ययोगः",
-  10: "विभूतियोगः",
-  11: "विश्वरूपदर्शनयोगः",
-  12: "भक्तियोगः",
-  13: "क्षेत्रक्षेत्रज्ञविभागयोगः",
-  14: "गुणत्रयविभागयोगः",
-  15: "पुरुषोत्तमयोगः",
-  16: "दैवासुरसम्पद्विभागयोगः",
-  17: "श्रद्धात्रयविभागयोगः",
-  18: "मोक्षसंन्यासयोगः",
-};
-
 interface MetaTags {
   title: string;
   description: string;
   url: string;
   image: string;
   type: string;
+  noindex?: boolean;
 }
 
 interface GitaChapter {
   chapter: number;
   name: string;
   name_hindi: string;
+  devanagari_name?: string;
+  iast_name?: string;
   subtitle: string;
   verses_count: number;
   summary: string;
+  generated_description?: string;
   key_verses: GitaVerse[];
 }
 
@@ -102,12 +65,15 @@ interface GitaData {
 }
 
 let cachedData: GitaData | null = null;
+let cachedDataLastMod = new Date().toISOString().split("T")[0];
 
 export function loadGitaData(...candidatePaths: string[]): GitaData {
   if (cachedData) return cachedData;
   for (const p of candidatePaths) {
     try {
       if (!fs.existsSync(p)) continue;
+      const stat = fs.statSync(p);
+      cachedDataLastMod = stat.mtime.toISOString().split("T")[0];
       const raw = fs.readFileSync(p, "utf-8");
       cachedData = JSON.parse(raw) as GitaData;
       return cachedData;
@@ -127,16 +93,77 @@ function escapeHtml(str: string): string {
     .replace(/>/g, "&gt;");
 }
 
+function hasChapter(data: GitaData, chapterNum: number): boolean {
+  return data.chapters.some((chapter) => chapter.chapter === chapterNum);
+}
+
+function hasVerse(data: GitaData, chapterNum: number, verseNum: number): boolean {
+  const chapter = data.chapters.find((c) => c.chapter === chapterNum);
+  if (!chapter) return false;
+  const verses = chapterNum === 6 ? data.chapter6_full : chapter.key_verses;
+  return verses.some((verse) => verse.verse === verseNum);
+}
+
+export function isKnownPublicRoute(urlPath: string, data: GitaData): boolean {
+  if (urlPath === "/") return true;
+  if (urlPath === "/login" || urlPath === "/settings" || urlPath === "/settings/images") return true;
+  if (/^\/chapter\/\d+\/summary$/.test(urlPath)) {
+    const match = urlPath.match(/^\/chapter\/(\d+)\/summary$/);
+    return match ? hasChapter(data, parseInt(match[1], 10)) : false;
+  }
+  if (/^\/chapter\/\d+\/verse\/\d+$/.test(urlPath)) {
+    const match = urlPath.match(/^\/chapter\/(\d+)\/verse\/(\d+)$/);
+    if (!match) return false;
+    return hasVerse(data, parseInt(match[1], 10), parseInt(match[2], 10));
+  }
+  if (/^\/chapter\/\d+\/games$/.test(urlPath)) {
+    const match = urlPath.match(/^\/chapter\/(\d+)\/games$/);
+    return match ? parseInt(match[1], 10) === 6 : false;
+  }
+  if (/^\/chapter\/\d+$/.test(urlPath)) {
+    const match = urlPath.match(/^\/chapter\/(\d+)$/);
+    return match ? hasChapter(data, parseInt(match[1], 10)) : false;
+  }
+  if (urlPath === "/topics") return true;
+  if (/^\/topics\/[a-z0-9-]+$/.test(urlPath)) {
+    const match = urlPath.match(/^\/topics\/([a-z0-9-]+)$/);
+    const slug = match?.[1] || "";
+    return TOPIC_HUBS.some((hub) => hub.slug === slug);
+  }
+  return false;
+}
+
 export function getMetaForUrl(urlPath: string, data: GitaData): MetaTags {
   const chapterMatch = urlPath.match(/^\/chapter\/(\d+)$/);
   const verseMatch = urlPath.match(/^\/chapter\/(\d+)\/verse\/(\d+)$/);
   const gamesMatch = urlPath.match(/^\/chapter\/(\d+)\/games$/);
   const summaryMatch = urlPath.match(/^\/chapter\/(\d+)\/summary$/);
+  const topicsIndexMatch = urlPath === "/topics";
+  const topicsHubMatch = urlPath.match(/^\/topics\/([a-z0-9-]+)$/);
+  const loginMatch = urlPath === "/login";
+  const settingsMatch = urlPath === "/settings";
+  const imageManagerMatch = urlPath === "/settings/images";
+
+  if (loginMatch || settingsMatch || imageManagerMatch) {
+    const pathTitle = loginMatch
+      ? "Admin Login"
+      : settingsMatch
+        ? "Admin Settings"
+        : "Image Manager";
+    return {
+      title: `${pathTitle} | ${SITE_NAME}`,
+      description: "Administrative interface for Gurukula Bhagavad Gita content management.",
+      url: `${BASE_URL}${urlPath}`,
+      image: DEFAULT_IMAGE,
+      type: "website",
+      noindex: true,
+    };
+  }
 
   if (summaryMatch) {
     const chNum = parseInt(summaryMatch[1]);
     const chapter = data.chapters.find((c) => c.chapter === chNum);
-    const chapterName = chapter?.name || chapterIAST[chNum] || "";
+    const chapterName = chapter?.iast_name || chapter?.name || "";
     return {
       title: `Chapter ${chNum} Summary — ${chapterName} | ${SITE_NAME}`,
       description: `Summary of Bhagavad Gita Chapter ${chNum} (${chapterName}) — ${chapter?.subtitle || ""}`,
@@ -152,7 +179,7 @@ export function getMetaForUrl(urlPath: string, data: GitaData): MetaTags {
     const chapter = data.chapters.find((c) => c.chapter === chNum);
     const verses = chNum === 6 ? data.chapter6_full : chapter?.key_verses || [];
     const verse = verses.find((v) => v.verse === vNum);
-    const chapterName = chapter?.name || chapterIAST[chNum] || "";
+    const chapterName = chapter?.iast_name || chapter?.name || "";
     const verseTitle = `Bhagavad Gita Chapter ${chNum} Shloka ${vNum} — ${chapterName}`;
 
     return {
@@ -179,17 +206,40 @@ export function getMetaForUrl(urlPath: string, data: GitaData): MetaTags {
     };
   }
 
+  if (topicsIndexMatch) {
+    return {
+      title: `Bhagavad Gita Topics for Daily Life | ${SITE_NAME}`,
+      description: "Explore Bhagavad Gita teachings by life-intent topics: stress, focus, decision making, devotion, and spiritual growth.",
+      url: `${BASE_URL}/topics`,
+      image: DEFAULT_IMAGE,
+      type: "website",
+    };
+  }
+
+  if (topicsHubMatch) {
+    const topic = TOPIC_HUBS.find((hub) => hub.slug === topicsHubMatch[1]);
+    const slugLabel = topic?.title || topicsHubMatch[1].split("-").join(" ");
+    return {
+      title: `${slugLabel} — Bhagavad Gita Guidance | ${SITE_NAME}`,
+      description: topic?.shortDescription || `Bhagavad Gita verses and chapter guidance for ${slugLabel}.`,
+      url: `${BASE_URL}/topics/${topicsHubMatch[1]}`,
+      image: DEFAULT_IMAGE,
+      type: "article",
+    };
+  }
+
   if (chapterMatch) {
     const chNum = parseInt(chapterMatch[1]);
     const chapter = data.chapters.find((c) => c.chapter === chNum);
     const chapterName = chapter?.name || "";
-    const devName = chapterDevanagari[chNum] || chapter?.name_hindi || "";
-    const iastName = chapterIAST[chNum] || "";
+    const devName = chapter?.devanagari_name || chapter?.name_hindi || "";
+    const iastName = chapter?.iast_name || chapter?.name || "";
     const chapterTitle = `Bhagavad Gita Chapter ${chNum} — ${chapterName} (${devName}, ${iastName})`;
 
     return {
       title: `${chapterTitle} | ${SITE_NAME}`,
       description:
+        chapter?.generated_description ||
         chapter?.summary ||
         `${chapter?.subtitle || ""} — Explore ${chapter?.verses_count || ""} verses of Chapter ${chNum} of the Bhagavad Gita.`,
       url: `${BASE_URL}/chapter/${chNum}`,
@@ -198,7 +248,18 @@ export function getMetaForUrl(urlPath: string, data: GitaData): MetaTags {
     };
   }
 
-  // Home page or fallback
+  if (urlPath !== "/") {
+    return {
+      title: `Page Not Found | ${SITE_NAME}`,
+      description: "The requested Bhagavad Gita page was not found.",
+      url: `${BASE_URL}${urlPath}`,
+      image: DEFAULT_IMAGE,
+      type: "website",
+      noindex: true,
+    };
+  }
+
+  // Home page
   return {
     title: SITE_NAME,
     description: DEFAULT_DESCRIPTION,
@@ -239,6 +300,19 @@ export function injectMetaTags(html: string, meta: MetaTags): string {
     /<meta name="description" content="[^"]*"/,
     `<meta name="description" content="${safeDesc}"`
   );
+
+  const robotsValue = meta.noindex ? "noindex, nofollow" : "index, follow";
+  if (/<meta name="robots" content="[^"]*"/.test(result)) {
+    result = result.replace(
+      /<meta name="robots" content="[^"]*"/,
+      `<meta name="robots" content="${robotsValue}"`
+    );
+  } else {
+    result = result.replace(
+      "</head>",
+      `  <meta name="robots" content="${robotsValue}" />\n</head>`
+    );
+  }
 
   result = result.replace(
     /<link rel="canonical" href="[^"]*"/,
@@ -291,11 +365,11 @@ export function injectMetaTags(html: string, meta: MetaTags): string {
     );
     result = result.replace(
       /<meta property="og:image:width" content="[^"]*"/,
-      `<meta property="og:image:width" content="800"`
+      `<meta property="og:image:width" content="1200"`
     );
     result = result.replace(
       /<meta property="og:image:height" content="[^"]*"/,
-      `<meta property="og:image:height" content="600"`
+      `<meta property="og:image:height" content="630"`
     );
   }
 
@@ -303,11 +377,13 @@ export function injectMetaTags(html: string, meta: MetaTags): string {
 }
 
 export function generateSitemap(data: GitaData): string {
-  const today = new Date().toISOString().split("T")[0];
-
   const urls: { loc: string; priority: string; changefreq: string }[] = [];
 
   urls.push({ loc: BASE_URL, priority: "1.0", changefreq: "weekly" });
+  urls.push({ loc: `${BASE_URL}/topics`, priority: "0.7", changefreq: "weekly" });
+  for (const topic of TOPIC_HUBS) {
+    urls.push({ loc: `${BASE_URL}/topics/${topic.slug}`, priority: "0.7", changefreq: "monthly" });
+  }
 
   for (const chapter of data.chapters) {
     urls.push({
@@ -345,7 +421,7 @@ export function generateSitemap(data: GitaData): string {
     .map(
       (u) => `  <url>
     <loc>${escapeHtml(u.loc)}</loc>
-    <lastmod>${today}</lastmod>
+    <lastmod>${cachedDataLastMod}</lastmod>
     <changefreq>${u.changefreq}</changefreq>
     <priority>${u.priority}</priority>
   </url>`

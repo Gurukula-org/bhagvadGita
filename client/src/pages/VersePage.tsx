@@ -15,7 +15,8 @@ import {
   MessageCircle, Library, FlameKindling,
   Volume2, VolumeX, Pause, Play, RotateCcw, RotateCw, X
 } from "lucide-react";
-import { chapterIAST } from "@/lib/chapterMeta";
+import { getChapterDisplayNames } from "@/lib/chapterContent";
+import { getChapterIntentTerms, getTopicHubsForChapter } from "@/lib/seoKeywords";
 import { stripTransliterationVerseSuffix } from "@/lib/transliterationDisplay";
 import { navigateWithViewTransition } from "@/lib/navigateWithViewTransition";
 
@@ -400,7 +401,7 @@ export default function VersePage() {
 
   const prevVerse = verseIndex > 0 ? verses[verseIndex - 1] : null;
   const nextVerse = verseIndex < verses.length - 1 ? verses[verseIndex + 1] : null;
-  const iastName = chapterIAST[chapterNum] || chapter.name;
+  const { iastName } = getChapterDisplayNames(chapter);
   const storyImgs = verse.images?.story;
   const storyImageUrl = Array.isArray(storyImgs)
     ? storyImgs[0]?.url
@@ -424,11 +425,13 @@ export default function VersePage() {
   });
 
   const moreStoriesParsed = verse.more_stories ? parseMoreStories(verse.more_stories) : [];
+  const intentTerms = getChapterIntentTerms(chapterNum);
+  const topicHubs = getTopicHubsForChapter(chapterNum).slice(0, 2);
 
-  const verseTitle = `${iastName} ${chapterNum}.${verseNum}${verse.title ? ` — ${verse.title}` : ""}`;
+  const verseTitle = `Bhagavad Gita ${chapterNum}.${verseNum} — ${iastName}${verse.title ? ` — ${verse.title}` : ""}`;
   const verseDescription = verse.one_line_meaning ||
     verse.concise_journey ||
-    `Bhagavad Gita Chapter ${chapterNum} Verse ${verseNum} — Sanskrit shloka with transliteration, meaning, stories, and grammar analysis.`;
+    `Bhagavad Gita Chapter ${chapterNum} Verse ${verseNum} — Sanskrit shloka with transliteration, meaning, stories, and grammar analysis for ${intentTerms.slice(0, 3).join(", ")}.`;
 
   return (
     <Layout kidsMode={kidsMode} onToggleKids={() => setKidsMode(!kidsMode)} stickyHeader={false}>
@@ -440,16 +443,44 @@ export default function VersePage() {
         type="article"
         structuredData={{
           "@context": "https://schema.org",
-          "@type": "Article",
-          name: verseTitle,
-          headline: `Bhagavad Gita ${chapterNum}.${verseNum}${verse.title ? ` — ${verse.title}` : ""}`,
-          description: verseDescription,
-          url: `https://gita.gurukula.com/chapter/${chapterNum}/verse/${verseNum}`,
-          isPartOf: {
-            "@type": "WebSite",
-            name: "Bhagavad Gita - Gurukula.com",
-            url: "https://gita.gurukula.com",
-          },
+          "@graph": [
+            {
+              "@type": "Article",
+              name: verseTitle,
+              headline: `Bhagavad Gita ${chapterNum}.${verseNum}${verse.title ? ` — ${verse.title}` : ""}`,
+              description: verseDescription,
+              url: `https://gita.gurukula.com/chapter/${chapterNum}/verse/${verseNum}`,
+              keywords: intentTerms.join(", "),
+              isPartOf: {
+                "@type": "WebSite",
+                name: "Bhagavad Gita - Gurukula.com",
+                url: "https://gita.gurukula.com",
+              },
+            },
+            {
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Home",
+                  item: "https://gita.gurukula.com/",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: `Chapter ${chapterNum}`,
+                  item: `https://gita.gurukula.com/chapter/${chapterNum}`,
+                },
+                {
+                  "@type": "ListItem",
+                  position: 3,
+                  name: `Shloka ${verseNum}`,
+                  item: `https://gita.gurukula.com/chapter/${chapterNum}/verse/${verseNum}`,
+                },
+              ],
+            },
+          ],
         }}
       />
       {/* Verse Header — compact (#26) */}
@@ -499,6 +530,23 @@ export default function VersePage() {
               </p>
               {verse.title && (
                 <p className="text-orange-900 text-lg font-display font-bold mt-1">{verse.title}</p>
+              )}
+              {topicHubs.length > 0 && (
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {topicHubs.map((hub) => (
+                    <Link
+                      key={hub.slug}
+                      href={`/topics/${hub.slug}`}
+                      className="inline-flex items-center rounded-md bg-orange-100 border border-orange-200 px-2 py-0.5 text-[11px] font-semibold text-orange-700 hover:bg-orange-200 transition-colors"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigateWithViewTransition(() => setLocation(`/topics/${hub.slug}`));
+                      }}
+                    >
+                      {hub.title.replace("Gita for ", "")}
+                    </Link>
+                  ))}
+                </div>
               )}
             </div>
           </div>

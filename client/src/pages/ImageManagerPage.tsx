@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { navigateWithViewTransition } from "@/lib/navigateWithViewTransition";
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 import EditableImage from "@/components/EditableImage";
 import { useAuth } from "@/contexts/AuthContext";
 import { useChapterVisibility } from "@/contexts/ChapterVisibilityContext";
@@ -128,6 +129,7 @@ export default function ImageManagerPage() {
   if (!isAdmin) {
     return (
       <Layout>
+        <SEO title="Image Manager" path="/settings/images" noindex />
         <div className="flex flex-col items-center justify-center min-h-[60vh] px-6">
           <ShieldAlert size={48} className="text-red-400 mb-4" />
           <h1 className="font-display text-2xl font-bold text-foreground mb-2">
@@ -168,6 +170,7 @@ export default function ImageManagerPage() {
 
   return (
     <Layout>
+      <SEO title="Image Manager" path="/settings/images" noindex />
       <div className="px-4 py-8 max-w-5xl mx-auto">
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
           <Link

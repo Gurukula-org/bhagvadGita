@@ -6,8 +6,8 @@ import gitaData from "@/data/gitaData.json";
 import chapterSummaries from "@/data/chapterSummaries.json";
 import type { GitaData } from "@/types/gita";
 import { useChapterVisibility } from "@/contexts/ChapterVisibilityContext";
-import { chapterDevanagari, chapterIAST } from "@/lib/chapterMeta";
 import { getChapterHeroImageUrl } from "@/lib/chapterHeroImage";
+import { getChapterDisplayNames, getChapterVerses } from "@/lib/chapterContent";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const data = gitaData as unknown as GitaData;
@@ -71,12 +71,11 @@ export default function ChapterSummaryPage() {
   if (!chapter) return <div className="p-8 text-center">Chapter not found</div>;
   if (!isChapterVisible(chapterNum)) return <Redirect to="/" />;
 
-  const verses = chapterNum === 6 ? data.chapter6_full : chapter.key_verses;
+  const verses = getChapterVerses(data, chapter);
   const heroImage = getChapterHeroImageUrl(chapterNum, verses);
   const rich = summaries[String(chapterNum)];
 
-  const devanagariName = chapterDevanagari[chapterNum] || chapter.name_hindi;
-  const iastName = chapterIAST[chapterNum] || "";
+  const { devanagariName, iastName } = getChapterDisplayNames(chapter);
 
   const title = `Chapter ${chapterNum} Summary`;
   const description =
@@ -95,6 +94,40 @@ export default function ChapterSummaryPage() {
         path={`/chapter/${chapterNum}/summary`}
         image={heroImage || undefined}
         type="article"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Article",
+              name: `${title} — ${iastName || chapter.name}`,
+              description,
+              url: `https://gita.gurukula.com/chapter/${chapterNum}/summary`,
+            },
+            {
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Home",
+                  item: "https://gita.gurukula.com/",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: `Chapter ${chapterNum}`,
+                  item: `https://gita.gurukula.com/chapter/${chapterNum}`,
+                },
+                {
+                  "@type": "ListItem",
+                  position: 3,
+                  name: "Summary",
+                  item: `https://gita.gurukula.com/chapter/${chapterNum}/summary`,
+                },
+              ],
+            },
+          ],
+        }}
       />
 
       <div className="relative overflow-hidden border-b border-border">

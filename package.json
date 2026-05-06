@@ -9,6 +9,7 @@
     "start": "NODE_ENV=production node dist/index.js",
     "preview": "vite preview --host",
     "check": "tsc --noEmit",
+    "generate-chapter-descriptions": "node scripts/generate-chapter-descriptions.mjs",
     "strip-translit": "node scripts/strip-transliteration-json.mjs",
     "format": "prettier --write ."
   },

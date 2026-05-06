@@ -7,9 +7,12 @@ export interface ChapterMeta {
   chapter: number;
   name: string;
   name_hindi: string;
+  devanagari_name?: string;
+  iast_name?: string;
   subtitle: string;
   verses_count: number;
   summary: string;
+  generated_description?: string;
   theme: string;
   color: string;
   icon: string;

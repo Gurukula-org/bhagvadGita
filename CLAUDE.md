@@ -14,6 +14,90 @@ TypeScript types for the data are in:
 client/src/types/gita.ts
 ```
 
+## Canonical chapter metadata + generated description
+
+Chapter metadata now has a **single canonical source** in:
+
+```
+client/src/data/gitaData.json
+```
+
+Do not keep duplicate chapter title maps in app code (client or server). Chapter display fields must come from `chapters[]` (for example: `name`, `name_hindi`, `devanagari_name`, `iast_name`, `summary`, `generated_description`).
+
+### Generated chapter description workflow
+
+The chapter header synopsis is **persisted in JSON** via script, not generated in runtime UI code.
+
+When adding a new chapter (or updating chapter key-verse one-line meanings), run:
+
+```bash
+npm run generate-chapter-descriptions
+```
+
+This script:
+- Generates `generated_description` for each chapter from chapter verses.
+- Syncs `iast_name` and `devanagari_name` chapter metadata.
+- Writes updates back to `client/src/data/gitaData.json`.
+- Supports scoped regeneration: `npm run generate-chapter-descriptions -- --chapter=<n>`.
+- Is deterministic/idempotent for unchanged source data.
+
+If `generated_description` is missing/empty during chapter retrieval, `ChapterPage` logs a developer warning and shows a dev-only on-page reminder to run the generator.
+
+## SEO wave policy (traffic-first)
+
+Use the following phased rollout model for SEO work:
+
+1. **Wave 1 (quick wins)**: optimize existing chapter/verse/summary templates and technical SEO.
+2. **Wave 2 (expansion)**: add problem-intent topic hubs and strengthen internal linking.
+3. **Wave 3 (scale)**: long-tail expansion, localization strategy, and crawl/performance maturity.
+
+Primary traffic focus is:
+- USA first
+- India second
+- Other countries next
+
+Priority pages:
+- `client/src/pages/ChapterPage.tsx`
+- `client/src/pages/VersePage.tsx`
+
+## Keyword-intent mapping workflow
+
+When applying keyword datasets:
+
+1. Cluster keywords by intent:
+   - chapter/verse lookup
+   - anxiety/stress/mental peace
+   - decision making/dharma
+   - focus/productivity/karma yoga
+   - bhakti/devotion/spirituality
+2. Map each cluster to the right template:
+   - chapter and verse pages first
+   - then `/topics` and `/topics/:slug` hubs
+3. Update metadata and headings with intent terms naturally (no stuffing).
+4. Add internal links between topic hubs and related chapter/verse URLs.
+5. Verify sitemap and meta consistency after updates.
+
+Reference implementation files:
+- `client/src/lib/seoKeywords.ts`
+- `client/src/pages/TopicsPage.tsx`
+- `client/src/pages/TopicHubPage.tsx`
+- `server/seo.ts`
+
+### SEO route-status and indexing hygiene
+
+- Keep admin pages functional (HTTP 200) while non-indexable:
+  - `/login`
+  - `/settings`
+  - `/settings/images`
+- These pages should always return `noindex, nofollow` metadata.
+- Unknown routes should return true HTTP 404 status from server rendering logic.
+
+### Topic hub source-of-truth rule
+
+- Topic slugs are defined canonically in `client/src/lib/seoKeywords.ts` (`TOPIC_HUBS`).
+- Server SEO code (`server/seo.ts`) must validate `/topics/:slug` against `TOPIC_HUBS` (not regex-only allow).
+- Sitemap topic entries must be generated from `TOPIC_HUBS` (no hardcoded topic URL list).
+
 The UI that renders verse content is in:
 
 ```
@@ -55,7 +139,7 @@ These are **not** stored inside `gitaData.json`. They are imported from editoria
 ### Routing and SEO (do not regress)
 
 - **`client/src/App.tsx`**: Import `ChapterSummaryPage` (not a duplicate summary component). Register **`/chapter/:chapterNum/summary` before `/chapter/:chapterNum`** — in wouter, the first matching route wins; the generic chapter route must come last among chapter routes.
-- **`client/src/pages/ChapterPage.tsx`**: Keep the **View Chapter Summary** link to `/chapter/${chapterNum}/summary` so every chapter can open the summary route (rich content when present, friendly fallback otherwise).
+- **`client/src/pages/ChapterPage.tsx`**: Keep the chapter-summary CTA link to `/chapter/${chapterNum}/summary` so every chapter can open the summary route (rich content when present, friendly fallback otherwise).
 - **`server/seo.ts`**: Keep `summaryMatch` for `/chapter/(\\d+)/summary` in `getMetaForUrl`, and include **`/chapter/{n}/summary` in the sitemap** for each chapter (not gated on optional `synopsis_content` in `gitaData`).
 
 There must be **one** summary implementation: **`ChapterSummaryPage` + `chapterSummaries.json`**. Do not revive a separate page that only reads `synopsis_content` from `gitaData` without the JSON pipeline.
@@ -239,13 +323,16 @@ Use these authoritative sources for Bhagavad Gita content:
 From the project root, after editing `gitaData.json`, `chapterSummaries.json`, or TypeScript:
 
 ```bash
+# if chapter metadata / one_line_meaning changed
+npm run generate-chapter-descriptions
+
 npm run check
 npm run build
 ```
 
 This validates TypeScript and ensures JSON bundles correctly. Fix any errors before committing. After changing chapter summary images, confirm `/chapter/<n>/summary` in dev or preview and that image paths under `/chapter-summaries/` load.
 
-Other useful scripts: `npm run strip-translit` (see above), `npm run format` (Prettier).
+Other useful scripts: `npm run strip-translit` (see above), `npm run generate-chapter-descriptions`, `npm run format` (Prettier).
 
 ## Commit Convention
 

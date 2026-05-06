@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { navigateWithViewTransition } from "@/lib/navigateWithViewTransition";
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 import { useAuth } from "@/contexts/AuthContext";
 import { useChapterVisibility } from "@/contexts/ChapterVisibilityContext";
 import gitaData from "@/data/gitaData.json";
@@ -19,6 +20,7 @@ export default function SettingsPage() {
   if (!isAdmin) {
     return (
       <Layout kidsMode={kidsMode} onToggleKids={() => setKidsMode(!kidsMode)}>
+        <SEO title="Admin Settings" path="/settings" noindex />
         <div className="flex flex-col items-center justify-center min-h-[60vh] px-6">
           <ShieldAlert size={48} className="text-red-400 mb-4" />
           <h1 className="font-display text-2xl font-bold text-foreground mb-2">
@@ -52,6 +54,7 @@ export default function SettingsPage() {
 
   return (
     <Layout kidsMode={kidsMode} onToggleKids={() => setKidsMode(!kidsMode)}>
+      <SEO title="Admin Settings" path="/settings" noindex />
       <div className="px-4 py-8 max-w-3xl mx-auto">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">

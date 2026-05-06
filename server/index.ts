@@ -10,6 +10,7 @@ import { getAuth } from "firebase-admin/auth";
 import {
   loadGitaData,
   getMetaForUrl,
+  isKnownPublicRoute,
   injectMetaTags,
   generateSitemap,
   generateRobotsTxt,
@@ -188,6 +189,9 @@ async function startServer() {
         res.sendFile(path.join(staticPath, "index.html"));
         return;
       }
+    }
+    if (!isKnownPublicRoute(req.path, gitaData)) {
+      res.status(404);
     }
     const meta = getMetaForUrl(req.path, gitaData);
     const html = injectMetaTags(htmlTemplate, meta);

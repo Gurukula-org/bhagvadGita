@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "wouter";
 import { useAuth } from "@/contexts/AuthContext";
+import SEO from "@/components/SEO";
 import { Shield, Loader2 } from "lucide-react";
 
 export default function LoginPage() {
@@ -14,8 +15,10 @@ export default function LoginPage() {
   }, [loading, isAdmin, user, navigate]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-red-950 to-red-900 flex items-center justify-center px-4">
-      <div className="w-full max-w-sm">
+    <>
+      <SEO title="Admin Login" path="/login" noindex />
+      <div className="min-h-screen bg-gradient-to-b from-red-950 to-red-900 flex items-center justify-center px-4">
+        <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <span className="text-orange-400 text-4xl">🕉</span>
           <h1 className="text-white font-display text-2xl font-bold mt-3">
@@ -80,7 +83,8 @@ export default function LoginPage() {
             &larr; Back to Bhagavad Gita
           </a>
         </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

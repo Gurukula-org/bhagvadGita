@@ -15,6 +15,8 @@ import ChapterSummaryPage from "./pages/ChapterSummaryPage";
 import LoginPage from "./pages/LoginPage";
 import SettingsPage from "./pages/SettingsPage";
 import ImageManagerPage from "./pages/ImageManagerPage";
+import TopicsPage from "./pages/TopicsPage";
+import TopicHubPage from "./pages/TopicHubPage";
 
 function Router() {
   return (
@@ -23,6 +25,8 @@ function Router() {
       <Route path="/login" component={LoginPage} />
       <Route path="/settings" component={SettingsPage} />
       <Route path="/settings/images" component={ImageManagerPage} />
+      <Route path="/topics" component={TopicsPage} />
+      <Route path="/topics/:slug" component={TopicHubPage} />
       <Route path="/chapter/:chapterNum/verse/:verseNum" component={VersePage} />
       <Route path="/chapter/:chapterNum/summary" component={ChapterSummaryPage} />
       <Route path="/chapter/:chapterNum/games" component={GamesPage} />

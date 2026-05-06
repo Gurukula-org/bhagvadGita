@@ -8,7 +8,14 @@ import type { GitaData, Verse } from "@/types/gita";
 import { useChapterVisibility } from "@/contexts/ChapterVisibilityContext";
 import { useImageUrl } from "@/hooks/useImages";
 import { ChevronLeft, ChevronRight, BookOpen, Sparkles, Gamepad2, Play, Pause, RotateCcw, RotateCw } from "lucide-react";
-import { chapterIAST, chapterDevanagari } from "@/lib/chapterMeta";
+import {
+  getChapterDisplayNames,
+  getChapterHeaderImage,
+  getChapterSynopsis,
+  getChapterVerses,
+  hasGeneratedChapterSynopsis,
+} from "@/lib/chapterContent";
+import { getChapterIntentTerms, getTopicHubsForChapter } from "@/lib/seoKeywords";
 import { stripTransliterationVerseSuffix } from "@/lib/transliterationDisplay";
 import { SandhiText } from "@/components/SandhiText";
 
@@ -208,14 +215,6 @@ function VerseAudioButton({ audioUrl, verseNum, onEnded }: { audioUrl: string; v
   );
 }
 
-function buildSynopsis(verses: Verse[]): string {
-  if (verses.length === 0) return "";
-  const meanings = verses.map((v) => v.one_line_meaning).filter(Boolean);
-  if (meanings.length <= 4) return meanings.join(" ");
-  const step = Math.floor(meanings.length / 4);
-  return [meanings[0], meanings[step], meanings[step * 2], meanings[meanings.length - 1]].join(" ");
-}
-
 function renderSynopsisWithHighlights(text: string): ReactNode[] {
   const highlightTerms = [
     "imperishable unmanifest brahman",
@@ -255,15 +254,13 @@ const CARD_TAB_LINKS = [
   { label: "Grammar", tab: "grammar" },
 ] as const;
 
-/** First N shlokas shown as quick chips; larger chapters use the dropdown for the rest. */
-const QUICK_SHLOKA_CHIP_COUNT = 8;
-
 export default function ChapterPage() {
   const params = useParams<{ chapterNum: string }>();
   const chapterNum = parseInt(params.chapterNum || "1");
   const [, setLocation] = useLocation();
   const [kidsMode, setKidsMode] = useState(false);
   const [synopsisExpanded, setSynopsisExpanded] = useState(false);
+  const [jumpMenuOpen, setJumpMenuOpen] = useState(false);
   const [jumpSelectKey, setJumpSelectKey] = useState(0);
 
   useEffect(() => {
@@ -280,18 +277,13 @@ export default function ChapterPage() {
   const { isChapterVisible } = useChapterVisibility();
   const chapter = data.chapters.find((c) => c.chapter === chapterNum);
 
-  const verses: Verse[] = chapter
-    ? (chapterNum === 6 ? data.chapter6_full : chapter.key_verses)
-    : [];
+  const verses: Verse[] = chapter ? getChapterVerses(data, chapter) : [];
 
-  const synopsis = useMemo(() => buildSynopsis(verses), [verses]);
+  const persistedSynopsis = chapter ? hasGeneratedChapterSynopsis(chapter) : false;
+  const synopsis = chapter ? getChapterSynopsis(chapter) : "";
   const versesSorted = useMemo(
     () => [...verses].sort((a, b) => a.verse - b.verse),
     [verses]
-  );
-  const quickVerses = useMemo(
-    () => versesSorted.slice(0, QUICK_SHLOKA_CHIP_COUNT),
-    [versesSorted]
   );
   const scrollToVerseCard = useCallback((verseNum: number) => {
     const el = document.getElementById(`verse-card-${verseNum}`);
@@ -302,25 +294,32 @@ export default function ChapterPage() {
     window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
   }, []);
 
+  useEffect(() => {
+    setJumpMenuOpen(false);
+  }, [chapterNum]);
+
+  useEffect(() => {
+    if (!chapter) return;
+    if (persistedSynopsis) return;
+    console.warn(
+      `[ChapterPage] Missing generated_description for chapter ${chapterNum}. Run: npm run generate-chapter-descriptions`
+    );
+  }, [chapter, chapterNum, persistedSynopsis]);
+
   if (!chapter) return <div className="p-8 text-center">Chapter not found</div>;
   if (!isChapterVisible(chapterNum)) return <Redirect to="/" />;
 
   const prevChapter = chapterNum > 1 ? chapterNum - 1 : null;
   const nextChapter = chapterNum < 18 ? chapterNum + 1 : null;
 
-  const devanagariName = chapterDevanagari[chapterNum] || chapter.name_hindi;
-  const iastName = chapterIAST[chapterNum] || "";
-  const headerImage = (() => {
-    if (chapterNum === 12) {
-      const v2 = verses.find(v => v.verse === 2);
-      if (v2?.images?.meaning?.url) return v2.images.meaning.url;
-    }
-    return verses[0]?.images?.meaning?.url || null;
-  })();
+  const { devanagariName, iastName } = getChapterDisplayNames(chapter);
+  const headerImage = getChapterHeaderImage(data, chapter);
+  const intentTerms = getChapterIntentTerms(chapterNum);
+  const chapterHubs = getTopicHubsForChapter(chapterNum).slice(0, 3);
 
-  const chapterTitle = `Chapter ${chapterNum} — ${iastName || chapter.name} (${devanagariName})`;
-  const chapterDescription = chapter.summary ||
-    `${chapter.subtitle} — Explore ${chapter.verses_count} verses of Chapter ${chapterNum} (${chapter.name}) of the Bhagavad Gita with Sanskrit, transliteration, meanings, stories, and kid-friendly explanations.`;
+  const chapterTitle = `Bhagavad Gita Chapter ${chapterNum} — ${iastName || chapter.name} (${devanagariName})`;
+  const chapterDescription = synopsis ||
+    `${chapter.subtitle} — Explore ${chapter.verses_count} verses of Chapter ${chapterNum} (${chapter.name}) with focus on ${intentTerms.slice(0, 3).join(", ")}.`;
 
   return (
     <Layout kidsMode={kidsMode} onToggleKids={() => setKidsMode(!kidsMode)}>
@@ -332,16 +331,38 @@ export default function ChapterPage() {
         type="article"
         structuredData={{
           "@context": "https://schema.org",
-          "@type": "Article",
-          name: chapterTitle,
-          headline: `Bhagavad Gita Chapter ${chapterNum} — ${chapter.name}`,
-          description: chapterDescription,
-          url: `https://gita.gurukula.com/chapter/${chapterNum}`,
-          isPartOf: {
-            "@type": "WebSite",
-            name: "Bhagavad Gita - Gurukula.com",
-            url: "https://gita.gurukula.com",
-          },
+          "@graph": [
+            {
+              "@type": "Article",
+              name: chapterTitle,
+              headline: `Bhagavad Gita Chapter ${chapterNum} — ${chapter.name}`,
+              description: chapterDescription,
+              url: `https://gita.gurukula.com/chapter/${chapterNum}`,
+              keywords: intentTerms.join(", "),
+              isPartOf: {
+                "@type": "WebSite",
+                name: "Bhagavad Gita - Gurukula.com",
+                url: "https://gita.gurukula.com",
+              },
+            },
+            {
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Home",
+                  item: "https://gita.gurukula.com/",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: `Chapter ${chapterNum}`,
+                  item: `https://gita.gurukula.com/chapter/${chapterNum}`,
+                },
+              ],
+            },
+          ],
         }}
       />
       {/* Chapter Header (#24, #44) */}
@@ -375,43 +396,36 @@ export default function ChapterPage() {
             <span className="text-orange-300">Chapter {chapterNum}</span>
           </div>
 
-          <div className="flex gap-5 items-start w-full">
+          <div className="flex gap-5 items-center w-full">
             {/* Chapter image icon on left (#24) */}
             {headerImage && (
               <img
                 src={headerImage}
                 alt=""
-                className="w-20 h-20 lg:w-28 lg:h-28 rounded-xl object-cover flex-shrink-0 border-2 border-white/20 shadow-lg hidden sm:block"
+                className="w-24 h-24 lg:w-32 lg:h-32 rounded-xl object-cover flex-shrink-0 border-2 border-white/20 shadow-lg hidden sm:block"
               />
             )}
 
             <div className="flex-1 min-w-0">
-              <p className="text-orange-400 text-xs font-semibold uppercase tracking-widest mb-2 flex flex-wrap items-center gap-x-3 gap-y-2">
-                <span
-                  className="inline-flex items-center rounded-lg bg-white/20 border border-white/35 px-2.5 py-1 text-white shadow-md backdrop-blur-sm normal-case tracking-normal font-bold text-[11px] sm:text-xs whitespace-nowrap"
-                  title={`Chapter ${chapterNum} of 18 in the Bhagavad Gita`}
-                >
-                  Chapter {chapterNum} of 18
-                </span>
-                <span
-                  className="inline-flex items-center rounded-lg bg-white/20 border border-white/35 px-2.5 py-1 text-white shadow-md backdrop-blur-sm normal-case tracking-normal font-bold text-[11px] sm:text-xs whitespace-nowrap"
-                  title={`This chapter has ${chapter.verses_count} verses in the Bhagavad Gita`}
-                >
-                  {chapter.verses_count} {chapter.verses_count === 1 ? "Shloka" : "Shlokas"}
-                </span>
-                {chapterNum === 6 && (
-                  <span className="inline-flex items-center gap-1 bg-orange-400 text-red-950 text-xs font-bold px-2 py-0.5 rounded-full">
-                    <Sparkles size={10} />
-                    Full Journey Content
-                  </span>
-                )}
-              </p>
-
               {/* IAST as main title (#24) */}
               <h1 className="text-white font-display text-3xl lg:text-5xl font-bold leading-tight mb-1">
                 {iastName || chapter.name}
               </h1>
               <p className="text-orange-300 font-devanagari text-xl lg:text-2xl mb-0">{devanagariName}</p>
+              <div className="mt-2">
+                <Link
+                  href={`/chapter/${chapterNum}/summary`}
+                  aria-label={`Open chapter ${chapterNum} summary — full synopsis and illustrations`}
+                  className="group inline-flex h-8 items-center gap-1.5 rounded-md bg-gradient-to-r from-amber-300 via-orange-300 to-orange-400 px-3 text-xs sm:text-sm font-semibold text-red-950 shadow-sm ring-1 ring-white/60 hover:from-amber-200 hover:via-orange-200 hover:to-orange-300 hover:shadow-md active:scale-[0.98] transition-all touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-red-950/80 whitespace-nowrap"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigateWithViewTransition(() => setLocation(`/chapter/${chapterNum}/summary`));
+                  }}
+                >
+                  <BookOpen size={15} strokeWidth={2.25} className="shrink-0" aria-hidden />
+                  <span>Read Chapter Summary</span>
+                </Link>
+              </div>
             </div>
           </div>
 
@@ -430,82 +444,135 @@ export default function ChapterPage() {
               </button>
             </div>
           )}
+          {!persistedSynopsis && import.meta.env.DEV && (
+            <div className="mt-2 rounded-md border border-amber-300/60 bg-amber-100/90 px-3 py-2 text-[11px] sm:text-xs text-amber-900">
+              Missing <code>generated_description</code> for chapter {chapterNum}. Run <code>npm run generate-chapter-descriptions</code> and commit the JSON update.
+            </div>
+          )}
+          {chapterHubs.length > 0 && (
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              {chapterHubs.map((hub) => (
+                <Link
+                  key={hub.slug}
+                  href={`/topics/${hub.slug}`}
+                  className="inline-flex items-center rounded-md border border-white/35 bg-white/20 px-2.5 py-1 text-[11px] sm:text-xs font-semibold text-white hover:bg-white/30 transition-colors"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigateWithViewTransition(() => setLocation(`/topics/${hub.slug}`));
+                  }}
+                >
+                  {hub.title.replace("Gita for ", "")}
+                </Link>
+              ))}
+            </div>
+          )}
 
           {versesSorted.length > 0 && (
             <nav
               className="mt-3 w-full min-w-0"
               aria-label={`Jump to a shloka in chapter ${chapterNum}`}
             >
-              <div className="flex flex-col gap-2.5 sm:gap-3">
-                <div className="flex flex-wrap gap-1.5 sm:gap-2 items-center">
-                  {quickVerses.map((v) => (
-                    <button
-                      key={v.verse}
-                      type="button"
-                      onClick={() => scrollToVerseCard(v.verse)}
-                      className="flex-shrink-0 inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2 rounded-lg border-2 border-orange-300/60 bg-white/15 text-orange-50 text-sm font-bold tabular-nums shadow-sm transition-all [@media(hover:hover)]:hover:bg-orange-400/30 [@media(hover:hover)]:hover:border-orange-200 [@media(hover:hover)]:hover:text-white [@media(hover:hover)]:hover:shadow-md [@media(hover:hover)]:hover:-translate-y-px active:scale-[0.97] cursor-pointer underline-offset-2 [@media(hover:hover)]:hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200 focus-visible:ring-offset-2 focus-visible:ring-offset-red-950/90"
-                      aria-label={`Scroll to shloka ${chapterNum}.${v.verse}`}
-                    >
-                      {v.verse}
-                    </button>
-                  ))}
+              <div className="flex flex-col gap-2">
+                <div className="inline-flex flex-wrap lg:flex-nowrap items-center gap-2">
+                  <span
+                    className="inline-flex h-9 items-center rounded-lg border border-white/35 bg-white/20 px-3 text-white text-xs sm:text-sm font-semibold whitespace-nowrap"
+                    title={`Chapter ${chapterNum} of 18 in the Bhagavad Gita`}
+                  >
+                    Chapter {chapterNum} of 18
+                  </span>
+                  <span
+                    className="inline-flex h-9 items-center rounded-lg border border-white/35 bg-white/20 px-3 text-white text-xs sm:text-sm font-semibold whitespace-nowrap"
+                    title={`This chapter has ${chapter.verses_count} verses in the Bhagavad Gita`}
+                  >
+                    {chapter.verses_count} {chapter.verses_count === 1 ? "Shloka" : "Shlokas"}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setJumpMenuOpen((open) => !open)}
+                    aria-expanded={jumpMenuOpen}
+                    aria-controls={`jump-shloka-panel-${chapterNum}`}
+                    className="inline-flex h-9 w-fit items-center gap-1.5 rounded-lg border-2 border-orange-300/60 bg-white/15 px-3 text-orange-50 text-sm font-bold shadow-sm transition-all [@media(hover:hover)]:hover:bg-orange-400/30 [@media(hover:hover)]:hover:border-orange-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200 focus-visible:ring-offset-2 focus-visible:ring-offset-red-950/90 whitespace-nowrap"
+                  >
+                    <span>Jump to shloka</span>
+                    <ChevronRight
+                      size={16}
+                      className={`transition-transform ${jumpMenuOpen ? "rotate-90" : ""}`}
+                      aria-hidden
+                    />
+                  </button>
+                  {chapterNum === 6 && (
+                    <span className="inline-flex h-9 items-center gap-1 rounded-lg bg-orange-400 text-red-950 text-xs font-bold px-3 whitespace-nowrap">
+                      <Sparkles size={10} />
+                      Full Journey Content
+                    </span>
+                  )}
                 </div>
-                {versesSorted.length > QUICK_SHLOKA_CHIP_COUNT && (
-                  <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                    <label
-                      htmlFor={`jump-shloka-${chapterNum}`}
-                      className="text-orange-200/95 text-[11px] sm:text-xs font-semibold uppercase tracking-wide whitespace-nowrap"
-                    >
-                      Jump to shloka
-                    </label>
-                    <select
-                      id={`jump-shloka-${chapterNum}`}
-                      key={jumpSelectKey}
-                      defaultValue=""
-                      onChange={(e) => {
-                        const v = e.target.value;
-                        if (!v) return;
-                        scrollToVerseCard(Number(v));
-                        setJumpSelectKey((k) => k + 1);
-                      }}
-                      className="min-w-[8.5rem] max-w-full rounded-lg border-2 border-orange-300/60 bg-red-950/80 text-orange-50 text-sm font-bold tabular-nums px-3 py-2 shadow-sm cursor-pointer transition-colors [@media(hover:hover)]:hover:border-orange-200 [@media(hover:hover)]:hover:bg-red-900/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200 focus-visible:ring-offset-2 focus-visible:ring-offset-red-950/90"
-                      aria-label={`Choose a shloka number to scroll to in chapter ${chapterNum}`}
-                    >
-                      <option value="" disabled>
-                        Choose number…
-                      </option>
-                      {versesSorted.map((v) => (
-                        <option key={v.verse} value={String(v.verse)}>
-                          {v.verse}
+
+                {jumpMenuOpen && (
+                  <div id={`jump-shloka-panel-${chapterNum}`} className="w-full">
+                    {/* Phone view: dropdown only */}
+                    <div className="sm:hidden">
+                      <select
+                        id={`jump-shloka-${chapterNum}`}
+                        key={jumpSelectKey}
+                        defaultValue=""
+                        onChange={(e) => {
+                          const v = e.target.value;
+                          if (!v) return;
+                          scrollToVerseCard(Number(v));
+                          setJumpSelectKey((k) => k + 1);
+                        }}
+                        className="w-auto min-w-[10.5rem] rounded-lg border-2 border-orange-300/60 bg-red-950/85 text-orange-50 text-sm font-bold tabular-nums px-3 py-2 shadow-sm cursor-pointer transition-colors [@media(hover:hover)]:hover:border-orange-200 [@media(hover:hover)]:hover:bg-red-900/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200 focus-visible:ring-offset-2 focus-visible:ring-offset-red-950/90"
+                        aria-label={`Choose a shloka number to scroll to in chapter ${chapterNum}`}
+                      >
+                        <option value="" disabled>
+                          Choose number…
                         </option>
+                        {versesSorted.map((v) => (
+                          <option key={v.verse} value={String(v.verse)}>
+                            {v.verse}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Responsive/tablet and desktop: show all shloka boxes */}
+                    <div className="hidden sm:flex xl:hidden flex-wrap gap-1.5 sm:gap-2 items-center mt-2">
+                      {versesSorted.map((v) => (
+                        <button
+                          key={v.verse}
+                          type="button"
+                          onClick={() => scrollToVerseCard(v.verse)}
+                          className="flex-shrink-0 inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2 rounded-lg border-2 border-orange-300/60 bg-white/15 text-orange-50 text-sm font-bold tabular-nums shadow-sm transition-all [@media(hover:hover)]:hover:bg-orange-400/30 [@media(hover:hover)]:hover:border-orange-200 [@media(hover:hover)]:hover:text-white [@media(hover:hover)]:hover:shadow-md [@media(hover:hover)]:hover:-translate-y-px active:scale-[0.97] cursor-pointer underline-offset-2 [@media(hover:hover)]:hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200 focus-visible:ring-offset-2 focus-visible:ring-offset-red-950/90"
+                          aria-label={`Scroll to shloka ${chapterNum}.${v.verse}`}
+                        >
+                          {v.verse}
+                        </button>
                       ))}
-                    </select>
+                    </div>
+
+                    {/* Widescreen desktop: show all shloka boxes */}
+                    <div className="hidden xl:flex flex-wrap gap-1.5 sm:gap-2 items-center mt-2">
+                      {versesSorted.map((v) => (
+                        <button
+                          key={v.verse}
+                          type="button"
+                          onClick={() => scrollToVerseCard(v.verse)}
+                          className="flex-shrink-0 inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2 rounded-lg border-2 border-orange-300/60 bg-white/15 text-orange-50 text-sm font-bold tabular-nums shadow-sm transition-all [@media(hover:hover)]:hover:bg-orange-400/30 [@media(hover:hover)]:hover:border-orange-200 [@media(hover:hover)]:hover:text-white [@media(hover:hover)]:hover:shadow-md [@media(hover:hover)]:hover:-translate-y-px active:scale-[0.97] cursor-pointer underline-offset-2 [@media(hover:hover)]:hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200 focus-visible:ring-offset-2 focus-visible:ring-offset-red-950/90"
+                          aria-label={`Scroll to shloka ${chapterNum}.${v.verse}`}
+                        >
+                          {v.verse}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
             </nav>
           )}
 
-          <div className="flex flex-wrap items-center gap-3 mt-5">
-            <Link
-              href={`/chapter/${chapterNum}/summary`}
-              aria-label={`Open chapter ${chapterNum} summary — full synopsis and illustrations`}
-              className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-300 via-orange-300 to-orange-400 px-5 py-2.5 text-sm font-bold text-red-950 shadow-lg shadow-black/25 ring-2 ring-white/70 hover:from-amber-200 hover:via-orange-200 hover:to-orange-300 hover:ring-white hover:shadow-xl active:scale-[0.98] transition-all touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-red-950/80"
-              onClick={(e) => {
-                e.preventDefault();
-                navigateWithViewTransition(() => setLocation(`/chapter/${chapterNum}/summary`));
-              }}
-            >
-              <BookOpen size={18} strokeWidth={2.25} className="shrink-0" aria-hidden />
-              <span>View Chapter Summary</span>
-              <ChevronRight
-                size={18}
-                strokeWidth={2.25}
-                className="shrink-0 opacity-90 group-hover:translate-x-1 transition-transform"
-                aria-hidden
-              />
-            </Link>
-            {chapterNum === 6 && (
+          {chapterNum === 6 && (
+            <div className="flex flex-wrap items-center gap-3 mt-4">
               <>
                 <div className="flex items-center gap-2 bg-orange-400/20 border border-orange-400/40 rounded-full px-3 py-1.5">
                   <Sparkles size={13} className="text-orange-400" />
@@ -524,8 +591,8 @@ export default function ChapterPage() {
                   </div>
                 </Link>
               </>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
 
