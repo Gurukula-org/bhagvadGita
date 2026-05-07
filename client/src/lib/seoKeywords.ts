@@ -28,11 +28,14 @@ export const TOPIC_HUBS: TopicHub[] = [
     // Until additional chapters are editorially ready, topic hubs intentionally point only to Chapter 12.
     // When onboarding a new chapter, update these mappings and run the chapter SEO rollout checklist.
     chapterNumbers: [12],
+    // Ch.12 editorial mapping (meaning_detail + reflection + detailed_meaning): difficulty of the subtle path and
+    // body-identified mind (5); rescue from mortality/saṃsāra as existential dread (7); not disturbing others / not
+    // shaken by the world, explicitly freeing fear and anxiety (15); freedom from dependence and binding expectation (16).
     suggestedVerses: [
       { chapter: 12, verse: 5 },
-      { chapter: 12, verse: 14 },
+      { chapter: 12, verse: 7 },
       { chapter: 12, verse: 15 },
-      { chapter: 12, verse: 17 },
+      { chapter: 12, verse: 16 },
     ],
   },
   {
@@ -46,10 +49,13 @@ export const TOPIC_HUBS: TopicHub[] = [
       "guidance for tough decisions",
     ],
     chapterNumbers: [12],
+    // Two valid orientations (saguṇa vs nirguṇa) without mere comparison (1); karma-phala offered as prasāda in ordinary life (11);
+    // practical sama-buddhi toward friend and foe, honor and dishonor—action from dharma not rāga-dveṣa (18); the chapter’s
+    // dharmyāmṛta conclusion—living immortal dharma with śraddhā and parama goal (20).
     suggestedVerses: [
       { chapter: 12, verse: 1 },
       { chapter: 12, verse: 11 },
-      { chapter: 12, verse: 12 },
+      { chapter: 12, verse: 18 },
       { chapter: 12, verse: 20 },
     ],
   },
@@ -64,11 +70,13 @@ export const TOPIC_HUBS: TopicHub[] = [
       "Gita for focus",
     ],
     chapterNumbers: [12],
+    // Ladder of accessible practice: dedicate all action to Īśvara (6); abhyāsa on iṣṭa-devatā when Viśvarūpa is too wide (9);
+    // mat-karma as worship when meditation is not yet stable (10); śānti through karma-phala-tyāga vs mechanical practice / jñāna / dhyāna (12).
     suggestedVerses: [
       { chapter: 12, verse: 6 },
-      { chapter: 12, verse: 8 },
       { chapter: 12, verse: 9 },
       { chapter: 12, verse: 10 },
+      { chapter: 12, verse: 12 },
     ],
   },
   {
@@ -82,11 +90,14 @@ export const TOPIC_HUBS: TopicHub[] = [
       "meaning of life in Bhagavad Gita",
     ],
     chapterNumbers: [12],
+    // Metaphysical arc of the opening answer: niṣkāma saguṇa upāsanā as highest yoga in Arjuna’s terms (2); nirguṇa akṣara as
+    // avyakta / acintya / anirdeśya (3); inner qualifications for that subtle contemplation—indriya-jaya and sama-buddhi (4);
+    // Viśvarūpa conviction—buddhi + manas fixed on “cause–effect” non-duality of the world and Īśvara (8).
     suggestedVerses: [
       { chapter: 12, verse: 2 },
       { chapter: 12, verse: 3 },
       { chapter: 12, verse: 4 },
-      { chapter: 12, verse: 13 },
+      { chapter: 12, verse: 8 },
     ],
   },
 ];
