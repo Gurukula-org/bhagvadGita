@@ -96,6 +96,7 @@ Reference implementation files:
 
 - Topic slugs are defined canonically in `client/src/lib/seoKeywords.ts` (`TOPIC_HUBS`).
 - Each hub’s **Suggested verses** list is curated via `TOPIC_HUBS[].suggestedVerses` (`{ chapter, verse }`), so life-topic pages do not all show the same default slice of verses.
+- **New chapter rollout:** whenever a chapter gains (or updates) rich verse copy, remap affected `suggestedVerses` using each verse’s **`meaning_detail`**, **`reflection`**, and **`detailed_meaning`** in `gitaData.json` (not title-only or first-verse defaults). Overlap across hubs is fine when the fit is genuine. Full step list: `docs/new-chapter-rollout-checklist.md` (sections 3–4).
 - Server SEO code (`server/seo.ts`) must validate `/topics/:slug` against `TOPIC_HUBS` (not regex-only allow).
 - Sitemap topic entries must be generated from `TOPIC_HUBS` (no hardcoded topic URL list).
 
