@@ -180,7 +180,7 @@
           "verse": 1,
           "chapter": 12,
           "title": "The Question of Two Paths",
-          "audio_url": "/audio/ch12/12.1.mp3",
+          "audio_url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/audio/ch12/12.1.mp3",
           "sanskrit": "अर्जुन उवाच\nएवं(म्) सततयुक्ता ये भक्तास्त्वां पर्युपासते ।\nये चाप्यक्षरमव्यक्तं(म्) तेषां(ङ्) के योगवित्तमाः ॥",
           "transliteration": "arjuna uvāca\nevaṁ(m) satatayuktā ye bhaktāstvāṁ paryupāsate ।\nye cāpyakṣaramavyaktaṁ(m) teṣāṁ(ṅ) ke yogavittamāḥ ॥",
           "one_line_meaning": "Arjuna asks: among the ever-steadfast devotees who meditate upon Bhagavān as taught before, and those who meditate upon the imperishable unmanifest brahman, who are the best yogis?",
@@ -369,54 +369,54 @@
           "final_takeaway": "Both paths — devotion to the personal God and meditation on the formless absolute — are valid. The question is not which is superior, but which suits your nature. Choose the path that resonates with your heart and follow it with sincerity.",
           "images": {
             "meaning": {
-              "url": "https://d2xsxph8kpxj0f.cloudfront.net/310519663320491203/hKSS9UgtAfoHXBDRJP86JE/ch12v1-meaning-YuBgL3QGPKpWm9JgtDhbou.webp",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v1/ch12v1-meaning.webp",
               "caption": "Arjuna contemplates two paths before Krishna on the Kurukshetra battlefield"
             },
             "story": [
               {
-                "url": "https://d2xsxph8kpxj0f.cloudfront.net/310519663320491203/hKSS9UgtAfoHXBDRJP86JE/ch12v1-story-bhishma-8jArrne8sLL6rByMTbA5qk.webp",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v1/ch12v1-story-bhishma.webp",
                 "caption": "Bhishma on his bed of arrows — serene in knowledge and detachment"
               },
               {
-                "url": "https://d2xsxph8kpxj0f.cloudfront.net/310519663320491203/hKSS9UgtAfoHXBDRJP86JE/ch12v1-story-kunti-RdCWtQqZDF3znU8iLRScTE.webp",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v1/ch12v1-story-kunti.webp",
                 "caption": "Kunti in devoted surrender before Krishna — the path of bhakti"
               }
             ],
             "modern_life": {
-              "url": "https://d2xsxph8kpxj0f.cloudfront.net/310519663320491203/hKSS9UgtAfoHXBDRJP86JE/ch12v1-modern-life-nYEBAY8T7D5KCXgWskCRci.webp",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v1/ch12v1-modern-life.webp",
               "caption": "Modern spiritual seekers often feel confused comparing different paths"
             },
             "kids_explain": {
-              "url": "https://d2xsxph8kpxj0f.cloudfront.net/310519663320491203/hKSS9UgtAfoHXBDRJP86JE/ch12v1-kids-explain-Zc7ZNLxBxQN7rQXRbDvAxh.webp",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v1/ch12v1-kids-explain.webp",
               "caption": "A parent explaining devotion to a child with a Krishna idol"
             },
             "kids_story": {
-              "url": "https://d2xsxph8kpxj0f.cloudfront.net/310519663320491203/hKSS9UgtAfoHXBDRJP86JE/ch12v1-kids-sun-BSckM9KjPsQwBVaMPH8vRC.webp",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v1/ch12v1-kids-story.webp",
               "caption": "Two children thinking about the sun in different ways"
             },
             "detailed_meaning": {
-              "url": "https://d2xsxph8kpxj0f.cloudfront.net/310519663320491203/hKSS9UgtAfoHXBDRJP86JE/ch12v1-saguna-nirguna-GxLcmwfqpJTnbFSqZUQ95P.webp",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v1/ch12v1-detailed-meaning.webp",
               "caption": "The two paths — saguṇa (with form) and nirguṇa (formless) — both lead to the same truth"
             },
             "more_stories": [
               {
-                "url": "/images/ch12/v1/ch12v1-more-stories-1-narada-ashram.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v1/ch12v1-more-stories-1-narada-ashram.png",
                 "caption": "Young Nārada serving great sages during the rainy season in a forest hermitage — from “12.1 images” doc (More Stories, Image 8)"
               },
               {
-                "url": "/images/ch12/v1/ch12v1-more-stories-2-sanatkumara.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v1/ch12v1-more-stories-2-sanatkumara.png",
                 "caption": "Nārada before Sanatkumāra — Chāndogya Upaniṣad dialogue (More Stories, Image 10)"
               },
               {
-                "url": "/images/ch12/v1/ch12v1-more-stories-3-hanuman.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v1/ch12v1-more-stories-3-hanuman.png",
                 "caption": "Hanumān at the seashore before the leap to Laṅkā, remembrance of Rāma (More Stories, Image 11)"
               },
               {
-                "url": "/images/ch12/v1/ch12v1-more-stories-4-yajnavalkya-maitreyi.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v1/ch12v1-more-stories-4-yajnavalkya-maitreyi.png",
                 "caption": "Yājñavalkya and Maitreyī — Bṛhadāraṇyaka Upaniṣad (More Stories, Image 12)"
               },
               {
-                "url": "/images/ch12/v1/ch12v1-more-stories-5-dhruva.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v1/ch12v1-more-stories-5-dhruva.png",
                 "caption": "Dhruva absorbed in meditation — Bhāgavatam (More Stories, Image 14)"
               }
             ]
@@ -612,61 +612,61 @@
             "other": "आवेश्य is a ल्यपन्त form. | उपेताः and मताः are क्तप्रत्ययान्त forms. | The verse uses a cluster of qualifying expressions to identify the saguṇa upāsakas precisely."
           },
           "final_takeaway": "Among the two groups of seekers, those who worship the personal Lord with unwavering faith and absorbed minds are considered the most accomplished yogis. Steady devotion with supreme faith is the most direct path to spiritual realization.",
-          "audio_url": "/audio/ch12/12.2.mp3",
+          "audio_url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/audio/ch12/12.2.mp3",
           "images": {
             "detailed_meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v2/ch12v2-detailed-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v2/ch12v2-detailed-meaning.png",
               "caption": "A symbolic visual of a glowing stream of light representing the mind steadily flowing toward Bhagavān Kṛṣṇa, calm spi..."
             },
             "kids_explain": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v2/ch12v2-kids-explain.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v2/ch12v2-kids-explain.png",
               "caption": "A child happily focused on drawing or building something, completely absorbed and unaware of surroundings, cozy home ..."
             },
             "kids_story": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v2/ch12v2-kids-story.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v2/ch12v2-kids-story.png",
               "caption": "Kids Story"
             },
             "meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v2/ch12v2-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v2/ch12v2-meaning.png",
               "caption": "Bhagavān Kṛṣṇa speaking calmly to Arjuna on the Kurukṣetra battlefield, Arjuna listening with folded hands and deep f..."
             },
             "modern_life": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v2/ch12v2-modern-life.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v2/ch12v2-modern-life.png",
               "caption": "A modern person sitting at a cluttered desk surrounded by phone notifications, laptop screens, and distractions, look..."
             },
             "more_stories": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v2/ch12v2-more-stories-hanuman-leap.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v2/ch12v2-more-stories-hanuman-leap.png",
                 "caption": "Hanumān standing at the edge of the ocean, eyes closed in deep remembrance of Rāma, wind blowing, waves crashing belo..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v2/ch12v2-more-stories-mira.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v2/ch12v2-more-stories-mira.png",
                 "caption": "Mīrā Bāī singing in devotion before a Kṛṣṇa idol in a palace temple, eyes closed in bliss, gentle lamps glowing aroun..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v2/ch12v2-more-stories-dhruva.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v2/ch12v2-more-stories-dhruva.png",
                 "caption": "Dhruva as a young boy meditating under a tree in a forest, sitting still with calm expression, soft divine glow formi..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v2/ch12v2-more-stories-dhruva.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v2/ch12v2-more-stories-dhruva.png",
                 "caption": "Dhruva as a young boy meditating under a tree in a forest, sitting still with calm expression, soft divine glow formi..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v2/ch12v2-more-stories-student-pot.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v2/ch12v2-more-stories-student-pot.png",
                 "caption": "A student carefully walking through a busy village carrying a pot filled with water, intense concentration, people mo..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v2/ch12v2-more-stories-shopkeeper.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v2/ch12v2-more-stories-shopkeeper.png",
                 "caption": "A humble shopkeeper serving customers in a small traditional store, calm and peaceful expression, subtle sense of inw..."
               }
             ],
             "story": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v2/ch12v2-story-prahlada-court.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v2/ch12v2-story-prahlada-court.png",
                 "caption": "Young Prahlāda sitting peacefully in meditation inside a dark palace hall, surrounded by guards and tension, yet glow..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v2/ch12v2-story-prahlada-meditation.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v2/ch12v2-story-prahlada-meditation.png",
                 "caption": "Prahlāda standing fearlessly before Hiraṇyakaśipu in a royal court, the king angry and intense, Prahlāda calm and unw..."
               }
             ]
@@ -822,57 +822,57 @@
             "other": "अनिर्देश्यम्, अव्यक्तम्, सर्वत्रगम्, अचिन्त्यम्, कूटस्थम्, अचलम्, ध्रुवम् — all are adjectives in neuter accusative singular qualifying अक्षरम्. | पर्युपासते is an आत्मनेपदी verb in the present tense."
           },
           "final_takeaway": "The imperishable reality is beyond all sense perception — unmanifest, inconceivable, all-pervading, and changeless. Meditation upon this formless truth is possible only when we understand it as the very subject, the awareness within.",
-          "audio_url": "/audio/ch12/12.3.mp3",
+          "audio_url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/audio/ch12/12.3.mp3",
           "images": {
             "detailed_meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v3/ch12v3-detailed-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v3/ch12v3-detailed-meaning.png",
               "caption": "A symbolic visual of infinite glowing space with no defined form, soft waves of light spreading everywhere, a subtle ..."
             },
             "kids_explain": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v3/ch12v3-kids-explain.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v3/ch12v3-kids-explain.png",
               "caption": "A parent opening a window while explaining invisible air to a child, soft breeze moving curtains and the child’s hair..."
             },
             "kids_story": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v3/ch12v3-kids-story.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v3/ch12v3-kids-story.png",
               "caption": "Kids Story"
             },
             "meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v3/ch12v3-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v3/ch12v3-meaning.png",
               "caption": "Arjuna standing beside Bhagavān Kṛṣṇa on the Kurukṣetra battlefield, listening with deep attention while the backgrou..."
             },
             "modern_life": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v3/ch12v3-modern-life.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v3/ch12v3-modern-life.png",
               "caption": "A modern person sitting in a quiet room surrounded by identity markers like office badge, laptop, award certificate, ..."
             },
             "more_stories": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v3/ch12v3-more-stories-nachiketa.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v3/ch12v3-more-stories-nachiketa.png",
                 "caption": "Young Naciketā standing fearlessly before Yama in a majestic cosmic hall, Yama seated calmly on a throne, celestial t..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v3/ch12v3-more-stories-svetaketu.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v3/ch12v3-more-stories-svetaketu.png",
                 "caption": "Uddālaka Āruṇi teaching Śvetaketu beside a clay pot of water, Śvetaketu tasting the water with surprise while his fat..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v3/ch12v3-more-stories-janaka.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v3/ch12v3-more-stories-janaka.png",
                 "caption": "King Janaka sitting calm and unmoving in a palace hall while fire and chaos spread outside, courtiers running anxious..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v3/ch12v3-more-stories-ramana.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v3/ch12v3-more-stories-ramana.png",
                 "caption": "Young Venkataraman (later Bhagavān Ramana Maharṣi) lying still in a room, enacting death with intense inward inquiry,..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v3/ch12v3-more-stories-ramakrishna.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v3/ch12v3-more-stories-ramakrishna.png",
                 "caption": "Śrī Rāmakṛṣṇa in meditation as Totāpurī guides him, the divine form of Kālī gradually dissolving into a vast formless..."
               }
             ],
             "story": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v3/ch12v3-story-maitreyi.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v3/ch12v3-story-maitreyi.png",
                 "caption": "Sage Yājñavalkya seated in a quiet forest āśrama, teaching Maitreyī with compassion and seriousness, simple Vedic set..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v3/ch12v3-story-yajnavalkya.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v3/ch12v3-story-yajnavalkya.png",
                 "caption": "Maitreyī sitting alone after the teaching, reflecting deeply, with the world of household objects around her fading i..."
               }
             ]
@@ -1008,57 +1008,57 @@
             "other": "सन्नियम्य is a ल्यपन्त form meaning “having restrained.” | रताः is a क्तप्रत्ययान्त form from रम्, meaning “delighting in” or “engaged in.” | प्राप्नुवन्ति is present tense, third person plural."
           },
           "final_takeaway": "Sense mastery, equanimity, and concern for the welfare of all beings are essential qualifications for the path of formless contemplation. Though the method differs from devotional worship, such qualified seekers also attain the same supreme goal.",
-          "audio_url": "/audio/ch12/12.4.mp3",
+          "audio_url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/audio/ch12/12.4.mp3",
           "images": {
             "detailed_meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v4/ch12v4-detailed-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v4/ch12v4-detailed-meaning.png",
               "caption": "A symbolic scene showing three qualities together: senses gently restrained like calm horses, a balanced scale repres..."
             },
             "kids_explain": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v4/ch12v4-kids-explain.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v4/ch12v4-kids-explain.png",
               "caption": "A parent explaining to a child that the mind is like a quiet lake, showing a bowl of water becoming still after rippl..."
             },
             "kids_story": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v4/ch12v4-kids-story.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v4/ch12v4-kids-story.png",
               "caption": "Kids Story"
             },
             "meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v4/ch12v4-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v4/ch12v4-meaning.png",
               "caption": "Bhagavān Kṛṣṇa teaching Arjuna on the Kurukṣetra battlefield, explaining inner discipline and equanimity, Arjuna list..."
             },
             "modern_life": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v4/ch12v4-modern-life.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v4/ch12v4-modern-life.png",
               "caption": "A modern person surrounded by phone, snacks, shopping ads, and entertainment screens, pausing calmly and choosing sel..."
             },
             "more_stories": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v4/ch12v4-more-stories-yajnavalkya.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v4/ch12v4-more-stories-yajnavalkya.png",
                 "caption": "Yājñavalkya speaking with Maitreyī in a simple Vedic household, Maitreyī turning away from wealth and listening inten..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v4/ch12v4-more-stories-shibi.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v4/ch12v4-more-stories-shibi.png",
                 "caption": "The Buddha walking calmly in a forest while Aṅgulimāla runs after him, Aṅgulimāla intense and confused, Buddha peacef..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v4/ch12v4-more-stories-rsabhadeva.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v4/ch12v4-more-stories-rsabhadeva.png",
                 "caption": "Ṛṣabhadeva teaching his sons in a royal āśrama setting, sons listening seriously as he explains disciplined living an..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v4/ch12v4-more-stories-vidura.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v4/ch12v4-more-stories-vidura.png",
                 "caption": "Vidura standing calmly in the court of Dhṛtarāṣṭra while Duryodhana reacts angrily, Vidura’s face serene and rooted i..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v4/ch12v4-more-stories-buddha.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v4/ch12v4-more-stories-buddha.png",
                 "caption": "King Śibi seated on a throne holding a frightened dove protectively while a hawk waits nearby, Śibi showing compassio..."
               }
             ],
             "story": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v4/ch12v4-story-yudhishthira-exile.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v4/ch12v4-story-yudhishthira-exile.png",
                 "caption": "King Yudhiṣṭhira standing calmly during exile with Draupadī and his brothers nearby, forest setting, his face showing..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v4/ch12v4-story-yudhishthira-war.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v4/ch12v4-story-yudhishthira-war.png",
                 "caption": "Yudhiṣṭhira after the war, seated with a sorrowful yet composed expression, looking over a battlefield with compassio..."
               }
             ]
@@ -1194,57 +1194,57 @@
             "other": "अधिकतरः contains तरप्-प्रत्ययः, giving the comparative sense “greater” or “more intense.” | दुःखम् is used adverbially here; this is an अव्ययीभाववत् प्रयोगः in the sense of “with difficulty.” | देहवत् is formed using वतुप्-प्रत्ययः. | अवाप्यते is लट्-लकारः, कर्मणि प्रयोगः, from the धातुः अव-आप्. | अव्यक्ता is a स्त्रीलिङ्ग-विशेषणम् qualifying गतिः."
           },
           "final_takeaway": "The path of the unmanifest is more difficult for those identified with the body, because the formless truth cannot be grasped through the senses. Honest self-assessment and gradual preparation are needed rather than pretending readiness.",
-          "audio_url": "/audio/ch12/12.5.mp3",
+          "audio_url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/audio/ch12/12.5.mp3",
           "images": {
             "detailed_meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v5/ch12v5-detailed-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v5/ch12v5-detailed-meaning.png",
               "caption": "A symbolic scene showing a small body-shaped outline dissolving into vast formless golden space, suggesting the movem..."
             },
             "kids_explain": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v5/ch12v5-kids-explain.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v5/ch12v5-kids-explain.png",
               "caption": "A teacher showing a child a flower and then pointing to open space, explaining that some things are easy to see and s..."
             },
             "kids_story": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v5/ch12v5-kids-story.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v5/ch12v5-kids-story.png",
               "caption": "Kids Story"
             },
             "meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v5/ch12v5-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v5/ch12v5-meaning.png",
               "caption": "A thoughtful person standing at a crossroads, one path showing visible devotional symbols and forms, another path fad..."
             },
             "modern_life": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v5/ch12v5-modern-life.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v5/ch12v5-modern-life.png",
               "caption": "A modern person surrounded by mirrors, fitness devices, phone notifications, health reports, and social media images,..."
             },
             "more_stories": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v5/ch12v5-more-stories-bhrgu.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v5/ch12v5-more-stories-bhrgu.png",
                 "caption": "Bhṛgu sitting in contemplation before Varuṇa in a forest āśrama, with symbolic layers of food, life-force, mind, know..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v5/ch12v5-more-stories-jada-bharata.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v5/ch12v5-more-stories-jada-bharata.png",
                 "caption": "Jaḍa Bharata carrying King Rahūgaṇa’s palanquin while carefully avoiding tiny creatures on the path, king looking ann..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v5/ch12v5-more-stories-shuka.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v5/ch12v5-more-stories-shuka.png",
                 "caption": "Śuka walking calmly through a forest path with total inward freedom while Vyāsa calls from behind with fatherly conce..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v5/ch12v5-more-stories-hastamalaka.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v5/ch12v5-more-stories-hastamalaka.png",
                 "caption": "Young Hastāmalaka standing before Śaṅkarācārya, quietly answering the question “Who are you?” with serene clarity, fa..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v5/ch12v5-more-stories-rope-snake.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v5/ch12v5-more-stories-rope-snake.png",
                 "caption": "A traveler at dusk mistaking a rope for a snake, frightened expression, then a lamp revealing the rope clearly, symbo..."
               }
             ],
             "story": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v5/ch12v5-story-indra-return.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v5/ch12v5-story-indra-return.png",
                 "caption": "Indra and Virocana standing before Prajāpati near a clear water basin, both looking at their reflections, Virocana sa..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v5/ch12v5-story-prajapati.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v5/ch12v5-story-prajapati.png",
                 "caption": "Indra returning humbly to Prajāpati for deeper teaching, leaving behind the mistaken idea that the body is the Self, ..."
               }
             ]
@@ -1410,61 +1410,61 @@
             "other": "संन्यस्य is a ल्यबन्त-कृदन्तम् from सम्-नि-अस्, used in the sense “having dedicated.” | ध्यायन्तः is a शतृप्रत्ययान्त-कृदन्तम् from ध्यै, meaning “meditating.” | उपासते is लट्-लकारः, आत्मनेपदम्, from उप-आस्. | सर्वाणि and कर्माणि are both नपुंसकलिङ्ग-द्वितीया-बहुवचनम्. | योगेन is तृतीया-विभक्ति, showing the means or discipline."
           },
           "final_takeaway": "Dedicate all actions to Bhagavān, keep Him as the primary goal, and meditate with undivided attention. Spiritual growth is possible while living an active life when every action becomes an offering.",
-          "audio_url": "/audio/ch12/12.6.mp3",
+          "audio_url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/audio/ch12/12.6.mp3",
           "images": {
             "detailed_meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v6/ch12v6-detailed-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v6/ch12v6-detailed-meaning.png",
               "caption": "A symbolic scene showing many daily actions like writing, cooking, cleaning, and helping others flowing as streams of..."
             },
             "kids_explain": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v6/ch12v6-kids-explanation.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v6/ch12v6-kids-explanation.png",
               "caption": "A parent teaching a child to clean a room with love instead of complaint, both smiling while placing toys neatly, coz..."
             },
             "kids_story": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v6/ch12v6-kids-story.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v6/ch12v6-kids-story.png",
               "caption": "Kids Story"
             },
             "meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v6/ch12v6-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v6/ch12v6-meaning.png",
               "caption": "Bhagavān Kṛṣṇa teaching Arjuna on the Kurukṣetra battlefield, showing a symbolic vision of all actions flowing into t..."
             },
             "more_stories": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v6/ch12v6-more-stories-shabari-offering.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v6/ch12v6-more-stories-shabari-offering.png",
                 "caption": "Śabarī offering sweet fruits to Bhagavān Rāma with tears of joy, Rāma accepting with compassion, Lakṣmaṇa nearby, war..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v6/ch12v6-more-stories-shabari-waiting.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v6/ch12v6-more-stories-shabari-waiting.png",
                 "caption": "Śabarī cleaning her forest āśrama and arranging fruits every day while waiting for Rāma, simple hut, forest setting, ..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v6/ch12v6-more-stories-sudama.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v6/ch12v6-more-stories-sudama.png",
                 "caption": "Sudāmā standing humbly before Kṛṣṇa in Dvārakā, holding a small bundle of flattened rice, Kṛṣṇa welcoming him with de..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v6/ch12v6-more-stories-tyagaraja.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v6/ch12v6-more-stories-tyagaraja.png",
                 "caption": "Tyāgarāja singing with devotion before an image of Rāma, royal wealth placed to one side but ignored, expression of l..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v6/ch12v6-more-stories-ambarisha.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v6/ch12v6-more-stories-ambarisha.png",
                 "caption": "King Ambarīṣa performing royal duties while his mind remains devoted to Bhagavān, palace and temple elements blended,..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v6/ch12v6-more-stories-ambarisha.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v6/ch12v6-more-stories-ambarisha.png",
                 "caption": "King Ambarīṣa performing royal duties while his mind remains devoted to Bhagavān, palace and temple elements blended,..."
               }
             ],
             "modern_life": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v6/ch12v6-real-life.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v6/ch12v6-real-life.png",
               "caption": "A modern person finishing work at a desk and mentally offering the completed action to Bhagavān, laptop and papers gl..."
             },
             "story": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v6/ch12v6-story-hanuman-lanka.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v6/ch12v6-story-hanuman-lanka.png",
                 "caption": "Hanumān standing in Laṅkā with focused determination, searching for Sītā as an offering to Bhagavān Rāma, city in the..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v6/ch12v6-story-hanuman-sita.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v6/ch12v6-story-hanuman-sita.png",
                 "caption": "Hanumān kneeling before Sītā in the Aśoka grove, respectfully offering Rāma’s ring, Sītā filled with hope and emotion..."
               }
             ]
@@ -1600,57 +1600,57 @@
             "other": "समुद्धर्ता is a तृच्-प्रत्ययान्त-कर्तृवाचक-नामपदम् from सम्-उद्-धृ, meaning “rescuer” or “one who lifts up.” | भवामि is लट्-लकारः, उत्तमपुरुषः, एकवचनम्, परस्मैपदम् from भू धातुः. | आवेशित is a क्तप्रत्ययान्त-कृदन्तम् from आ-विश्. | चिरात् is used with न to form the expression न चिरात्, meaning “not after a long time,” i.e., “soon.” | पार्थ is सम्बोधनप्रथमा, directly addressing Arjuna."
           },
           "final_takeaway": "For those whose minds are truly fixed on Bhagavān, He becomes the rescuer from the ocean of mortality and suffering. This rescue comes through providing the right conditions, guidance, and inner maturity needed for liberation.",
-          "audio_url": "/audio/ch12/12.7.mp3",
+          "audio_url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/audio/ch12/12.7.mp3",
           "images": {
             "detailed_meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v7/ch12v7-detailed-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v7/ch12v7-detailed-meaning.png",
               "caption": "A symbolic scene of a small boat crossing a vast ocean of saṁsāra, guided by a radiant presence of Bhagavān Kṛṣṇa, wa..."
             },
             "kids_explain": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v7/ch12v7-kids-explanation.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v7/ch12v7-kids-explanation.png",
               "caption": "A swimming teacher gently helping a frightened child float in a pool, child slowly learning to trust, warm and safe e..."
             },
             "kids_story": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v7/ch12v7-kids-story.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v7/ch12v7-kids-story.png",
               "caption": "Kids Story"
             },
             "meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v7/ch12v7-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v7/ch12v7-meaning.png",
               "caption": "Bhagavān Kṛṣṇa reassuring Arjuna on the Kurukṣetra battlefield, with a symbolic vast ocean of saṁsāra in the backgrou..."
             },
             "more_stories": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v7/ch12v7-more-stories-gajendra.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v7/ch12v7-more-stories-gajendra.png",
                 "caption": "Gajendra lifting a lotus in surrender while trapped by a crocodile in the lake, eyes full of prayer and helplessness"
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v7/ch12v7-more-stories-draupadi.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v7/ch12v7-more-stories-draupadi.png",
                 "caption": "Draupadī in the Kaurava court raising both hands in total surrender to Bhagavān Kṛṣṇa, elders stunned, divine protect..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v7/ch12v7-more-stories-vibhishana.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v7/ch12v7-more-stories-vibhishana.png",
                 "caption": "Vibhīṣaṇa arriving humbly before Bhagavān Rāma with folded hands, vānaras looking suspicious, Rāma calm and compassio..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v7/ch12v7-more-stories-markandeya.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v7/ch12v7-more-stories-markandeya.png",
                 "caption": "Young Mārkaṇḍeya clinging to a Śiva liṅga as Yama approaches, Bhagavān Śiva appearing in protective brilliance, drama..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v7/ch12v7-more-stories-ajamila.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v7/ch12v7-more-stories-ajamila.png",
                 "caption": "Ajāmila at the end of life calling the name Nārāyaṇa with fear and sudden hope, divine messengers appearing with comp..."
               }
             ],
             "modern_life": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v7/ch12v7-real-life.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v7/ch12v7-real-life.png",
               "caption": "A modern person overwhelmed by waves of anxiety, deadlines, health worries, and family responsibilities, then calmly ..."
             },
             "story": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v7/ch12v7-story-gajendra-rescue.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v7/ch12v7-story-gajendra-rescue.png",
                 "caption": "Gajendra the elephant king struggling in a lotus-filled lake while a crocodile holds his leg, his face shifting from ..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v7/ch12v7-story-gajendra-struggle.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v7/ch12v7-story-gajendra-struggle.png",
                 "caption": "Bhagavān Viṣṇu arriving swiftly to rescue Gajendra, golden divine light over the lake, Gajendra offering a lotus with..."
               }
             ]
@@ -1826,58 +1826,58 @@
             "other": "आधत्स्व is लोट्-लकारः, आत्मनेपदम्, used as an instruction: “fix” or “place.” | निवेशय is लोट्-लकारः with णिच्-प्रयोगः, giving the causative sense “cause to enter,” “place,” or “establish.” | निवसिष्यसि is लृट्-लकारः, मध्यमपुरुषः, एकवचनम्, indicating future tense: “you will dwell.” | मनः and बुद्धिम् are both objects of the two instructions, indicating that both mind and intellect must be directed to Bhagavān."
           },
           "final_takeaway": "Fix both the mind and the intellect on Bhagavān — the heart through devotion and the intellect through understanding. When both are established, we recognize that we are never separate from Bhagavān, just as a wave is never separate from the ocean.",
-          "audio_url": "/audio/ch12/12.8.mp3",
+          "audio_url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/audio/ch12/12.8.mp3",
           "images": {
             "detailed_meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v8/ch12v8-detailed-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v8/ch12v8-detailed-meaning.png",
               "caption": "A symbolic wave resting in the ocean, with the wave smiling as it realizes it was never separate from the ocean, soft..."
             },
             "kids_explain": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v8/ch12v8-kids-explanation.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v8/ch12v8-kids-explanation.png",
               "caption": "A parent showing a child a gold ring, gold chain, and gold bangle, explaining that different shapes can have the same..."
             },
             "kids_story": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v8/ch12v8-kids-story.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v8/ch12v8-kids-story.png",
               "caption": "Kids Story"
             },
             "meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v8/ch12v8-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v8/ch12v8-meaning.png",
               "caption": "Bhagavān Kṛṣṇa teaching Arjuna on the Kurukṣetra battlefield, with symbols of mind as a glowing heart and intellect a..."
             },
             "more_stories": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v8/ch12v8-more-stories-rantideva.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v8/ch12v8-more-stories-rantideva.png",
                 "caption": "Nammāḻvār seated in deep devotional absorption under a tree, with sky, earth, and beings softly glowing as expression..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v8/ch12v8-more-stories-uddhava.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v8/ch12v8-more-stories-uddhava.png",
                 "caption": "Uddhava sitting before Bhagavān Kṛṣṇa, listening with devotion and sorrow as Kṛṣṇa teaches him to see Bhagavān everyw..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v8/ch12v8-more-stories-namadeva.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v8/ch12v8-more-stories-namadeva.png",
                 "caption": "Sant Nāmadeva running lovingly behind a dog carrying bread, holding a small bowl of ghee, seeing Viṭṭhala in the dog,..."
               }
             ],
             "modern_life": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v8/ch12v8-real-life.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v8/ch12v8-real-life.png",
               "caption": "A modern person leaving a prayer room and entering daily life, seeing office, family, nature, and strangers all softl..."
             },
             "reflection": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v8/ch12v8-reflection.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v8/ch12v8-reflection.png",
               "caption": "Reflection"
             },
             "story": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v8/ch12v8-story-shankara-bowing.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v8/ch12v8-story-shankara-bowing.png",
                 "caption": "Ādi Śaṅkarācārya standing on a path with disciples, facing a wise caṇḍāla with dogs, both figures calm and dignified,..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v8/ch12v8-story-shankara-chandala.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v8/ch12v8-story-shankara-chandala.png",
                 "caption": "Ādi Śaṅkarācārya bowing with humility before the caṇḍāla, disciples surprised, golden light suggesting recognition of..."
               }
             ],
             "takeaway": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v8/ch12v8-takeaway.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v8/ch12v8-takeaway.png",
               "caption": "Takeaway"
             }
           }
@@ -2042,57 +2042,57 @@
             "other": "समाधातुम् is a तुमुनन्त-कृदन्तम् from सम्-आ-धा, meaning “to fix” or “to place steadily.” | आप्तुम् is a तुमुनन्त-कृदन्तम् from आप्, meaning “to attain.” | शक्नोषि is लट्-लकारः, मध्यमपुरुषः, एकवचनम् from शक् धातुः. | इच्छ is लोट्-लकारः, मध्यमपुरुषः, एकवचनम् from इष् धातुः, used as an instruction. | धनञ्जय is सम्बोधनप्रथमा, directly addressing Arjuna."
           },
           "final_takeaway": "If the mind cannot embrace the entire universe as Bhagavān, begin with one chosen form through repeated practice. Through sincere and steady devotion to an iṣṭa-devatā, the scattered mind gradually becomes focused and capable of deeper realization.",
-          "audio_url": "/audio/ch12/12.9.mp3",
+          "audio_url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/audio/ch12/12.9.mp3",
           "images": {
             "detailed_meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v9/ch12v9-detailed-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v9/ch12v9-detailed-meaning.png",
               "caption": "A symbolic image of a restless mind represented by scattered glowing fireflies gradually gathering around one chosen ..."
             },
             "kids_explain": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v9/ch12v9-kids-explanation.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v9/ch12v9-kids-explanation.png",
               "caption": "A parent teaching a child that practice makes the mind steady, showing examples of music, cricket, and prayer before ..."
             },
             "kids_story": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v9/ch12v9-kids-story.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v9/ch12v9-kids-story.png",
               "caption": "Kids Story"
             },
             "meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v9/ch12v9-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v9/ch12v9-meaning.png",
               "caption": "Bhagavān Kṛṣṇa teaching Arjuna on the Kurukṣetra battlefield, showing a symbolic ladder of spiritual practice descend..."
             },
             "more_stories": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v9/ch12v9-more-stories-dhruva.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v9/ch12v9-more-stories-dhruva.png",
                 "caption": "Young Dhruva sitting in the forest under Nārada’s guidance, repeating a mantra and visualizing Bhagavān Viṣṇu with gr..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v9/ch12v9-more-stories-kannappa.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v9/ch12v9-more-stories-kannappa.png",
                 "caption": "Kannappa Nāyaṉār worshipping a Śiva liṅga in a forest with intense devotion, offering what he has with simplicity and..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v9/ch12v9-more-stories-pundalika.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v9/ch12v9-more-stories-pundalika.png",
                 "caption": "Pundalika serving his parents while Bhagavān Viṭṭhala stands lovingly on a brick waiting for him, Paṇḍharpur devotion..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v9/ch12v9-more-stories-samba.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v9/ch12v9-more-stories-samba.png",
                 "caption": "Sāmba performing Sūrya upāsanā at sunrise, standing near a river with folded hands as the sun glows warmly, devotion ..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v9/ch12v9-more-stories-srividya.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v9/ch12v9-more-stories-srividya.png",
                 "caption": "A Śrīvidyā devotee sitting quietly before a glowing Śrīcakra yantra, mind becoming calm as scattered thoughts settle ..."
               }
             ],
             "modern_life": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v9/ch12v9-real-life.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v9/ch12v9-real-life.png",
               "caption": "A modern person overwhelmed by strong likes and dislikes, surrounded by floating symbols of attachment and aversion, ..."
             },
             "story": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v9/ch12v9-story-andal-dawn.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v9/ch12v9-story-andal-dawn.png",
                 "caption": "Young Āṇḍāḷ in Śrīvilliputtūr singing with devotion before Bhagavān Raṅganātha, flowers and temple atmosphere around ..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v9/ch12v9-story-andal-singing.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v9/ch12v9-story-andal-singing.png",
                 "caption": "Āṇḍāḷ leading young devotees before dawn, joyfully singing and walking toward the temple of Bhagavān Raṅganātha, soft..."
               }
             ]
@@ -2248,57 +2248,57 @@
             "other": "कुर्वन् is a शतृप्रत्ययान्त-कृदन्तम् from कृ धातुः, meaning “performing.” | भव is लोट्-लकारः, मध्यमपुरुषः, एकवचनम्, from भू धातुः, used as an instruction. | असि is लट्-लकारः, मध्यमपुरुषः, एकवचनम्, from अस् धातुः. | अवाप्स्यसि is लृट्-लकारः, मध्यमपुरुषः, एकवचनम्, from अव-आप् धातुः, indicating future attainment. | मदर्थम् is used adverbially in the sense “for My sake.” | सिद्धिम् is द्वितीया-विभक्ति and is the object of अवाप्स्यसि."
           },
           "final_takeaway": "If meditation is difficult, begin with selfless action done as service to Bhagavān. Even ordinary work becomes spiritual practice when performed with the right attitude, gradually purifying the mind for higher understanding.",
-          "audio_url": "/audio/ch12/12.10.mp3",
+          "audio_url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/audio/ch12/12.10.mp3",
           "images": {
             "detailed_meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v10/ch12v10-detailed-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v10/ch12v10-detailed-meaning.png",
               "caption": "A symbolic scene showing ordinary actions like cooking, working, cleaning, teaching, and helping others turning into ..."
             },
             "kids_explain": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v10/ch12v10-kids-explanation.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v10/ch12v10-kids-explanation.png",
               "caption": "A parent teaching a child that helping at home can become worship, child serving food with love while thinking of Bha..."
             },
             "kids_story": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v10/ch12v10-kids-story.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v10/ch12v10-kids-story.png",
               "caption": "Kids Story"
             },
             "meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v10/ch12v10-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v10/ch12v10-meaning.png",
               "caption": "Bhagavān Kṛṣṇa teaching Arjuna on the Kurukṣetra battlefield, showing a symbolic path where daily actions like helpin..."
             },
             "more_stories": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v10/ch12v10-more-stories-dadhichi.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v10/ch12v10-more-stories-dadhichi.png",
                 "caption": "King Bhagīratha performing intense tapas while praying for Gaṅgā to descend, Bhagavān Śiva receiving the river in His..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v10/ch12v10-more-stories-bharata.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v10/ch12v10-more-stories-bharata.png",
                 "caption": "Bharata placing Bhagavān Rāma’s pādukās on the throne of Ayodhyā, bowing with humility, ministers and citizens watchi..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v10/ch12v10-more-stories-eknath.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v10/ch12v10-more-stories-eknath.png",
                 "caption": "Sant Eknāth giving sacred Gaṅgā water to a thirsty donkey on a dusty road, people around him surprised, Eknāth’s face..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v10/ch12v10-more-stories-vivekananda.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v10/ch12v10-more-stories-vivekananda.png",
                 "caption": "Swāmī Vivekānanda serving poor and hungry people with compassion, seeing Nārāyaṇa in them, simple Indian village sett..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v10/ch12v10-more-stories-bhagiratha.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v10/ch12v10-more-stories-bhagiratha.png",
                 "caption": "Maharṣi Dadhīci calmly offering his body for the welfare of the devas, devas standing with reverence, sacred āśrama s..."
               }
             ],
             "modern_life": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v10/ch12v10-real-life.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v10/ch12v10-real-life.png",
               "caption": "A modern person transforming everyday work into offering, helping coworkers, caring for family, and serving society w..."
             },
             "story": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v10/ch12v10-story-shibi-dove.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v10/ch12v10-story-shibi-dove.png",
                 "caption": "King Śibi seated in his royal court, gently protecting a frightened dove in his lap while a hawk stands before him de..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v10/ch12v10-story-shibi-scale.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v10/ch12v10-story-shibi-scale.png",
                 "caption": "King Śibi stepping onto a balance scale, ready to offer himself to protect the dove, ministers watching in awe, golde..."
               }
             ]
@@ -2454,57 +2454,57 @@
             "other": "कर्तुम् is a तुमुनन्त-कृदन्तम् from कृ धातुः, meaning “to do.” | आश्रितः is a क्तप्रत्ययान्त-कृदन्तम् from आ-श्रि धातुः, meaning “having taken refuge in.” | अशक्तः is a क्तप्रत्ययान्त form with negative prefix अ-, meaning “unable.” | कुरु is लोट्-लकारः, मध्यमपुरुषः, एकवचनम् from कृ धातुः, used as an instruction. | यतात्मवान् carries the sense of self-restraint and discipline."
           },
           "final_takeaway": "Even when desires remain, spiritual life is possible. Pursue legitimate goals through dharmic means, offer the results to Bhagavān first, and receive them back as prasāda. This simple shift in attitude begins the transformation.",
-          "audio_url": "/audio/ch12/12.11.mp3",
+          "audio_url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/audio/ch12/12.11.mp3",
           "images": {
             "detailed_meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v11/ch12v11-detailed-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v11/ch12v11-detailed-meaning.png",
               "caption": "A symbolic scene showing the results of many actions flowing upward as offerings to Bhagavān and returning as gentle ..."
             },
             "kids_explain": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v11/ch12v11-kids-explanation.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v11/ch12v11-kids-explanation.png",
               "caption": "A child placing a favorite sweet before Bhagavān before eating it, parent smiling gently, cozy home shrine setting, t..."
             },
             "kids_story": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v11/ch12v11-kids-story.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v11/ch12v11-kids-story.png",
               "caption": "Kids Story"
             },
             "meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v11/ch12v11-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v11/ch12v11-meaning.png",
               "caption": "Bhagavān Kṛṣṇa teaching Arjuna on the Kurukṣetra battlefield, showing ordinary results like food, home, clothes, and ..."
             },
             "more_stories": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v11/ch12v11-more-stories-govardhana.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v11/ch12v11-more-stories-govardhana.png",
                 "caption": "Govardhana Pūjā scene with Kṛṣṇa joyfully guiding villagers to offer food, flowers, and gratitude to Govardhana, deco..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v11/ch12v11-more-stories-mahabali.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v11/ch12v11-more-stories-mahabali.png",
                 "caption": "Mahābali standing humbly before Vāmana who is expanding into Trivikrama, Bali offering himself with folded hands, roy..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v11/ch12v11-more-stories-fruitseller.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v11/ch12v11-more-stories-fruitseller.png",
                 "caption": "Little Kṛṣṇa receiving fruits from a kind fruit seller in Vṛndāvana, grains slipping from His tiny hands, fruit selle..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v11/ch12v11-more-stories-purandara.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v11/ch12v11-more-stories-purandara.png",
                 "caption": "Purandara Dāsa leaving behind wealth and singing devotionally with a tāmbūra, face transformed from attachment to sur..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v11/ch12v11-more-stories-janabai.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v11/ch12v11-more-stories-janabai.png",
                 "caption": "Janābāī grinding grain while remembering Viṭṭhala, with Viṭṭhala lovingly helping her in the simple household scene, ..."
               }
             ],
             "modern_life": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v11/ch12v11-real-life.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v11/ch12v11-real-life.png",
               "caption": "A modern family entering a new home after offering it to Bhagavān, small altar with a lamp, family smiling with grati..."
             },
             "story": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v11/ch12v11-story-govardhana-offering.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v11/ch12v11-story-govardhana-offering.png",
                 "caption": "The people of Vṛndāvana preparing a grand Govardhana offering with heaps of food, decorated cows, children, elders, a..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v11/ch12v11-story-govardhana-prasada.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v11/ch12v11-story-govardhana-prasada.png",
                 "caption": "Vṛndāvana villagers receiving the offered food back as prasāda after Govardhana Pūjā, faces filled with gratitude, Go..."
               }
             ]
@@ -2660,61 +2660,61 @@
             "other": "विशिष्यते is लट्-लकारः, प्रथमपुरुषः, एकवचनम्, आत्मनेपदम् / कर्मणि प्रयोगः from वि-शिष् धातुः, meaning “is superior” or “is distinguished.” | अभ्यासात्, ज्ञानात्, ध्यानात्, and त्यागात् are पञ्चमी-विभक्ति forms used for comparison or source. | अनन्तरम् is used adverbially; this is an अव्ययीभाववत् प्रयोगः in the sense of “immediately” or “without interval.” | कर्मफलत्यागः is the subject of the implied comparison in the third pāda. | शान्तिः is प्रथमा-एकवचनम् and is the result stated in the final pāda."
           },
           "final_takeaway": "Practice gains depth through understanding, understanding through meditation, and every level benefits from offering results to Bhagavān. When we stop clinging to outcomes and receive life as prasāda, peace follows immediately.",
-          "audio_url": "/audio/ch12/12.12.mp3",
+          "audio_url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/audio/ch12/12.12.mp3",
           "images": {
             "detailed_meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v12/ch12v12-detailed-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v12/ch12v12-detailed-meaning.png",
               "caption": "A symbolic image of a restless mind becoming peaceful as action-results are offered to Bhagavān and return as prasāda..."
             },
             "kids_explain": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v12/ch12v12-kids-explanation.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v12/ch12v12-kids-explanation.png",
               "caption": "A parent explaining a prayer meaning to a child, showing how repeating words becomes meaningful when understood, cozy..."
             },
             "kids_story": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v12/ch12v12-kids-story.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v12/ch12v12-kids-story.png",
               "caption": "Kids Story"
             },
             "meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v12/ch12v12-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v12/ch12v12-meaning.png",
               "caption": "Bhagavān Kṛṣṇa teaching Arjuna on the Kurukṣetra battlefield, showing a symbolic staircase labeled practice, knowledg..."
             },
             "more_stories": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v12/ch12v12-more-stories-satyakama-1.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v12/ch12v12-more-stories-satyakama-1.png",
                 "caption": "Satyakāma Jābāla standing honestly before Gautama Ṛṣi in a forest āśrama, speaking the truth about his unknown lineag..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v12/ch12v12-more-stories-shravana.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v12/ch12v12-more-stories-shravana.png",
                 "caption": "A village farmer offering the first harvest grains before Bhagavān in a small temple, children watching with curiosit..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v12/ch12v12-more-stories-madalasa.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v12/ch12v12-more-stories-madalasa.png",
                 "caption": "Queen Madālasā gently rocking her infant child while singing a wisdom-filled lullaby about the Self, palace room glow..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v12/ch12v12-more-stories-prahlada.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v12/ch12v12-more-stories-prahlada.png",
                 "caption": "Young Prahlāda sitting with other asura boys and gently teaching them about Bhagavān while their teachers are away, c..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v12/ch12v12-more-stories-satyakama-2.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v12/ch12v12-more-stories-satyakama-2.png",
                 "caption": "Satyakāma Jābāla tending cattle in a quiet forest, sitting near a sacred fire as nature seems to teach him, bull and ..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v12/ch12v12-more-stories-shravana.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v12/ch12v12-more-stories-shravana.png",
                 "caption": "A village farmer offering the first harvest grains before Bhagavān in a small temple, children watching with curiosit..."
               }
             ],
             "modern_life": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v12/ch12v12-real-life.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v12/ch12v12-real-life.png",
               "caption": "A modern person first chanting mechanically, then reading the meaning, then meditating calmly, and finally offering e..."
             },
             "story": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v12/ch12v12-story-1.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v12/ch12v12-story-1.png",
                 "caption": "Kauśika meeting Dharma-vyādha in Mithilā, Kauśika surprised and humbled while Dharma-vyādha speaks with calm wisdom, ..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v12/ch12v12-story-2.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v12/ch12v12-story-2.png",
                 "caption": "Dharma-vyādha serving his parents with devotion and humility after completing his daily duty, Kauśika watching with r..."
               }
             ]
@@ -2850,57 +2850,57 @@
             "other": "अद्वेष्टा is a तृच्-प्रत्ययान्त-कर्तृवाचक-नामपदम् from द्विष् धातुः, with negative prefix अ-, meaning “one who does not hate.” | क्षमी is formed with the इनि/इन् sense, meaning “one endowed with forgiveness” or “forbearing.” | All descriptive words in this verse are प्रथमा-एकवचनम्, qualifying the implied devotee. | भवति is understood elliptically in the anvaya."
           },
           "final_takeaway": "The mature devotee is free from hatred, friendly, compassionate, without possessiveness or ego, balanced in joy and sorrow, and forgiving. These qualities flow naturally from a heart purified by devotion and knowledge.",
-          "audio_url": "/audio/ch12/12.13.mp3",
+          "audio_url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/audio/ch12/12.13.mp3",
           "images": {
             "detailed_meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v13/ch12v13-detailed-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v13/ch12v13-detailed-meaning.png",
               "caption": "A symbolic scene showing a heart releasing dark smoke labeled hatred and glowing with compassion, friendliness, balan..."
             },
             "kids_explain": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v13/ch12v13-kids-explanation.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v13/ch12v13-kids-explanation.png",
               "caption": "A parent explaining to a child that we can correct a mistake without hating the person, using two toy figures and a g..."
             },
             "kids_story": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v13/ch12v13-kids-story.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v13/ch12v13-kids-story.png",
               "caption": "Kids Story"
             },
             "meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v13/ch12v13-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v13/ch12v13-meaning.png",
               "caption": "Bhagavān Kṛṣṇa teaching Arjuna on the Kurukṣetra battlefield, with glowing symbols of friendliness, compassion, humil..."
             },
             "more_stories": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v13/ch12v13-more-stories-draupadi.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v13/ch12v13-more-stories-draupadi.png",
                 "caption": "Draupadī in the aftermath of war choosing compassion before Aśvatthāman, showing grief without hatred, solemn Mahābhā..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v13/ch12v13-more-stories-vidura.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v13/ch12v13-more-stories-vidura.png",
                 "caption": "Vidura calmly advising Dhṛtarāṣṭra in the Kuru court, speaking firmly but compassionately, Duryodhana in the backgrou..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v13/ch12v13-more-stories-buddha.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v13/ch12v13-more-stories-buddha.png",
                 "caption": "Bhagavān Buddha walking calmly in a forest while Aṅgulimāla runs angrily behind him, Buddha’s face peaceful and compa..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v13/ch12v13-more-stories-mahavira.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v13/ch12v13-more-stories-mahavira.png",
                 "caption": "Bhagavān Mahāvīra seated in serene meditation while people around him misunderstand or insult him, his face peaceful ..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v13/ch12v13-more-stories-eknath.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v13/ch12v13-more-stories-eknath.png",
                 "caption": "Sant Eknāth calmly returning from a river bath while a man who had insulted him begins to feel remorse, Eknāth’s face..."
               }
             ],
             "modern_life": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v13/ch12v13-real-life.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v13/ch12v13-real-life.png",
               "caption": "A modern person in a workplace conflict choosing to respond firmly but without hatred, calm face, angry coworker near..."
             },
             "story": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v13/ch12v13-story-1.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v13/ch12v13-story-1.png",
                 "caption": "Draupadī standing with grief and compassion before captured Aśvatthāman, remembering his mother Kṛpī, Pāṇḍavas watchi..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v13/ch12v13-story-2.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v13/ch12v13-story-2.png",
                 "caption": "Draupadī with tearful eyes choosing mercy over hatred, Aśvatthāman humbled, soft golden light suggesting forgiveness ..."
               }
             ]
@@ -3056,57 +3056,57 @@
             "other": "सन्तुष्टः is a क्तप्रत्ययान्त-कृदन्तम् from सम्-तुष् धातुः, meaning “contented” or “satisfied.” | अर्पित is a क्तप्रत्ययान्त-कृदन्तम् from अर्प् धातुः, meaning “offered” or “dedicated.” | भक्तः is a क्तप्रत्ययान्त form from भज् धातुः, meaning “devotee” or “one devoted.” | योगी is derived from योगिन् and appears here in प्रथमा-एकवचनम्. | All the descriptive expressions qualify the implied devotee, who is finally identified as madbhaktaḥ."
           },
           "final_takeaway": "The devotee who integrates contentment, self-discipline, firm conviction, and both emotional and intellectual dedication to Bhagavān represents the highest expression of spiritual maturity. Such a person is truly dear to Bhagavān.",
-          "audio_url": "/audio/ch12/12.14.mp3",
+          "audio_url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/audio/ch12/12.14.mp3",
           "images": {
             "detailed_meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v14/ch12v14-detailed-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v14/ch12v14-detailed-meaning.png",
               "caption": "A symbolic scene showing the mind as a glowing lotus and the intellect as a bright lamp, both being offered at the fe..."
             },
             "kids_explain": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v14/ch12v14-kids-explanation.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v14/ch12v14-kids-explanation.png",
               "caption": "A parent explaining to a child that we can love Bhagavān with the heart and understand Bhagavān with the mind, using ..."
             },
             "kids_story": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v14/ch12v14-kids-story.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v14/ch12v14-kids-story.png",
               "caption": "Kids Story"
             },
             "meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v14/ch12v14-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v14/ch12v14-meaning.png",
               "caption": "Bhagavān Kṛṣṇa teaching Arjuna on the Kurukṣetra battlefield, with glowing symbols of a calm heart, disciplined mind,..."
             },
             "more_stories": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v14/ch12v14-more-stories-ramanuja.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v14/ch12v14-more-stories-ramanuja.png",
                 "caption": "Śrī Rāmānuja standing on a temple tower, compassionately sharing a sacred mantra with a large gathering of ordinary d..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v14/ch12v14-more-stories-appar.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v14/ch12v14-more-stories-appar.png",
                 "caption": "Tirunāvukkarasar Appar tied to a heavy stone in the ocean, singing with deep devotion to Bhagavān Śiva as the stone f..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v14/ch12v14-more-stories-akka.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v14/ch12v14-more-stories-akka.png",
                 "caption": "Akkā Mahādevī walking away from a palace-like setting into a forest path with serene determination, leaving behind wo..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v14/ch12v14-more-stories-kurattazhvan.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v14/ch12v14-more-stories-kurattazhvan.png",
                 "caption": "Kūrattāzhvān standing courageously beside Śrī Rāmānuja, protecting his guru and dharma despite danger, temple setting..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v14/ch12v14-more-stories-ravidas.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v14/ch12v14-more-stories-ravidas.png",
                 "caption": "Sant Ravīdās working humbly as a cobbler while singing devotionally to Bhagavān, simple workshop glowing with purity ..."
               }
             ],
             "modern_life": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v14/ch12v14-real-life.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v14/ch12v14-real-life.png",
               "caption": "A modern person sitting quietly after a busy day, putting both heart and intellect toward Bhagavān, with phone, lapto..."
             },
             "story": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v14/ch12v14-story-1.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v14/ch12v14-story-1.png",
                 "caption": "Sant Jñāneśvar seated with palm-leaf manuscripts, composing the Jñāneśvarī with deep devotion and clarity, his siblin..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v14/ch12v14-story-2.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v14/ch12v14-story-2.png",
                 "caption": "Sant Jñāneśvar praying the Pasāyadāna with folded hands, asking for the welfare of all beings, villagers and seekers ..."
               }
             ]
@@ -3302,57 +3302,57 @@
             "other": "उद्विजते is लट्-लकारः, आत्मनेपदम्, from उद्-विज् धातुः, meaning “is disturbed” or “is agitated.” | मुक्तः is a क्तप्रत्ययान्त-कृदन्तम् from मुच् धातुः, meaning “freed” or “released.” | यस्मात् and लोकात् are पञ्चमी-विभक्ति forms indicating “from whom” and “from the world.” | हर्षामर्षभयोद्वेगैः is तृतीया-बहुवचनम्, showing the factors from which the devotee is free. | The implied subject throughout is the parā-bhakta described in the sequence of verses."
           },
           "final_takeaway": "The mature devotee neither disturbs others nor is disturbed by the world — soft like a flower when dealing with people, firm like a diamond when facing life's difficulties. Freedom from elation, intolerance, fear, and anxiety marks true inner liberation.",
-          "audio_url": "/audio/ch12/12.15.mp3",
+          "audio_url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/audio/ch12/12.15.mp3",
           "images": {
             "detailed_meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v15/ch12v15-detailed-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v15/ch12v15-detailed-meaning.png",
               "caption": "A symbolic scene of a devotee with a heart soft like a flower when helping others and strong like a diamond when faci..."
             },
             "kids_explain": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v15/ch12v15-kids-explanation.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v15/ch12v15-kids-explanation.png",
               "caption": "A parent showing a child a glass of water and explaining that a steady mind does not spill easily when bumped, child ..."
             },
             "kids_story": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v15/ch12v15-kids-story.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v15/ch12v15-kids-story.png",
               "caption": "Kids Story"
             },
             "meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v15/ch12v15-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v15/ch12v15-meaning.png",
               "caption": "Bhagavān Kṛṣṇa teaching Arjuna on the Kurukṣetra battlefield, with a symbolic calm heart shining between them, one si..."
             },
             "more_stories": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v15/ch12v15-more-stories-ramana.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v15/ch12v15-more-stories-ramana.png",
                 "caption": "Śrī Ramana Maharṣi seated peacefully at the āśrama with cow Lakṣmī standing affectionately near him, squirrels, birds..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v15/ch12v15-more-stories-kabir.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v15/ch12v15-more-stories-kabir.png",
                 "caption": "Sant Kabīr singing calmly in a public village space while angry listeners from different communities react around him..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v15/ch12v15-more-stories-ramdas.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v15/ch12v15-more-stories-ramdas.png",
                 "caption": "Samartha Rāmadās standing calmly while someone insults him during his travels, his face composed and inwardly steady,..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v15/ch12v15-more-stories-sakhubai.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v15/ch12v15-more-stories-sakhubai.png",
                 "caption": "Sant Sakhūbāī doing difficult household work while remembering Viṭṭhala with devotion, harshness around her but her f..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v15/ch12v15-more-stories-sharada.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v15/ch12v15-more-stories-sharada.png",
                 "caption": "Śrī Śāradā Devī calmly receiving a troubled devotee who is speaking anxiously, her face motherly and steady, peaceful..."
               }
             ],
             "modern_life": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v15/ch12v15-real-life.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v15/ch12v15-real-life.png",
               "caption": "A modern person in an office receiving criticism calmly without reacting harshly, while also speaking gently so other..."
             },
             "story": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v15/ch12v15-story-1.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v15/ch12v15-story-1.png",
                 "caption": "Mahātmā Gāndhī walking calmly during a freedom movement, surrounded by people who are angry, fearful, and hopeful, Gā..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v15/ch12v15-story-2.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v15/ch12v15-story-2.png",
                 "caption": "Mahātmā Gāndhī sitting in prayer after violence breaks out, face filled with compassion and firmness, people around h..."
               }
             ]
@@ -3498,57 +3498,57 @@
             "other": "गत in गतव्यथः is a क्तप्रत्ययान्त-कृदन्तम् from गम् धातुः, meaning “gone.” | भक्तः in मद्भक्तः is a क्तप्रत्ययान्त form from भज् धातुः. | परित्यागी is formed with the त्यागिन् sense, meaning “one who renounces.” | All the descriptive terms are प्रथमा-एकवचनम् and qualify the implied devotee. | प्रियः is also प्रथमा-एकवचनम् and completes the statement “he is dear.”"
           },
           "final_takeaway": "Freedom from dependence and expectation, purity, efficiency, impartiality, and renunciation of selfish projects mark the mature devotee. Spiritual life is not carelessness but alert, capable living without ego-driven ambition.",
-          "audio_url": "/audio/ch12/12.16.mp3",
+          "audio_url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/audio/ch12/12.16.mp3",
           "images": {
             "detailed_meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v16/ch12v16-detailed-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v16/ch12v16-detailed-meaning.png",
               "caption": "A symbolic scene of a person releasing strings of expectation tied to people, objects, and results, while standing ca..."
             },
             "kids_explain": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v16/ch12v16-kids-explanation.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v16/ch12v16-kids-explanation.png",
               "caption": "A parent explaining to a child that helping without expecting praise makes the heart happy, child listening beside a ..."
             },
             "kids_story": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v16/ch12v16-kids-story.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v16/ch12v16-kids-story.png",
               "caption": "Kids Story"
             },
             "meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v16/ch12v16-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v16/ch12v16-meaning.png",
               "caption": "Bhagavān Kṛṣṇa teaching Arjuna on the Kurukṣetra battlefield, with glowing symbols of freedom from expectation, purit..."
             },
             "more_stories": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v16/ch12v16-more-stories-narayana-guru.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v16/ch12v16-more-stories-narayana-guru.png",
                 "caption": "Śrī Nārāyaṇa Guru at Aruvippuram calmly consecrating a Śiva liṅga while people from different communities watch with ..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v16/ch12v16-more-stories-tapovanam.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v16/ch12v16-more-stories-tapovanam.png",
                 "caption": "Swāmī Tapovanam seated in a simple Himalayan hut teaching a young student, snowy mountains outside, the student strug..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v16/ch12v16-more-stories-sharada.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v16/ch12v16-more-stories-sharada.png",
                 "caption": "Ānandamayī Mā sitting quietly with a grieving devotee, allowing the person to cry and become calm in her presence, ge..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v16/ch12v16-more-stories-sivananda.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v16/ch12v16-more-stories-sivananda.png",
                 "caption": "Swāmī Śivānanda in Ṛṣikesh quickly helping a sick and exhausted visitor, arranging food, medicine, and rest with chee..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v16/ch12v16-more-stories-anandamayi.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v16/ch12v16-more-stories-anandamayi.png",
                 "caption": "Śrī Śāradā Devī cooking and serving food patiently to tired devotees after a long day, simple kitchen setting, devote..."
               }
             ],
             "modern_life": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v16/ch12v16-real-life.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v16/ch12v16-real-life.png",
               "caption": "A modern parent letting go of rigid expectations from a child’s exam results, choosing calm support instead of pressu..."
             },
             "story": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v16/ch12v16-story-1.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v16/ch12v16-story-1.png",
                 "caption": "Śrī Candraśekharendra Sarasvatī of Kāñcī sitting simply among villagers, scholars, children, and seekers, listening w..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v16/ch12v16-story-2.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v16/ch12v16-story-2.png",
                 "caption": "Śrī Candraśekharendra Sarasvatī walking with a small staff and very few possessions, serene and independent, people f..."
               }
             ]
@@ -3734,57 +3734,57 @@
             "other": "हृष्यति, द्वेष्टि, शोचति, and काङ्क्षति are all लट्-लकारः, प्रथमपुरुषः, एकवचनम् forms. | भक्तिमान् is formed with मतुप्-प्रत्ययः, meaning “one who possesses bhakti.” | परित्यागी has the त्यागिन् sense, meaning “one who renounces.” | The repeated न emphasizes freedom from the four reactions: elation, hatred, grief, and craving. | The first यः and the later यः both refer to the same implied devotee; सः मे प्रियः completes the sentence."
           },
           "final_takeaway": "The parā-bhakta is not overpowered by elation, hatred, grief, or craving, and does not pursue either puṇya or pāpa as binding goals. True devotion preserves inner discrimination through all emotional weather.",
-          "audio_url": "/audio/ch12/12.17.mp3",
+          "audio_url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/audio/ch12/12.17.mp3",
           "images": {
             "detailed_meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v17/ch12v17-detailed-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v17/ch12v17-detailed-meaning.png",
               "caption": "A symbolic scene of a steady devotee holding a lamp of viveka while waves of joy, sorrow, hatred, and desire pass aro..."
             },
             "kids_explain": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v17/ch12v17-kids-explanation.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v17/ch12v17-kids-explanation.png",
               "caption": "A parent explaining to a child that feelings are okay but should not take control, using a small toy traffic signal s..."
             },
             "kids_story": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v17/ch12v17-kids-story.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v17/ch12v17-kids-story.png",
               "caption": "Kids Story"
             },
             "meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v17/ch12v17-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v17/ch12v17-meaning.png",
               "caption": "Bhagavān Kṛṣṇa teaching Arjuna on the Kurukṣetra battlefield, with four emotional waves labeled elation, hatred, grie..."
             },
             "more_stories": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v17/ch12v17-more-stories-yudhisthira.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v17/ch12v17-more-stories-yudhisthira.png",
                 "caption": "Yudhiṣṭhira standing beside the mysterious Yakṣa lake, seeing his brothers lying still but remaining calm and thought..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v17/ch12v17-more-stories-ruru.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v17/ch12v17-more-stories-ruru.png",
                 "caption": "Ruru raising his weapon toward an old harmless serpent, then pausing as the serpent speaks wisdom, his face shifting ..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v17/ch12v17-more-stories-parikshit.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v17/ch12v17-more-stories-parikshit.png",
                 "caption": "King Khaṭvāṅga turning away from heavenly rewards offered by the devas, choosing instead to meditate on Bhagavān in t..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v17/ch12v17-more-stories-yayati.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v17/ch12v17-more-stories-yayati.png",
                 "caption": "King Yayāti returning youth to Pūru with humility after realizing desire cannot be satisfied by indulgence, royal cou..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v17/ch12v17-more-stories-khatvanga.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v17/ch12v17-more-stories-khatvanga.png",
                 "caption": "King Parīkṣit seated calmly on the bank of Gaṅgā after learning he has seven days to live, listening to Śuka with dev..."
               }
             ],
             "modern_life": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v17/ch12v17-real-life.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v17/ch12v17-real-life.png",
               "caption": "A modern person about to send an angry message, pausing with awareness as a glowing lamp of viveka appears near the h..."
             },
             "story": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v17/ch12v17-story-1.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v17/ch12v17-story-1.png",
                 "caption": "Lakṣmaṇa standing angry and emotionally overwhelmed after hearing of Rāma’s exile, while Rāma gently calms him with s..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v17/ch12v17-story-2.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v17/ch12v17-story-2.png",
                 "caption": "Rāma calmly accepting exile without hatred toward Kaikeyī or craving for the throne, Sītā and Lakṣmaṇa nearby, royal ..."
               }
             ]
@@ -3920,57 +3920,57 @@
             "other": "विवर्जितः is a क्तप्रत्ययान्त-कृदन्तम् from वर्ज् धातुः with वि-उपसर्गः, meaning “devoid of” or “free from.” | शत्रौ and मित्रे are सप्तमी-एकवचनम् forms, indicating the field in which sameness is maintained. | मानापमानयोः is सप्तमी-द्विवचनम् because the pair honor-dishonor is treated as two. | शीतोष्णसुखदुःखेषु is सप्तमी-बहुवचनम् because multiple pairs are included. | समः appears twice for emphasis, showing sameness in both relational and experiential situations."
           },
           "final_takeaway": "The mature devotee remains inwardly steady whether facing friend or enemy, honor or dishonor, pleasure or pain. This equanimity arises from freedom from attachment, not from indifference.",
-          "audio_url": "/audio/ch12/12.18.mp3",
+          "audio_url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/audio/ch12/12.18.mp3",
           "images": {
             "detailed_meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v18/ch12v18-detailed-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v18/ch12v18-detailed-meaning.png",
               "caption": "A symbolic devotee standing steady in the center while pairs of opposites swirl around—friend and enemy, honor and di..."
             },
             "kids_explain": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v18/ch12v18-kids-explanation.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v18/ch12v18-kids-explanation.png",
               "caption": "A parent explaining to a child that praise and criticism should not control the mind, using a drawing held between tw..."
             },
             "kids_story": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v18/ch12v18-kids-story.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v18/ch12v18-kids-story.png",
               "caption": "Kids Story"
             },
             "meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v18/ch12v18-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v18/ch12v18-meaning.png",
               "caption": "Bhagavān Kṛṣṇa teaching Arjuna on the Kurukṣetra battlefield, with balanced scales showing friend and enemy, honor an..."
             },
             "more_stories": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v18/ch12v18-more-stories-guru-nanak.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v18/ch12v18-more-stories-guru-nanak.png",
                 "caption": "Guru Nānak choosing the simple honest food of Bhāī Lālo while Malik Bhāgo’s grand feast remains in the background, sc..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v18/ch12v18-more-stories-narsimha.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v18/ch12v18-more-stories-narsimha.png",
                 "caption": "Narsiṁha Mehtā singing devotionally to Kṛṣṇa while some people mock and exclude him, his face serene and absorbed in ..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v18/ch12v18-more-stories-sita.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v18/ch12v18-more-stories-sita.png",
                 "caption": "Sītā sitting beneath a tree in Aśoka-vana, surrounded by rākṣasīs and threatened by Rāvaṇa, yet calm and inwardly ste..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v18/ch12v18-more-stories-tiruppan.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v18/ch12v18-more-stories-tiruppan.png",
                 "caption": "Tiruppāṇ Āḻvār being respectfully carried on the shoulders of Loka Sāranga into the temple of Bhagavān Raṅganātha, fa..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v18/ch12v18-more-stories-lalla-ded.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v18/ch12v18-more-stories-lalla-ded.png",
                 "caption": "Lallā Ded walking calmly through a Kashmiri village while some people praise her and others mock her, her face inward..."
               }
             ],
             "modern_life": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v18/ch12v18-real-life.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v18/ch12v18-real-life.png",
               "caption": "A modern person calmly receiving both praise and criticism on a phone screen, not becoming inflated or upset, a stead..."
             },
             "story": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v18/ch12v18-story-1.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v18/ch12v18-story-1.png",
                 "caption": "Haridāsa Ṭhākura being publicly beaten in a marketplace yet continuing to remember Bhagavān with compassion, praying ..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v18/ch12v18-story-2.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v18/ch12v18-story-2.png",
                 "caption": "Haridāsa Ṭhākura sitting peacefully after suffering, face gentle and forgiving, no hatred toward his persecutors, sof..."
               }
             ]
@@ -4116,57 +4116,57 @@
             "other": "सन्तुष्टः is a क्तप्रत्ययान्त-कृदन्तम् from सम्-तुष् धातुः, meaning “contented.” | मौनी is formed from मौन with इनि/इन् sense, meaning “one endowed with silence” or “one of restrained speech.” | भक्तिमान् is formed with मतुप्-प्रत्ययः, meaning “one who possesses bhakti.” | येन केनचित् is an indefinite expression in तृतीया-विभक्ति, meaning “with anything whatsoever.” | All major descriptive terms are प्रथमा-एकवचनम् and qualify नरः."
           },
           "final_takeaway": "Equal in criticism and praise, measured in speech, content with whatever comes, free from attachment to home and security, and firm in Self-knowledge — such a devoted person is dear to Bhagavān.",
-          "audio_url": "/audio/ch12/12.19.mp3",
+          "audio_url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/audio/ch12/12.19.mp3",
           "images": {
             "detailed_meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v19/ch12v19-detailed-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v19/ch12v19-detailed-meaning.png",
               "caption": "A symbolic devotee sitting quietly under open sky, with praise and blame passing like clouds, a small hut behind them..."
             },
             "kids_explain": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v19/ch12v19-kids-explanation.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v19/ch12v19-kids-explanation.png",
               "caption": "A parent teaching a child to stay calm during praise and criticism, using two speech bubbles saying “great job” and “..."
             },
             "kids_story": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v19/ch12v19-kids-story.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v19/ch12v19-kids-story.png",
               "caption": "Kids Story"
             },
             "meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v19/ch12v19-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v19/ch12v19-meaning.png",
               "caption": "Bhagavān Kṛṣṇa teaching Arjuna on the Kurukṣetra battlefield, with balanced scales showing criticism and praise, a qu..."
             },
             "more_stories": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v19/ch12v19-more-stories-dattatreya.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v19/ch12v19-more-stories-dattatreya.png",
                 "caption": "Dattātreya walking freely through nature while King Yadu watches with wonder, animals, sky, river, earth, and fire ap..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v19/ch12v19-more-stories-pattinattar.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v19/ch12v19-more-stories-pattinattar.png",
                 "caption": "Paṭṭinattār standing in his wealthy merchant house, holding a small needle and suddenly realizing that wealth cannot ..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v19/ch12v19-more-stories-manikkavacakar.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v19/ch12v19-more-stories-manikkavacakar.png",
                 "caption": "Māṇikkavācakar standing calmly before an angry Pāṇḍya king after using royal wealth for Bhagavān Śiva’s temple, court..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v19/ch12v19-more-stories-karaikkal.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v19/ch12v19-more-stories-karaikkal.png",
                 "caption": "Kāraikkāl Ammaiyār leaving behind household beauty and social identity, walking toward Bhagavān Śiva with fierce devo..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v19/ch12v19-more-stories-rshabhadeva.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v19/ch12v19-more-stories-rshabhadeva.png",
                 "caption": "Ṛṣabhadeva wandering silently as an avadhūta after giving up royal life, people around him reacting with confusion, m..."
               }
             ],
             "modern_life": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v19/ch12v19-real-life.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v19/ch12v19-real-life.png",
               "caption": "A modern person seeing both praise and harsh criticism on a phone screen, remaining calm and steady with a glowing la..."
             },
             "story": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v19/ch12v19-story-1.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v19/ch12v19-story-1.png",
                 "caption": "Sadāśiva Brahmendra wandering silently in deep absorption, unaware of a royal camp around him, guards and attendants ..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v19/ch12v19-story-2.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v19/ch12v19-story-2.png",
                 "caption": "A ruler bowing with remorse before Sadāśiva Brahmendra after realizing his greatness, while the saint remains silent,..."
               }
             ]
@@ -4332,57 +4332,57 @@
             "other": "पर्युपासते is लट्-लकारः, प्रथमपुरुषः, बहुवचनम्, आत्मनेपदम् from परि-उप-आस् धातुः. | श्रद्दधानाः is a शानच्-प्रत्ययान्त form, meaning “having śraddhā” or “endowed with trust.” | उक्तम् in यथोक्तम् is a क्तप्रत्ययान्त-कृदन्तम् from वच् धातुः. | भक्ताः is a क्तप्रत्ययान्त form from भज् धातुः. | अतीव is an अव्ययम् intensifying प्रियाः, meaning “exceedingly dear.”"
           },
           "final_takeaway": "Those who follow this immortal dharma with śraddhā and keep Bhagavān as the supreme goal are exceedingly dear to Him. The teaching must not merely be admired but lived — that is the essence of true devotion.",
-          "audio_url": "/audio/ch12/12.20.mp3",
+          "audio_url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/audio/ch12/12.20.mp3",
           "images": {
             "detailed_meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v20/ch12v20-detailed-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v20/ch12v20-detailed-meaning.png",
               "caption": "A symbolic scene of a devotee holding śraddhā like a glowing lamp while walking on the immortal dharma path toward Bh..."
             },
             "kids_explain": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v20/ch12v20-kids-explanation.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v20/ch12v20-kids-explanation.png",
               "caption": "A parent explaining to a child that good teaching must be practiced, not just heard, using a small chalkboard with ki..."
             },
             "kids_story": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v20/ch12v20-kids-story.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v20/ch12v20-kids-story.png",
               "caption": "Kids Story"
             },
             "meaning": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v20/ch12v20-meaning.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v20/ch12v20-meaning.png",
               "caption": "Bhagavān Kṛṣṇa concluding the teaching of Bhakti Yoga to Arjuna on the Kurukṣetra battlefield, a golden path of dharm..."
             },
             "more_stories": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v20/ch12v20-more-stories-bharata.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v20/ch12v20-more-stories-bharata.png",
                 "caption": "Bharata carrying Bhagavān Rāma’s pādukās back to Ayodhyā with tears and devotion, forest path behind him and kingdom ..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v20/ch12v20-more-stories-shabala.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v20/ch12v20-more-stories-shabala.png",
                 "caption": "Śabala the divine cow standing near Vasiṣṭha in the āśrama while Viśvāmitra’s royal forces try to take her away, Śaba..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v20/ch12v20-more-stories-upamanyu.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v20/ch12v20-more-stories-upamanyu.png",
                 "caption": "Upamanyu as a young student in a forest āśrama, enduring hardship with trust in his guru’s instruction, later praying..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v20/ch12v20-more-stories-savitri.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v20/ch12v20-more-stories-savitri.png",
                 "caption": "Sāvitrī following Yama through a forest path after Satyavān’s fall, speaking with calm wisdom, devotion, and courage"
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v20/ch12v20-more-stories-pothana.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v20/ch12v20-more-stories-pothana.png",
                 "caption": "Pothana writing the Telugu Bhāgavatam and offering the manuscript to Bhagavān Rāma instead of a worldly king, humble ..."
               }
             ],
             "modern_life": {
-              "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v20/ch12v20-real-life.png",
+              "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v20/ch12v20-real-life.png",
               "caption": "A modern person sitting with the Bhagavad Gītā open, moving from admiration of spiritual quotes to actually practicin..."
             },
             "story": [
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v20/ch12v20-story-1.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v20/ch12v20-story-1.png",
                 "caption": "Bharata placing Bhagavān Rāma’s pādukās on the throne of Ayodhyā with deep humility, ministers and citizens watching ..."
               },
               {
-                "url": "https://storage.googleapis.com/hindu-voter-awareness.firebasestorage.app/images/ch12/v20/ch12v20-story-2.png",
+                "url": "https://storage.googleapis.com/sample-f6f12.appspot.com/bhagvad-gita/images/ch12/v20/ch12v20-story-2.png",
                 "caption": "Bharata living simply in Nandigrāma while ruling only as caretaker for Bhagavān Rāma, pādukās worshipped before him, ..."
               }
             ]

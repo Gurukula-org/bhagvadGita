@@ -7,12 +7,12 @@ import { homedir } from "os";
 const home = homedir();
 
 const serviceAccount = JSON.parse(
-  readFileSync(resolve(home, "Downloads/hindu-voter-awareness-firebase-adminsdk-fbsvc-5b79d9435b.json"), "utf-8")
+  readFileSync(resolve(home, "Downloads/sample-f6f12-firebase-adminsdk.json"), "utf-8")
 );
 
 const app = initializeApp({
   credential: cert(serviceAccount),
-  storageBucket: "hindu-voter-awareness.firebasestorage.app",
+  storageBucket: "sample-f6f12.appspot.com",
 });
 
 const bucket = getStorage(app).bucket();

@@ -20,7 +20,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const ADMIN_DOMAINS = ["gurukula.com"];
-const BUCKET_NAME = "hindu-voter-awareness.firebasestorage.app";
+const BUCKET_NAME = "sample-f6f12.appspot.com";
 
 function initFirebaseAdmin() {
   if (getApps().length > 0) return;
@@ -110,7 +110,7 @@ async function startServer() {
 
     try {
       const bucket = getStorage().bucket();
-      const storagePath = `images/${imageKey}/${Date.now()}.${ext}`;
+      const storagePath = `bhagvad-gita/images/${imageKey}/${Date.now()}.${ext}`;
       const file = bucket.file(storagePath);
 
       await file.save(req.body, {
