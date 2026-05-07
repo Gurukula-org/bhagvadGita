@@ -45,56 +45,82 @@ function VerseAudioButton({ audioUrl, verseNum, onEnded }: { audioUrl: string; v
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const rafRef = useRef<number>(0);
 
+  const syncProgressFromAudio = useCallback(() => {
+    const a = audioRef.current;
+    if (!a) return;
+    const d = a.duration;
+    if (!d || !isFinite(d) || isNaN(d)) return;
+    const t = a.currentTime;
+    setProgress(Math.min(1, Math.max(0, t / d)));
+  }, []);
+
+  const stopProgressLoop = useCallback(() => {
+    cancelAnimationFrame(rafRef.current);
+    rafRef.current = 0;
+  }, []);
+
+  const startProgressLoop = useCallback(() => {
+    stopProgressLoop();
+    const tick = () => {
+      const a = audioRef.current;
+      if (a && !a.paused) {
+        syncProgressFromAudio();
+        rafRef.current = requestAnimationFrame(tick);
+      }
+    };
+    rafRef.current = requestAnimationFrame(tick);
+  }, [stopProgressLoop, syncProgressFromAudio]);
+
   useEffect(() => {
     return () => {
-      cancelAnimationFrame(rafRef.current);
+      stopProgressLoop();
       if (activeAudioRef.current === audioRef.current) {
         activeAudioRef.current = null;
         activeAudioRef.verseNum = null;
         activeAudioRef.onEnd = null;
       }
     };
-  }, []);
+  }, [stopProgressLoop]);
 
   useEffect(() => {
     if (activeAudioRef.verseNum !== verseNum && playing) {
       setPlaying(false);
       setProgress(0);
-      cancelAnimationFrame(rafRef.current);
+      stopProgressLoop();
     }
-  });
-
-  const updateProgress = useCallback(() => {
-    const a = audioRef.current;
-    if (a && !a.paused) {
-      if (a.duration && !isNaN(a.duration)) {
-        setProgress(a.currentTime / a.duration);
-      }
-      rafRef.current = requestAnimationFrame(updateProgress);
-    }
-  }, []);
+  }, [verseNum, playing, stopProgressLoop]);
 
   const attachAudioListeners = useCallback(
     (a: HTMLAudioElement) => {
+      const onTimeUpdate = () => syncProgressFromAudio();
+      const onLoadedMeta = () => syncProgressFromAudio();
+      const onDurationChange = () => syncProgressFromAudio();
+      a.addEventListener("timeupdate", onTimeUpdate);
+      a.addEventListener("loadedmetadata", onLoadedMeta);
+      a.addEventListener("durationchange", onDurationChange);
       a.addEventListener("ended", () => {
         setPlaying(false);
         setProgress(0);
-        cancelAnimationFrame(rafRef.current);
+        stopProgressLoop();
         activeAudioRef.onEnd?.();
       });
       a.addEventListener("error", () => {
         setPlaying(false);
         setProgress(0);
-        cancelAnimationFrame(rafRef.current);
+        stopProgressLoop();
+      });
+      a.addEventListener("pause", () => {
+        syncProgressFromAudio();
       });
     },
-    []
+    [stopProgressLoop, syncProgressFromAudio]
   );
 
   const ensureAudio = useCallback(() => {
     if (!audioRef.current) {
       const a = new Audio();
       a.crossOrigin = "anonymous";
+      a.preload = "metadata";
       a.src = audioUrl;
       attachAudioListeners(a);
       audioRef.current = a;
@@ -107,14 +133,14 @@ function VerseAudioButton({ audioUrl, verseNum, onEnded }: { audioUrl: string; v
       const a = ensureAudio();
       const adjust = () => {
         const d = a.duration;
-        if (!d || isNaN(d)) return;
+        if (!d || !isFinite(d) || isNaN(d)) return;
         a.currentTime = Math.max(0, Math.min(d, a.currentTime + delta));
-        if (playing && d) setProgress(a.currentTime / d);
+        syncProgressFromAudio();
       };
       if (a.readyState >= HTMLMediaElement.HAVE_METADATA) adjust();
       else a.addEventListener("loadedmetadata", adjust, { once: true });
     },
-    [ensureAudio, playing]
+    [ensureAudio, syncProgressFromAudio]
   );
 
   const skip = useCallback(
@@ -131,7 +157,7 @@ function VerseAudioButton({ audioUrl, verseNum, onEnded }: { audioUrl: string; v
     if (playing) {
       a.pause();
       setPlaying(false);
-      cancelAnimationFrame(rafRef.current);
+      stopProgressLoop();
       if (activeAudioRef.current === a) {
         activeAudioRef.current = null;
         activeAudioRef.verseNum = null;
@@ -143,18 +169,29 @@ function VerseAudioButton({ audioUrl, verseNum, onEnded }: { audioUrl: string; v
       activeAudioRef.current = a;
       activeAudioRef.verseNum = verseNum;
       activeAudioRef.onEnd = onEnded || null;
-      a.currentTime = 0;
-      a.play().catch(() => setPlaying(false));
+      // Resume from pause; only restart when the track had finished (or never started).
+      if (a.ended || a.currentTime <= 0) {
+        a.currentTime = 0;
+      }
       setPlaying(true);
-      rafRef.current = requestAnimationFrame(updateProgress);
+      a.play()
+        .then(() => {
+          syncProgressFromAudio();
+          startProgressLoop();
+        })
+        .catch(() => {
+          setPlaying(false);
+          stopProgressLoop();
+        });
     }
-  }, [ensureAudio, playing, verseNum, onEnded, updateProgress]);
+  }, [ensureAudio, playing, verseNum, onEnded, startProgressLoop, stopProgressLoop, syncProgressFromAudio]);
 
   const SIZE = 44;
   const STROKE = 4;
   const RADIUS = (SIZE - STROKE) / 2;
   const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
   const strokeDashoffset = CIRCUMFERENCE * (1 - progress);
+  const showProgressRing = playing || progress > 0;
 
   return (
     <div className="flex items-center gap-0.5 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
@@ -185,14 +222,14 @@ function VerseAudioButton({ audioUrl, verseNum, onEnded }: { audioUrl: string; v
             fill="none" stroke="currentColor" strokeWidth={STROKE}
             className="text-red-200"
           />
-          {playing && (
+          {showProgressRing && (
             <circle
               cx={SIZE / 2} cy={SIZE / 2} r={RADIUS}
               fill="none" stroke="currentColor" strokeWidth={STROKE}
               strokeDasharray={CIRCUMFERENCE}
               strokeDashoffset={strokeDashoffset}
               strokeLinecap="round"
-              className="text-orange-500 transition-[stroke-dashoffset] duration-200"
+              className="text-orange-500"
             />
           )}
         </svg>
