@@ -17,6 +17,7 @@ Use this checklist every time a new chapter is added beyond Chapter 12.
 
 - Update `client/src/lib/seoKeywords.ts`:
   - Add chapter `<n>` to relevant `TOPIC_HUBS[].chapterNumbers`.
+  - Update each affected hub’s `suggestedVerses` with `{ chapter, verse }` entries so **Explore by life situation** shows the right verses per topic (not a duplicate default list).
   - Add/update `CHAPTER_INTENT_TERMS[<n>]`.
 
 Without this step, `/topics` and `/topics/:slug` will not surface the new chapter correctly.

@@ -95,6 +95,7 @@ Reference implementation files:
 ### Topic hub source-of-truth rule
 
 - Topic slugs are defined canonically in `client/src/lib/seoKeywords.ts` (`TOPIC_HUBS`).
+- Each hub’s **Suggested verses** list is curated via `TOPIC_HUBS[].suggestedVerses` (`{ chapter, verse }`), so life-topic pages do not all show the same default slice of verses.
 - Server SEO code (`server/seo.ts`) must validate `/topics/:slug` against `TOPIC_HUBS` (not regex-only allow).
 - Sitemap topic entries must be generated from `TOPIC_HUBS` (no hardcoded topic URL list).
 

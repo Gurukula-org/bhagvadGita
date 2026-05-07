@@ -1,9 +1,17 @@
+/** Verse to feature under “Suggested verses” for a topic hub (resolved against gitaData). */
+export interface TopicSuggestedVerse {
+  chapter: number;
+  verse: number;
+}
+
 export interface TopicHub {
   slug: string;
   title: string;
   shortDescription: string;
   primaryKeywords: string[];
   chapterNumbers: number[];
+  /** Curated picks per hub so each life-topic page shows distinct verses (not always the first two in chapter order). */
+  suggestedVerses: TopicSuggestedVerse[];
 }
 
 export const TOPIC_HUBS: TopicHub[] = [
@@ -20,6 +28,12 @@ export const TOPIC_HUBS: TopicHub[] = [
     // Until additional chapters are editorially ready, topic hubs intentionally point only to Chapter 12.
     // When onboarding a new chapter, update these mappings and run the chapter SEO rollout checklist.
     chapterNumbers: [12],
+    suggestedVerses: [
+      { chapter: 12, verse: 5 },
+      { chapter: 12, verse: 14 },
+      { chapter: 12, verse: 15 },
+      { chapter: 12, verse: 17 },
+    ],
   },
   {
     slug: "decision-making-dharma",
@@ -32,6 +46,12 @@ export const TOPIC_HUBS: TopicHub[] = [
       "guidance for tough decisions",
     ],
     chapterNumbers: [12],
+    suggestedVerses: [
+      { chapter: 12, verse: 1 },
+      { chapter: 12, verse: 11 },
+      { chapter: 12, verse: 12 },
+      { chapter: 12, verse: 20 },
+    ],
   },
   {
     slug: "focus-productivity-karma-yoga",
@@ -44,6 +64,12 @@ export const TOPIC_HUBS: TopicHub[] = [
       "Gita for focus",
     ],
     chapterNumbers: [12],
+    suggestedVerses: [
+      { chapter: 12, verse: 6 },
+      { chapter: 12, verse: 8 },
+      { chapter: 12, verse: 9 },
+      { chapter: 12, verse: 10 },
+    ],
   },
   {
     slug: "philosophy-spiritual-wisdom",
@@ -56,6 +82,12 @@ export const TOPIC_HUBS: TopicHub[] = [
       "meaning of life in Bhagavad Gita",
     ],
     chapterNumbers: [12],
+    suggestedVerses: [
+      { chapter: 12, verse: 2 },
+      { chapter: 12, verse: 3 },
+      { chapter: 12, verse: 4 },
+      { chapter: 12, verse: 13 },
+    ],
   },
 ];
 

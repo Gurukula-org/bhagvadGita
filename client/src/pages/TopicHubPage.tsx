@@ -3,11 +3,25 @@ import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
 import gitaData from "@/data/gitaData.json";
 import type { GitaData } from "@/types/gita";
-import { TOPIC_HUBS } from "@/lib/seoKeywords";
+import { TOPIC_HUBS, type TopicHub } from "@/lib/seoKeywords";
 import { getChapterDisplayNames, getChapterVerses } from "@/lib/chapterContent";
 import { navigateWithViewTransition } from "@/lib/navigateWithViewTransition";
 
 const data = gitaData as unknown as GitaData;
+
+function suggestedVerseLinksFromHub(hub: TopicHub): { chapterNum: number; verseNum: number; label: string }[] {
+  return hub.suggestedVerses
+    .map(({ chapter, verse }) => {
+      const chapterMeta = data.chapters.find((c) => c.chapter === chapter);
+      if (!chapterMeta) return null;
+      const verses = getChapterVerses(data, chapterMeta);
+      const verseRow = verses.find((v) => v.verse === verse);
+      const label = verseRow?.one_line_meaning?.trim();
+      if (!label) return null;
+      return { chapterNum: chapter, verseNum: verse, label };
+    })
+    .filter((item): item is NonNullable<typeof item> => item !== null);
+}
 
 export default function TopicHubPage() {
   const params = useParams<{ slug: string }>();
@@ -21,14 +35,7 @@ export default function TopicHubPage() {
     .map((chapterNum) => data.chapters.find((chapter) => chapter.chapter === chapterNum))
     .filter((chapter): chapter is GitaData["chapters"][number] => !!chapter);
 
-  const verseLinks = chapters.flatMap((chapter) => {
-    const verses = getChapterVerses(data, chapter).slice(0, 2);
-    return verses.map((verse) => ({
-      chapterNum: chapter.chapter,
-      verseNum: verse.verse,
-      label: verse.one_line_meaning,
-    }));
-  });
+  const verseLinks = suggestedVerseLinksFromHub(hub);
 
   return (
     <Layout>
