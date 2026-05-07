@@ -169,8 +169,10 @@ function ImageModal({ src, alt, onClose }: { src: string; alt: string; onClose: 
       onClick={() => onCloseRef.current()}
     >
       <button
+        type="button"
         className="absolute top-3 right-3 text-white/90 hover:text-white z-[10000] bg-black/60 rounded-full p-2"
         onClick={() => onCloseRef.current()}
+        aria-label="Close full image"
       >
         <X size={24} />
       </button>
@@ -180,6 +182,9 @@ function ImageModal({ src, alt, onClose }: { src: string; alt: string; onClose: 
         className="max-w-[92vw] max-h-[85vh] object-contain rounded-lg"
         onClick={(e) => e.stopPropagation()}
       />
+      <p className="absolute bottom-4 left-3 right-3 text-center text-white/65 text-[11px] sm:text-xs pointer-events-none">
+        Tap outside the image or press Escape to close.
+      </p>
     </div>,
     document.body
   );
@@ -188,22 +193,47 @@ function ImageModal({ src, alt, onClose }: { src: string; alt: string; onClose: 
 function VerseImage({ imageKey, url, caption }: { imageKey: string; url: string; caption?: string }) {
   const [modalOpen, setModalOpen] = useState(false);
   const resolvedUrl = useImageUrl(imageKey, url);
+  const openModal = useCallback(() => setModalOpen(true), []);
+
   const handleClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
-    if (target.closest('button')) return;
-    setModalOpen(true);
+    if (target.closest("button")) return;
+    openModal();
   };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const target = e.target as HTMLElement;
+    if (target.closest("button")) return;
+    e.preventDefault();
+    openModal();
+  };
+
   return (
     <>
-      <div className="cursor-pointer" onClick={handleClick}>
+      <div
+        className="cursor-pointer group/verse-img rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
+        role="button"
+        tabIndex={0}
+        aria-label={
+          caption
+            ? `Open full illustration. ${caption}`
+            : "Open full illustration — tap or click the preview to see the uncropped image."
+        }
+      >
         <EditableImage
           imageKey={imageKey}
           fallbackUrl={url}
           alt={caption || "Verse illustration"}
           caption={caption}
-          className="my-4 rounded-2xl overflow-hidden border border-border shadow-md"
+          className="my-4 mb-0 rounded-2xl overflow-hidden border border-border shadow-md"
           imgClassName="w-full object-cover max-h-72"
         />
+        <p className="text-center text-[11px] sm:text-xs text-muted-foreground px-3 pb-3 pt-1 leading-snug group-hover/verse-img:text-foreground/75 transition-colors">
+          Tap or click the image to view the full illustration.
+        </p>
       </div>
       {modalOpen && <ImageModal src={resolvedUrl} alt={caption || "Verse illustration"} onClose={() => setModalOpen(false)} />}
     </>
