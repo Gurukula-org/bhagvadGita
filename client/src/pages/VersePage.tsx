@@ -19,8 +19,15 @@ import { getChapterDisplayNames } from "@/lib/chapterContent";
 import { getChapterIntentTerms } from "@/lib/seoKeywords";
 import { stripTransliterationVerseSuffix } from "@/lib/transliterationDisplay";
 import { navigateWithViewTransition } from "@/lib/navigateWithViewTransition";
+import { cn } from "@/lib/utils";
 
 const data = gitaData as unknown as GitaData;
+
+/**
+ * Meaning tab only: image column + scrollable meaning excerpt on `lg+`.
+ * Set to `false` to restore stacked layout (full-width image, then full text).
+ */
+const MEANING_TAB_SIDEBAR_SCROLL_EXCERPT = true;
 
 type Tab =
   | "meaning"
@@ -190,7 +197,18 @@ function ImageModal({ src, alt, onClose }: { src: string; alt: string; onClose: 
   );
 }
 
-function VerseImage({ imageKey, url, caption }: { imageKey: string; url: string; caption?: string }) {
+function VerseImage({
+  imageKey,
+  url,
+  caption,
+  layout = "default",
+}: {
+  imageKey: string;
+  url: string;
+  caption?: string;
+  /** `meaning_sidebar`: narrower column, taller `object-contain` preview (Meaning tab experiment). */
+  layout?: "default" | "meaning_sidebar";
+}) {
   const [modalOpen, setModalOpen] = useState(false);
   const resolvedUrl = useImageUrl(imageKey, url);
   const openModal = useCallback(() => setModalOpen(true), []);
@@ -209,10 +227,15 @@ function VerseImage({ imageKey, url, caption }: { imageKey: string; url: string;
     openModal();
   };
 
+  const sidebar = layout === "meaning_sidebar";
+
   return (
     <>
       <div
-        className="cursor-pointer group/verse-img rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
+        className={cn(
+          "cursor-pointer group/verse-img rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2",
+          sidebar && "w-full lg:max-w-[min(26rem,40vw)] lg:flex-shrink-0",
+        )}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
         role="button"
@@ -228,8 +251,15 @@ function VerseImage({ imageKey, url, caption }: { imageKey: string; url: string;
           fallbackUrl={url}
           alt={caption || "Verse illustration"}
           caption={caption}
-          className="my-4 mb-0 rounded-2xl overflow-hidden border border-border shadow-md"
-          imgClassName="w-full object-cover max-h-72"
+          className={cn(
+            "rounded-2xl overflow-hidden border border-border shadow-md",
+            sidebar ? "my-0" : "my-4 mb-0",
+          )}
+          imgClassName={
+            sidebar
+              ? "w-full max-h-64 object-contain bg-muted/40 lg:max-h-[min(58vh,520px)]"
+              : "w-full object-cover max-h-72"
+          }
         />
         <p className="text-center text-[11px] sm:text-xs text-muted-foreground px-3 pb-3 pt-1 leading-snug group-hover/verse-img:text-foreground/75 transition-colors">
           Tap or click the image to view the full illustration.
@@ -813,16 +843,42 @@ export default function VersePage() {
         {/* MEANING TAB */}
         {activeTab === "meaning" && (
           <div className="verse-section space-y-5">
-            {verse.images?.meaning && (
-              <VerseImage imageKey={`ch${chapterNum}_v${verseNum}_meaning`} url={verse.images.meaning.url} caption={verse.images.meaning.caption} />
-            )}
-
-            {verse.meaning_detail && (
-              <div className="bg-red-50 border border-red-200 rounded-2xl p-5 lg:p-6">
-                <div className="text-red-900 text-lg leading-relaxed">
-                  {formatText(verse.meaning_detail)}
+            {MEANING_TAB_SIDEBAR_SCROLL_EXCERPT && verse.images?.meaning && verse.meaning_detail ? (
+              <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:gap-6">
+                <VerseImage
+                  layout="meaning_sidebar"
+                  imageKey={`ch${chapterNum}_v${verseNum}_meaning`}
+                  url={verse.images.meaning.url}
+                  caption={verse.images.meaning.caption}
+                />
+                <div className="min-w-0 flex-1 flex flex-col">
+                  <div className="bg-red-50 border border-red-200 rounded-2xl p-5 lg:p-6 flex flex-col min-h-0 max-h-[min(52vh,440px)] lg:max-h-[min(62vh,560px)]">
+                    <div className="text-red-900 text-lg leading-relaxed overflow-y-auto overscroll-contain pr-1 -mr-1 [scrollbar-gutter:stable] min-h-0">
+                      {formatText(verse.meaning_detail)}
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-muted-foreground mt-2 text-center lg:text-end">
+                    Scroll the panel to read the full meaning.
+                  </p>
                 </div>
               </div>
+            ) : (
+              <>
+                {verse.images?.meaning && (
+                  <VerseImage
+                    imageKey={`ch${chapterNum}_v${verseNum}_meaning`}
+                    url={verse.images.meaning.url}
+                    caption={verse.images.meaning.caption}
+                  />
+                )}
+                {verse.meaning_detail && (
+                  <div className="bg-red-50 border border-red-200 rounded-2xl p-5 lg:p-6">
+                    <div className="text-red-900 text-lg leading-relaxed">
+                      {formatText(verse.meaning_detail)}
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
         )}
