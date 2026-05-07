@@ -31,6 +31,7 @@ function suggestedVerseLinksFromHub(hub: TopicHub): {
       if (!chapterMeta) return null;
       const verses = getChapterVerses(data, chapterMeta);
       const verseRow = verses.find((v) => v.verse === verse);
+      if (!verseRow) return null;
       const sanskrit = verseRow?.sanskrit?.trim();
       const meaning = verseRow?.one_line_meaning?.trim();
       if (!sanskrit || !meaning) return null;

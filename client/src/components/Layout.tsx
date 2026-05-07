@@ -5,7 +5,7 @@ import { Link, useLocation } from "wouter";
 import { navigateWithViewTransition } from "@/lib/navigateWithViewTransition";
 import gitaData from "@/data/gitaData.json";
 import type { GitaData } from "@/types/gita";
-import { BookOpen, Home, Menu, X, Star, ChevronRight, LogOut, Settings } from "lucide-react";
+import { BookOpen, Menu, X, Star, ChevronRight, LogOut, Settings } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useChapterVisibility } from "@/contexts/ChapterVisibilityContext";
 
@@ -135,19 +135,6 @@ export default function Layout({ children, kidsMode = false, onToggleKids, stick
                 <Star size={14} />
                 {kidsMode ? "Kids Mode ON" : "Kids Mode"}
               </button>
-            )}
-            {!isHome && (
-              <Link
-                href="/"
-                className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-full text-sm text-white hover:text-orange-100 hover:bg-white/20 transition-all touch-manipulation"
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigateWithViewTransition(() => setLocation("/"));
-                }}
-              >
-                <Home size={15} />
-                Home
-              </Link>
             )}
             {isAdmin && user && (
               <>
