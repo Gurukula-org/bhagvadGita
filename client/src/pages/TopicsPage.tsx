@@ -4,6 +4,13 @@ import SEO from "@/components/SEO";
 import { TOPIC_HUBS } from "@/lib/seoKeywords";
 import { navigateWithViewTransition } from "@/lib/navigateWithViewTransition";
 
+const TOPIC_CARD_IMAGES: Record<string, string> = {
+  "anxiety-stress-mental-health": "/topics/topic-anxiety-stress-mental-health.png",
+  "decision-making-dharma": "/topics/topic-decision-making-dharma.png",
+  "focus-productivity-karma-yoga": "/topics/topic-focus-productivity-karma-yoga.png",
+  "philosophy-spiritual-wisdom": "/topics/topic-philosophy-spiritual-wisdom.png",
+};
+
 export default function TopicsPage() {
   const [, setLocation] = useLocation();
 
@@ -43,15 +50,28 @@ export default function TopicsPage() {
                 navigateWithViewTransition(() => setLocation(`/topics/${hub.slug}`));
               }}
             >
-              <article className="rounded-xl border border-orange-200 bg-white p-5 hover:border-orange-300 hover:shadow-md transition-all h-full">
-                <h2 className="font-display text-xl text-red-950 mb-2">{hub.title}</h2>
-                <p className="text-sm text-foreground/80 mb-3">{hub.shortDescription}</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {hub.primaryKeywords.slice(0, 3).map((keyword) => (
-                    <span key={keyword} className="text-xs bg-orange-50 border border-orange-200 text-orange-700 rounded-full px-2 py-0.5">
-                      {keyword}
-                    </span>
-                  ))}
+              <article className="rounded-xl border border-orange-200 bg-white p-4 hover:border-orange-300 hover:shadow-md transition-all h-full">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="shrink-0 w-full sm:w-44 md:w-48 lg:w-52 aspect-[16/9] sm:aspect-[4/3] rounded-lg overflow-hidden bg-orange-50 border border-orange-100">
+                    <img
+                      src={TOPIC_CARD_IMAGES[hub.slug]}
+                      alt={hub.title}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h2 className="font-display text-xl text-red-950 mb-2">{hub.title}</h2>
+                    <p className="text-sm text-foreground/80 mb-3">{hub.shortDescription}</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {hub.primaryKeywords.slice(0, 3).map((keyword) => (
+                        <span key={keyword} className="text-xs bg-orange-50 border border-orange-200 text-orange-700 rounded-full px-2 py-0.5">
+                          {keyword}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </article>
             </Link>
