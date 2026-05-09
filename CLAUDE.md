@@ -150,6 +150,22 @@ There must be **one** summary implementation: **`ChapterSummaryPage` + `chapterS
 
 - Unlike Firebase-backed verse images, synopsis illustrations are **checked into** `client/public/chapter-summaries/`. Do not invent URLs; add real files and reference them in `chapterSummaries.json`.
 
+## New chapter content import (Drive → app)
+
+When the user provides a new chapter's shloka Word docs + MP3s in Drive, follow the dedicated workflow in **`docs/new-chapter-content-import.md`**.
+
+That doc enforces three things this main file deliberately delegates:
+
+- The **gate question** ("Which chapter?") before any download, parse, or edit.
+- **Per-shloka, per-image idempotency** so already-built shlokas/images are never redone.
+- The **Chapter 12 image model** (slot keys, Storage paths, caption→image alignment).
+
+Important context the workflow relies on:
+
+- `client/src/data/gitaData.json` already contains a **chapter-card scaffold** (name, subtitle, summary, theme, color, icon, iast_name, devanagari_name, placeholder generated_description) for **all 18 chapters**. Only Chapter 12 has populated `key_verses`. A new chapter import is purely a `key_verses` population task and must NOT rewrite the scaffold (only `iast_name`, `devanagari_name`, `generated_description` may be regenerated, and only via `npm run generate-chapter-descriptions -- --chapter=<n>`).
+- Runtime data sinks are fixed: verse content → `gitaData.json`; audio → `gs://sample-f6f12.appspot.com/bhagvad-gita/audio/ch<n>/<n>.<v>.mp3`; verse images → `gs://sample-f6f12.appspot.com/bhagvad-gita/images/ch<n>/v<v>/...`. No new permanent local shloka files anywhere else.
+- SEO, sitemap, and `/topics/...` "Gita by life situation" wiring is covered end-to-end in `docs/new-chapter-content-import.md` §10. `docs/new-chapter-rollout-checklist.md` remains reference-only for new-topic-hub creation and chapter-synopsis flows.
+
 ## Fix New Issue (Google Sheets)
 
 **Master issue list (canonical):**  
