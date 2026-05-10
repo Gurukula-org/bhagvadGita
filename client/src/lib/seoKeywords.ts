@@ -48,11 +48,15 @@ export const TOPIC_HUBS: TopicHub[] = [
       "duty vs desire in Gita",
       "guidance for tough decisions",
     ],
-    chapterNumbers: [12],
+    chapterNumbers: [3, 12],
+    // Ch.3: Arjuna's dharma confusion (1); renunciation alone doesn't liberate (4); perform prescribed duty (8).
     // Two valid orientations (saguṇa vs nirguṇa) without mere comparison (1); karma-phala offered as prasāda in ordinary life (11);
     // practical sama-buddhi toward friend and foe, honor and dishonor—action from dharma not rāga-dveṣa (18); the chapter’s
     // dharmyāmṛta conclusion—living immortal dharma with śraddhā and parama goal (20).
     suggestedVerses: [
+      { chapter: 3, verse: 1 },
+      { chapter: 3, verse: 4 },
+      { chapter: 3, verse: 8 },
       { chapter: 12, verse: 1 },
       { chapter: 12, verse: 11 },
       { chapter: 12, verse: 18 },
@@ -69,10 +73,14 @@ export const TOPIC_HUBS: TopicHub[] = [
       "Bhagavad Gita productivity",
       "Gita for focus",
     ],
-    chapterNumbers: [12],
+    chapterNumbers: [3, 12],
+    // Ch.3: The true karma yogī regulates senses and acts without attachment (7); perform prescribed duty (8); action as yajña offering (9).
     // Ladder of accessible practice: dedicate all action to Īśvara (6); abhyāsa on iṣṭa-devatā when Viśvarūpa is too wide (9);
     // mat-karma as worship when meditation is not yet stable (10); śānti through karma-phala-tyāga vs mechanical practice / jñāna / dhyāna (12).
     suggestedVerses: [
+      { chapter: 3, verse: 7 },
+      { chapter: 3, verse: 8 },
+      { chapter: 3, verse: 9 },
       { chapter: 12, verse: 6 },
       { chapter: 12, verse: 9 },
       { chapter: 12, verse: 10 },
@@ -89,11 +97,15 @@ export const TOPIC_HUBS: TopicHub[] = [
       "practical spirituality",
       "meaning of life in Bhagavad Gita",
     ],
-    chapterNumbers: [12],
+    chapterNumbers: [3, 12],
+    // Ch.3: Two lifestyles (karma-pradhāna and jñāna-pradhāna) as Vedic order (3); Veda born from Brahman (15); the self-fulfilled jñānī (17).
     // Metaphysical arc of the opening answer: niṣkāma saguṇa upāsanā as highest yoga in Arjuna’s terms (2); nirguṇa akṣara as
     // avyakta / acintya / anirdeśya (3); inner qualifications for that subtle contemplation—indriya-jaya and sama-buddhi (4);
     // Viśvarūpa conviction—buddhi + manas fixed on “cause–effect” non-duality of the world and Īśvara (8).
     suggestedVerses: [
+      { chapter: 3, verse: 3 },
+      { chapter: 3, verse: 15 },
+      { chapter: 3, verse: 17 },
       { chapter: 12, verse: 2 },
       { chapter: 12, verse: 3 },
       { chapter: 12, verse: 4 },
