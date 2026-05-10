@@ -161,6 +161,7 @@ That doc enforces three things this main file deliberately delegates:
 - The **gate question** ("Which chapter?") before any download, parse, or edit.
 - **Per-shloka, per-image idempotency** so already-built shlokas/images are never redone.
 - The **Chapter 12 image model** (slot keys, Storage paths, caption→image alignment).
+- Post-import verification including **image loadability checks** (`/images/...` existence under `client/public` + HTTP HEAD for remote URLs). Use `--skip-images` only when offline.
 
 Important context the workflow relies on:
 
@@ -354,6 +355,13 @@ npm run build
 This validates TypeScript and ensures JSON bundles correctly. Fix any errors before committing. After changing chapter summary images, confirm `/chapter/<n>/summary` in dev or preview and that image paths under `/chapter-summaries/` load.
 
 Other useful scripts: `npm run strip-translit` (see above), `npm run generate-chapter-descriptions`, `npm run audit-chapter-import` (after chapter JSON landings; see `docs/post-chapter-import-audit.md`), `npm run format` (Prettier).
+
+### Verse page interaction notes (do not regress)
+
+- `VersePage` keeps the active tab in the URL query (`?tab=<id>`) so reload restores the same tab.
+- Prev/Next shloka navigation preserves the current tab in the target URL when possible.
+- If the target verse does not support that tab, `VersePage` falls back to `meaning` and normalizes the URL.
+- On verse change, keep the user at the top header area; do not auto-scroll down to the tab strip.
 
 ## Commit Convention
 
