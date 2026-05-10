@@ -4,6 +4,7 @@ import {
   useRef,
   useCallback,
   useMemo,
+  type CSSProperties,
   type KeyboardEvent,
 } from "react";
 import { Link, useParams, useLocation, Redirect } from "wouter";
@@ -83,6 +84,13 @@ const KIDS_TAB_FLOAT_WRAP_LAYOUT = true;
  * `lg+`: image floats left; narrative wraps beside it like other illustration tabs.
  */
 const MORE_STORIES_TAB_FLOAT_WRAP_LAYOUT = true;
+// Reversible experiment: set to false to disable shared-element verse transitions.
+const ENABLE_VERSE_SHARED_TRANSITION_EXPERIMENT = true;
+
+function verseTransitionName(chapterNum: number, verseNum: number, part: "thumb" | "chip") {
+  if (!ENABLE_VERSE_SHARED_TRANSITION_EXPERIMENT) return undefined;
+  return `verse-${part}-${chapterNum}-${verseNum}`;
+}
 
 type Tab =
   | "meaning"
@@ -726,6 +734,17 @@ export default function VersePage() {
                     src={resolvedVerseHeaderImage}
                     alt=""
                     className="h-full w-full min-h-[5.5rem] rounded-xl object-cover border border-orange-200 shadow-sm transition-opacity [@media(hover:hover)]:group-hover/verse-header-img:opacity-90"
+                    style={
+                      ENABLE_VERSE_SHARED_TRANSITION_EXPERIMENT
+                        ? ({
+                            viewTransitionName: verseTransitionName(
+                              chapterNum,
+                              verseNum,
+                              "thumb"
+                            ),
+                          } as CSSProperties)
+                        : undefined
+                    }
                   />
                 </div>
                 {verseHeaderImageModalOpen && (
@@ -738,7 +757,20 @@ export default function VersePage() {
               </>
             )}
             <div className="min-w-0 flex-1 flex flex-col justify-center items-start gap-1">
-              <p className="bg-red-900 text-orange-100 text-lg sm:text-xl md:text-2xl font-bold tracking-wide px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg w-fit max-w-full">
+              <p
+                className="bg-red-900 text-orange-100 text-lg sm:text-xl md:text-2xl font-bold tracking-wide px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg w-fit max-w-full"
+                style={
+                  ENABLE_VERSE_SHARED_TRANSITION_EXPERIMENT
+                    ? ({
+                        viewTransitionName: verseTransitionName(
+                          chapterNum,
+                          verseNum,
+                          "chip"
+                        ),
+                      } as CSSProperties)
+                    : undefined
+                }
+              >
                 {iastName} · {chapterNum}.{verseNum}
               </p>
               {verse.title && (

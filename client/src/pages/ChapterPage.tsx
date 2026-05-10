@@ -4,6 +4,7 @@ import {
   useCallback,
   useMemo,
   useEffect,
+  type CSSProperties,
   type KeyboardEvent,
   type MouseEvent,
 } from "react";
@@ -13,6 +14,7 @@ import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
 import { ImageModal } from "@/components/ImageModal";
 import gitaData from "@/data/gitaData.json";
+import chapterSummaries from "@/data/chapterSummaries.json";
 import type { GitaData, Verse } from "@/types/gita";
 import { useChapterVisibility } from "@/contexts/ChapterVisibilityContext";
 import { useImageUrl } from "@/hooks/useImages";
@@ -42,15 +44,25 @@ import {
 import { SandhiText } from "@/components/SandhiText";
 
 const data = gitaData as unknown as GitaData;
+const chapterSummaryMap = chapterSummaries as Record<string, unknown>;
+// Reversible experiment: set to false to disable shared-element verse transitions.
+const ENABLE_VERSE_SHARED_TRANSITION_EXPERIMENT = true;
+
+function verseTransitionName(chapterNum: number, verseNum: number, part: "thumb" | "chip") {
+  if (!ENABLE_VERSE_SHARED_TRANSITION_EXPERIMENT) return undefined;
+  return `verse-${part}-${chapterNum}-${verseNum}`;
+}
 
 function MeaningThumbnail({
   chapterNum,
   verseNum,
   verse,
+  transitionName,
 }: {
   chapterNum: number;
   verseNum: number;
   verse: Verse;
+  transitionName?: string;
 }) {
   const fallback = verse.images?.meaning?.url || "";
   const url = useImageUrl(`ch${chapterNum}_v${verseNum}_meaning`, fallback);
@@ -60,6 +72,11 @@ function MeaningThumbnail({
       src={url}
       alt=""
       className="w-20 h-20 rounded-lg object-cover flex-shrink-0 border border-orange-200"
+      style={
+        transitionName
+          ? ({ viewTransitionName: transitionName } as CSSProperties)
+          : undefined
+      }
       loading="lazy"
     />
   );
@@ -343,6 +360,7 @@ export default function ChapterPage() {
   const [jumpSelectKey, setJumpSelectKey] = useState(0);
   const [chapterHeroImageModalOpen, setChapterHeroImageModalOpen] =
     useState(false);
+  const [navigatingVerse, setNavigatingVerse] = useState<number | null>(null);
 
   useEffect(() => {
     return () => {
@@ -389,6 +407,7 @@ export default function ChapterPage() {
   useEffect(() => {
     setJumpMenuOpen(false);
     setChapterHeroImageModalOpen(false);
+    setNavigatingVerse(null);
   }, [chapterNum]);
 
   useEffect(() => {
@@ -412,6 +431,7 @@ export default function ChapterPage() {
   const chapterDescription =
     synopsis ||
     `${chapter.subtitle} — Explore ${chapter.verses_count} verses of Chapter ${chapterNum} (${chapter.name}) with focus on ${intentTerms.slice(0, 3).join(", ")}.`;
+  const hasChapterSummary = Boolean(chapterSummaryMap[String(chapterNum)]);
 
   return (
     <Layout kidsMode={kidsMode} onToggleKids={() => setKidsMode(!kidsMode)}>
@@ -535,6 +555,12 @@ export default function ChapterPage() {
                   className="group inline-flex h-8 items-center gap-1.5 rounded-md bg-gradient-to-r from-amber-300 via-orange-300 to-orange-400 px-3 text-xs sm:text-sm font-semibold text-red-950 shadow-sm ring-1 ring-white/60 hover:from-amber-200 hover:via-orange-200 hover:to-orange-300 hover:shadow-md active:scale-[0.98] transition-all touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-red-950/80 whitespace-nowrap"
                   onClick={e => {
                     e.preventDefault();
+                    if (!hasChapterSummary) {
+                      window.alert(
+                        `Chapter summary for Chapter ${chapterNum} hasn't been created yet.`
+                      );
+                      return;
+                    }
                     navigateWithViewTransition(() =>
                       setLocation(`/chapter/${chapterNum}/summary`)
                     );
@@ -751,12 +777,21 @@ export default function ChapterPage() {
               id={`verse-card-${verse.verse}`}
               onClick={e => {
                 e.preventDefault();
-                navigateWithViewTransition(() =>
-                  setLocation(`/chapter/${chapterNum}/verse/${verse.verse}`)
-                );
+                setNavigatingVerse(verse.verse);
+                requestAnimationFrame(() => {
+                  navigateWithViewTransition(() =>
+                    setLocation(`/chapter/${chapterNum}/verse/${verse.verse}`)
+                  );
+                });
               }}
             >
-              <div className="group bg-card border-2 border-orange-200/70 [@media(hover:hover)]:hover:border-orange-400 rounded-xl p-3 sm:p-4 transition-all [@media(hover:hover)]:hover:shadow-xl active:scale-[0.995] cursor-pointer h-full flex flex-col relative touch-manipulation">
+              <div
+                className={`group bg-card border-2 border-orange-200/70 [@media(hover:hover)]:hover:border-orange-400 rounded-xl p-3 sm:p-4 transition-all [@media(hover:hover)]:hover:shadow-xl active:scale-[0.995] cursor-pointer h-full flex flex-col relative touch-manipulation ${
+                  navigatingVerse === verse.verse
+                    ? "chapter-verse-card-loading ring-2 ring-orange-300/80"
+                    : ""
+                }`}
+              >
                 <div
                   className="mb-2 border-b border-violet-200 pb-1.5"
                   onPointerDownCapture={e => {
@@ -816,10 +851,28 @@ export default function ChapterPage() {
                     chapterNum={chapterNum}
                     verseNum={verse.verse}
                     verse={verse}
+                    transitionName={verseTransitionName(
+                      chapterNum,
+                      verse.verse,
+                      "thumb"
+                    )}
                   />
                   <div className="flex-1 min-w-0 flex items-start justify-between gap-2 sm:gap-3">
                     <div className="min-w-0 flex-1">
-                      <span className="text-xl sm:text-2xl font-bold text-red-950 block tabular-nums tracking-tight">
+                      <span
+                        className="text-xl sm:text-2xl font-bold text-red-950 block tabular-nums tracking-tight"
+                        style={
+                          ENABLE_VERSE_SHARED_TRANSITION_EXPERIMENT
+                            ? ({
+                                viewTransitionName: verseTransitionName(
+                                  chapterNum,
+                                  verse.verse,
+                                  "chip"
+                                ),
+                              } as CSSProperties)
+                            : undefined
+                        }
+                      >
                         {chapterNum}.{verse.verse}
                       </span>
                     </div>

@@ -204,6 +204,24 @@
     box-shadow: 0 12px 32px oklch(0.30 0.10 25 / 0.15);
   }
 
+  /* Experimental: chapter-card -> verse-page shared transition */
+  .chapter-verse-card-loading {
+    opacity: 0.9;
+    transform: translateY(-1px) scale(0.995);
+  }
+
+  @supports (view-transition-name: none) {
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation-duration: 140ms;
+      animation-timing-function: ease-out;
+    }
+    ::view-transition-group(*) {
+      animation-duration: 220ms;
+      animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+  }
+
   /* Verse tab content */
   .verse-section {
     animation: fadeSlideUp 0.3s ease forwards;
