@@ -24,6 +24,12 @@ Treat warnings as failures (CI / strict gate):
 npm run audit-chapter-import -- --chapter=<N> --strict
 ```
 
+**Offline / no network** (skip HTTP checks and only validate local `/images/…` paths on disk — narrative checks still run):
+
+```bash
+npm run audit-chapter-import -- --chapter=<N> --skip-images
+```
+
 Implementation: `scripts/audit-chapter-import.mjs` (same parsing rules as `client/src/pages/VersePage.tsx`).
 
 ## What it checks
@@ -51,6 +57,19 @@ Any line in a story **body** matching `^\d+\.\s` with length &lt; 120 is flagged
 **Warning** when the computed lead is short (&lt; 280 chars) and the takeaway block is very long (&gt; 850 chars), matching the script’s mirror of that function.
 
 **Fix:** Use a **single** `\n` between normal paragraphs; reserve `\n\n` for **one** short closing block (moral / link to the verse), as done for the Ch 3.6 Pañcatantra crane tale.
+
+### 4. Image URLs loadable (error)
+
+For every verse in scope, each `images.*.url` listed in `types/gita.ts` (`meaning`, `story[]`, `modern_life`, `kids_explain`, `kids_story`, `detailed_meaning`, `more_stories[]`, `grammar`) is checked:
+
+- **Site paths** (`/images/…`): file must exist under `client/public/`.
+- **`https://` / `http://`**: **HEAD** request must succeed with **200**, **301**, **302**, or **304** (catches missing Storage objects, e.g. **403**).
+
+URLs are **deduped** so each unique URL is checked once. Unsupported schemes (e.g. bare filenames) are **errors**.
+
+**Does not validate:** Firestore `gita_images` overrides — if the admin UI points a key at a bad URL, fix in Firebase or in JSON consistently.
+
+**Fix:** Use a working public URL, mirror the asset under `client/public` and reference `/images/…`, or upload the object to Storage and re-run the audit.
 
 ## Related docs
 

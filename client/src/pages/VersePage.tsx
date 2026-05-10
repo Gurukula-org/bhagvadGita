@@ -1,8 +1,15 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-import { createPortal } from "react-dom";
+import {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+  type KeyboardEvent,
+} from "react";
 import { Link, useParams, useLocation, Redirect } from "wouter";
 import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
+import { ImageModal } from "@/components/ImageModal";
 import { useChapterVisibility } from "@/contexts/ChapterVisibilityContext";
 import EditableImage from "@/components/EditableImage";
 import { useImageUrl } from "@/hooks/useImages";
@@ -27,7 +34,6 @@ import {
   Play,
   RotateCcw,
   RotateCw,
-  X,
 } from "lucide-react";
 import { getChapterDisplayNames } from "@/lib/chapterContent";
 import { getChapterIntentTerms } from "@/lib/seoKeywords";
@@ -103,6 +109,21 @@ function isTab(value: string | null): value is Tab {
   return value != null && TABS.some(tab => tab.id === value);
 }
 
+/** Tabs that have content for this verse (same rules as the tab strip). */
+function getAvailableTabsForVerse(verse: Verse) {
+  return TABS.filter(tab => {
+    if (tab.id === "story") return !!verse.story;
+    if (tab.id === "impact") return !!verse.real_life_example;
+    if (tab.id === "reflection") return !!verse.reflection;
+    if (tab.id === "detailed")
+      return !!(verse.detailed_meaning || verse.full_journey_text);
+    if (tab.id === "grammar")
+      return !!(verse.grammar_notes || verse.rich_grammar);
+    if (tab.id === "more_stories") return !!verse.more_stories;
+    return true;
+  });
+}
+
 function formatText(text: string) {
   if (!text) return null;
   return text.split("\n").map((line, i) => {
@@ -122,6 +143,13 @@ function formatText(text: string) {
         <h5 key={i} className="font-semibold text-red-800 mt-4 mb-2 text-lg">
           {line}
         </h5>
+      );
+    }
+    if (/^Phrase:/.test(line.trim())) {
+      return (
+        <p key={i} className="my-2 text-lg leading-relaxed font-bold text-foreground">
+          {line}
+        </p>
       );
     }
     return (
@@ -198,78 +226,6 @@ function formatStoryWithTakeaway(text: string) {
         <StoryTakeawayCallout>{formatText(takeaway)}</StoryTakeawayCallout>
       ) : null}
     </>
-  );
-}
-
-function ImageModal({
-  src,
-  alt,
-  onClose,
-}: {
-  src: string;
-  alt: string;
-  onClose: () => void;
-}) {
-  const onCloseRef = useRef(onClose);
-  onCloseRef.current = onClose;
-  const overlayRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onCloseRef.current();
-    };
-    const preventScroll = (e: TouchEvent) => {
-      e.preventDefault();
-    };
-    document.addEventListener("keydown", handler);
-    const scrollY = window.scrollY;
-    document.documentElement.style.overflow = "hidden";
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.left = "0";
-    document.body.style.right = "0";
-    document.body.style.overflow = "hidden";
-    const overlay = overlayRef.current;
-    overlay?.addEventListener("touchmove", preventScroll, { passive: false });
-    return () => {
-      document.removeEventListener("keydown", handler);
-      overlay?.removeEventListener("touchmove", preventScroll);
-      document.documentElement.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.left = "";
-      document.body.style.right = "";
-      document.body.style.overflow = "";
-      window.scrollTo(0, scrollY);
-    };
-  }, []);
-
-  return createPortal(
-    <div
-      ref={overlayRef}
-      className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center"
-      style={{ touchAction: "none" }}
-      onClick={() => onCloseRef.current()}
-    >
-      <button
-        type="button"
-        className="absolute top-3 right-3 text-white/90 hover:text-white z-[10000] bg-black/60 rounded-full p-2"
-        onClick={() => onCloseRef.current()}
-        aria-label="Close full image"
-      >
-        <X size={24} />
-      </button>
-      <img
-        src={src}
-        alt={alt}
-        className="max-w-[92vw] max-h-[85vh] object-contain rounded-lg"
-        onClick={e => e.stopPropagation()}
-      />
-      <p className="absolute bottom-4 left-3 right-3 text-center text-white/65 text-[11px] sm:text-xs pointer-events-none">
-        Tap outside the image or press Escape to close.
-      </p>
-    </div>,
-    document.body
   );
 }
 
@@ -386,25 +342,60 @@ export default function VersePage() {
   const [audioMuted, setAudioMuted] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
+  const [verseHeaderImageModalOpen, setVerseHeaderImageModalOpen] =
+    useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const tabNavRef = useRef<HTMLDivElement | null>(null);
 
   const [, setLocation] = useLocation();
 
-  useEffect(() => {
-    const requestedTab = new URLSearchParams(window.location.search).get("tab");
-    setActiveTab(isTab(requestedTab) ? requestedTab : "meaning");
-    if (isTab(requestedTab)) {
-      requestAnimationFrame(() => {
-        const tabTop =
-          (tabNavRef.current?.getBoundingClientRect().top ?? 0) +
-          window.scrollY;
-        const targetTop = Math.max(0, tabTop - 110);
-        window.scrollTo({ top: targetTop, behavior: "smooth" });
-      });
-    } else {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+  const applyTabFromLocation = useCallback((): Tab => {
+    const chapter = data.chapters.find(c => c.chapter === chapterNum);
+    const verses: Verse[] =
+      chapterNum === 6 ? data.chapter6_full : chapter?.key_verses || [];
+    const verse = verses.find(v => v.verse === verseNum);
+    const requestedRaw = new URLSearchParams(window.location.search).get("tab");
+    let nextTab: Tab = isTab(requestedRaw) ? requestedRaw : "meaning";
+    if (verse) {
+      const availIds = new Set(getAvailableTabsForVerse(verse).map(t => t.id));
+      if (!availIds.has(nextTab)) nextTab = "meaning";
     }
+    setActiveTab(nextTab);
+    const desiredUrl =
+      `/chapter/${chapterNum}/verse/${verseNum}` +
+      (nextTab === "meaning" ? "" : `?tab=${encodeURIComponent(nextTab)}`);
+    const current = `${window.location.pathname}${window.location.search}`;
+    if (current !== desiredUrl) {
+      window.history.replaceState(null, "", desiredUrl);
+    }
+    return nextTab;
+  }, [chapterNum, verseNum]);
+
+  const selectTab = useCallback(
+    (tabId: Tab) => {
+      setActiveTab(tabId);
+      const path = `/chapter/${chapterNum}/verse/${verseNum}`;
+      const search =
+        tabId === "meaning" ? "" : `?tab=${encodeURIComponent(tabId)}`;
+      window.history.replaceState(null, "", `${path}${search}`);
+    },
+    [chapterNum, verseNum],
+  );
+
+  /** Prev/next / dropdowns: same tab in URL; `applyTabFromLocation` corrects if the target verse lacks that tab. */
+  const verseLocationWithCurrentTab = useCallback(
+    (targetChapter: number, targetVerseNum: number) => {
+      const base = `/chapter/${targetChapter}/verse/${targetVerseNum}`;
+      if (activeTab === "meaning") return base;
+      return `${base}?tab=${encodeURIComponent(activeTab)}`;
+    },
+    [activeTab],
+  );
+
+  useEffect(() => {
+    applyTabFromLocation();
+    // Keep the top of the shloka (title/header) in view; do not auto-scroll to the tab strip on prev/next or reload.
+    window.scrollTo({ top: 0, behavior: "smooth" });
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.removeAttribute("src");
@@ -417,7 +408,16 @@ export default function VersePage() {
     setAudioMuted(false);
     setPlaybackSpeed(1);
     setShowSpeedMenu(false);
-  }, [chapterNum, verseNum]);
+    setVerseHeaderImageModalOpen(false);
+  }, [chapterNum, verseNum, applyTabFromLocation]);
+
+  useEffect(() => {
+    const onPopState = () => {
+      applyTabFromLocation();
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, [applyTabFromLocation]);
 
   useEffect(() => {
     const chapter = data.chapters.find(c => c.chapter === chapterNum);
@@ -533,12 +533,50 @@ export default function VersePage() {
 
   const { isChapterVisible } = useChapterVisibility();
   const chapter = data.chapters.find(c => c.chapter === chapterNum);
-  if (!isChapterVisible(chapterNum)) return <Redirect to="/" />;
   const verses: Verse[] =
     chapterNum === 6 ? data.chapter6_full : chapter?.key_verses || [];
-
   const verse = verses.find(v => v.verse === verseNum);
   const verseIndex = verses.findIndex(v => v.verse === verseNum);
+
+  const verseHeaderImageMeta = useMemo(() => {
+    if (!verse) return null;
+    const cn = chapterNum;
+    const vn = verseNum;
+    const imgs = verse.images;
+    if (imgs?.meaning?.url) {
+      return { key: `ch${cn}_v${vn}_meaning`, url: imgs.meaning.url };
+    }
+    if (imgs?.detailed_meaning?.url) {
+      return {
+        key: `ch${cn}_v${vn}_detailed_meaning`,
+        url: imgs.detailed_meaning.url,
+      };
+    }
+    const storyImgs = imgs?.story;
+    const story0 = Array.isArray(storyImgs)
+      ? storyImgs[0]?.url
+      : (storyImgs as { url?: string } | undefined)?.url;
+    if (story0) {
+      return { key: `ch${cn}_v${vn}_story_0`, url: story0 };
+    }
+    if (imgs?.modern_life?.url) {
+      return { key: `ch${cn}_v${vn}_modern_life`, url: imgs.modern_life.url };
+    }
+    if (imgs?.kids_explain?.url) {
+      return { key: `ch${cn}_v${vn}_kids_explain`, url: imgs.kids_explain.url };
+    }
+    if (imgs?.kids_story?.url) {
+      return { key: `ch${cn}_v${vn}_kids_story`, url: imgs.kids_story.url };
+    }
+    return null;
+  }, [verse, chapterNum, verseNum]);
+
+  const resolvedVerseHeaderImage = useImageUrl(
+    verseHeaderImageMeta?.key ?? "",
+    verseHeaderImageMeta?.url ?? ""
+  );
+
+  if (!isChapterVisible(chapterNum)) return <Redirect to="/" />;
 
   if (!chapter || !verse) {
     return (
@@ -566,30 +604,8 @@ export default function VersePage() {
   const nextVerse =
     verseIndex < verses.length - 1 ? verses[verseIndex + 1] : null;
   const { iastName } = getChapterDisplayNames(chapter);
-  const storyImgs = verse.images?.story;
-  const storyImageUrl = Array.isArray(storyImgs)
-    ? storyImgs[0]?.url
-    : (storyImgs as { url?: string } | undefined)?.url;
-  const meaningImageUrl =
-    verse.images?.meaning?.url ||
-    verse.images?.detailed_meaning?.url ||
-    storyImageUrl ||
-    verse.images?.modern_life?.url ||
-    verse.images?.kids_explain?.url ||
-    verse.images?.kids_story?.url ||
-    null;
 
-  const availableTabs = TABS.filter(tab => {
-    if (tab.id === "story") return !!verse.story;
-    if (tab.id === "impact") return !!verse.real_life_example;
-    if (tab.id === "reflection") return !!verse.reflection;
-    if (tab.id === "detailed")
-      return !!(verse.detailed_meaning || verse.full_journey_text);
-    if (tab.id === "grammar")
-      return !!(verse.grammar_notes || verse.rich_grammar);
-    if (tab.id === "more_stories") return !!verse.more_stories;
-    return true;
-  });
+  const availableTabs = getAvailableTabsForVerse(verse);
 
   const moreStoriesParsed = verse.more_stories
     ? parseMoreStories(verse.more_stories)
@@ -612,7 +628,7 @@ export default function VersePage() {
         title={verseTitle}
         description={verseDescription}
         path={`/chapter/${chapterNum}/verse/${verseNum}`}
-        image={meaningImageUrl || undefined}
+        image={resolvedVerseHeaderImage || undefined}
         type="article"
         structuredData={{
           "@context": "https://schema.org",
@@ -692,21 +708,41 @@ export default function VersePage() {
         <div>
           {/* Title: iastName · chapter.verse */}
           <div className="flex gap-3 mb-3 items-stretch">
-            {meaningImageUrl && (
-              <div className="w-[5.25rem] sm:w-32 flex-shrink-0 self-stretch min-h-[5.5rem]">
-                <img
-                  src={meaningImageUrl}
-                  alt=""
-                  className="h-full w-full min-h-[5.5rem] rounded-xl object-cover border border-orange-200 shadow-sm"
-                />
-              </div>
+            {resolvedVerseHeaderImage && (
+              <>
+                <div
+                  role="button"
+                  tabIndex={0}
+                  className="w-[5.25rem] sm:w-32 flex-shrink-0 self-stretch min-h-[5.5rem] cursor-pointer rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 group/verse-header-img"
+                  onClick={() => setVerseHeaderImageModalOpen(true)}
+                  onKeyDown={(e: KeyboardEvent) => {
+                    if (e.key !== "Enter" && e.key !== " ") return;
+                    e.preventDefault();
+                    setVerseHeaderImageModalOpen(true);
+                  }}
+                  aria-label="Open shloka illustration full screen"
+                >
+                  <img
+                    src={resolvedVerseHeaderImage}
+                    alt=""
+                    className="h-full w-full min-h-[5.5rem] rounded-xl object-cover border border-orange-200 shadow-sm transition-opacity [@media(hover:hover)]:group-hover/verse-header-img:opacity-90"
+                  />
+                </div>
+                {verseHeaderImageModalOpen && (
+                  <ImageModal
+                    src={resolvedVerseHeaderImage}
+                    alt={`Bhagavad Gita ${chapterNum}.${verseNum} illustration`}
+                    onClose={() => setVerseHeaderImageModalOpen(false)}
+                  />
+                )}
+              </>
             )}
-            <div className="min-w-0 flex-1 flex flex-col justify-center">
-              <p className="bg-red-900 text-orange-100 text-lg sm:text-xl md:text-2xl font-bold tracking-wide px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg inline-block">
+            <div className="min-w-0 flex-1 flex flex-col justify-center items-start gap-1">
+              <p className="bg-red-900 text-orange-100 text-lg sm:text-xl md:text-2xl font-bold tracking-wide px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg w-fit max-w-full">
                 {iastName} · {chapterNum}.{verseNum}
               </p>
               {verse.title && (
-                <p className="text-orange-900 text-lg font-display font-bold mt-1">
+                <p className="text-orange-900 text-lg font-display font-bold w-fit max-w-full">
                   {verse.title}
                 </p>
               )}
@@ -717,12 +753,12 @@ export default function VersePage() {
           <div className="flex items-center justify-between gap-2 mb-3">
             {prevVerse ? (
               <Link
-                href={`/chapter/${chapterNum}/verse/${prevVerse.verse}`}
+                href={verseLocationWithCurrentTab(chapterNum, prevVerse.verse)}
                 onClick={e => {
                   e.preventDefault();
                   navigateWithViewTransition(() =>
                     setLocation(
-                      `/chapter/${chapterNum}/verse/${prevVerse.verse}`
+                      verseLocationWithCurrentTab(chapterNum, prevVerse.verse)
                     )
                   );
                 }}
@@ -746,7 +782,7 @@ export default function VersePage() {
                 onChange={e => {
                   const ch = parseInt(e.target.value);
                   navigateWithViewTransition(() =>
-                    setLocation(`/chapter/${ch}/verse/1`)
+                    setLocation(verseLocationWithCurrentTab(ch, 1))
                   );
                 }}
                 className="px-2 py-1.5 rounded-lg text-sm font-semibold text-orange-800 bg-orange-100 border border-orange-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-400"
@@ -764,7 +800,7 @@ export default function VersePage() {
                 onChange={e => {
                   const v = parseInt(e.target.value);
                   navigateWithViewTransition(() =>
-                    setLocation(`/chapter/${chapterNum}/verse/${v}`)
+                    setLocation(verseLocationWithCurrentTab(chapterNum, v))
                   );
                 }}
                 className="px-2 py-1.5 rounded-lg text-sm font-semibold text-orange-800 bg-orange-100 border border-orange-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-400"
@@ -779,12 +815,12 @@ export default function VersePage() {
 
             {nextVerse ? (
               <Link
-                href={`/chapter/${chapterNum}/verse/${nextVerse.verse}`}
+                href={verseLocationWithCurrentTab(chapterNum, nextVerse.verse)}
                 onClick={e => {
                   e.preventDefault();
                   navigateWithViewTransition(() =>
                     setLocation(
-                      `/chapter/${chapterNum}/verse/${nextVerse.verse}`
+                      verseLocationWithCurrentTab(chapterNum, nextVerse.verse)
                     )
                   );
                 }}
@@ -962,7 +998,7 @@ export default function VersePage() {
               .map(tab => (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => selectTab(tab.id)}
                   className={`
                   flex flex-col items-center gap-0.5 px-1 py-2 text-xs font-semibold rounded-lg transition-all
                   ${
@@ -994,7 +1030,7 @@ export default function VersePage() {
               .map(tab => (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => selectTab(tab.id)}
                   className={`
                   flex flex-col items-center gap-0.5 px-1 py-2 text-xs font-semibold rounded-lg transition-all
                   ${
@@ -1768,11 +1804,13 @@ export default function VersePage() {
         <div className="flex items-center justify-between mt-8 pt-6 border-t border-border">
           {prevVerse ? (
             <Link
-              href={`/chapter/${chapterNum}/verse/${prevVerse.verse}`}
+              href={verseLocationWithCurrentTab(chapterNum, prevVerse.verse)}
               onClick={e => {
                 e.preventDefault();
                 navigateWithViewTransition(() =>
-                  setLocation(`/chapter/${chapterNum}/verse/${prevVerse.verse}`)
+                  setLocation(
+                    verseLocationWithCurrentTab(chapterNum, prevVerse.verse)
+                  )
                 );
               }}
             >
@@ -1830,11 +1868,13 @@ export default function VersePage() {
 
           {nextVerse ? (
             <Link
-              href={`/chapter/${chapterNum}/verse/${nextVerse.verse}`}
+              href={verseLocationWithCurrentTab(chapterNum, nextVerse.verse)}
               onClick={e => {
                 e.preventDefault();
                 navigateWithViewTransition(() =>
-                  setLocation(`/chapter/${chapterNum}/verse/${nextVerse.verse}`)
+                  setLocation(
+                    verseLocationWithCurrentTab(chapterNum, nextVerse.verse)
+                  )
                 );
               }}
             >

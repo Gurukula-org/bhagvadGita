@@ -7,8 +7,8 @@ alwaysApply: false
 
 When **chapter shloka content** (especially `more_stories`, `story`, or `images.more_stories`) is added or updated in `client/src/data/gitaData.json`:
 
-1. Run **`npm run audit-chapter-import -- --chapter=<N>`** (use the chapter you imported).
-2. Fix **errors** (parsed `more_stories` count vs image slots).
+1. Run **`npm run audit-chapter-import -- --chapter=<N>`** (use the chapter you imported). This includes **image URL checks** (local `/images/…` + HEAD for `https://`). Use **`--skip-images`** only if offline.
+2. Fix **errors** (parsed `more_stories` count vs image slots; broken or 403 image URLs; missing files under `client/public`).
 3. Review **warnings** (fake `N. ` lines in bodies; `\n\n` splits that put almost the whole tale in the takeaway callout).
 
 Canonical checklist for **all developers** (not Cursor-specific): **`docs/post-chapter-import-audit.md`**.

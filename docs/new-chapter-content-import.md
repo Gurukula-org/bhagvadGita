@@ -149,7 +149,7 @@ For each shloka in the CREATE list, in **verse-number order**:
 npm run audit-chapter-import -- --chapter=<N>
 ```
 
-This catches **mis-counted `more_stories` segments vs `images.more_stories`**, **accidental `N. ` lines inside story bodies**, and **`\n\n` splits that put almost the whole narrative into the amber takeaway callout** — the same checks you would do by hand against `VersePage.tsx`. Details and fixes: **`docs/post-chapter-import-audit.md`**.
+This catches **mis-counted `more_stories` segments vs `images.more_stories`**, **accidental `N. ` lines inside story bodies**, **`\n\n` splits that put almost the whole narrative into the amber takeaway callout**, and **every `images.*.url` in that chapter** (local file on disk + HTTP HEAD for remote URLs). Use **`--skip-images`** only when offline. Details and fixes: **`docs/post-chapter-import-audit.md`**.
 
 ## 7. Audio upload
 

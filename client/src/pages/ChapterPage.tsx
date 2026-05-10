@@ -4,12 +4,14 @@ import {
   useCallback,
   useMemo,
   useEffect,
+  type KeyboardEvent,
   type MouseEvent,
 } from "react";
 import { Link, useParams, Redirect, useLocation } from "wouter";
 import { navigateWithViewTransition } from "@/lib/navigateWithViewTransition";
 import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
+import { ImageModal } from "@/components/ImageModal";
 import gitaData from "@/data/gitaData.json";
 import type { GitaData, Verse } from "@/types/gita";
 import { useChapterVisibility } from "@/contexts/ChapterVisibilityContext";
@@ -27,7 +29,7 @@ import {
 } from "lucide-react";
 import {
   getChapterDisplayNames,
-  getChapterHeaderImage,
+  getChapterHeaderMeaningImage,
   getChapterSynopsis,
   getChapterVerses,
   hasGeneratedChapterSynopsis,
@@ -339,6 +341,8 @@ export default function ChapterPage() {
   const [kidsMode, setKidsMode] = useState(false);
   const [jumpMenuOpen, setJumpMenuOpen] = useState(false);
   const [jumpSelectKey, setJumpSelectKey] = useState(0);
+  const [chapterHeroImageModalOpen, setChapterHeroImageModalOpen] =
+    useState(false);
 
   useEffect(() => {
     return () => {
@@ -353,6 +357,15 @@ export default function ChapterPage() {
 
   const { isChapterVisible } = useChapterVisibility();
   const chapter = data.chapters.find(c => c.chapter === chapterNum);
+
+  const headerMeaningMeta = useMemo(
+    () => (chapter ? getChapterHeaderMeaningImage(data, chapter) : null),
+    [chapter]
+  );
+  const resolvedHeaderImage = useImageUrl(
+    headerMeaningMeta?.imageKey ?? "",
+    headerMeaningMeta?.url ?? ""
+  );
 
   const verses: Verse[] = chapter ? getChapterVerses(data, chapter) : [];
 
@@ -375,6 +388,7 @@ export default function ChapterPage() {
 
   useEffect(() => {
     setJumpMenuOpen(false);
+    setChapterHeroImageModalOpen(false);
   }, [chapterNum]);
 
   useEffect(() => {
@@ -392,7 +406,6 @@ export default function ChapterPage() {
   const nextChapter = chapterNum < 18 ? chapterNum + 1 : null;
 
   const { devanagariName, iastName } = getChapterDisplayNames(chapter);
-  const headerImage = getChapterHeaderImage(data, chapter);
   const intentTerms = getChapterIntentTerms(chapterNum);
 
   const chapterTitle = `Bhagavad Gita Chapter ${chapterNum} — ${iastName || chapter.name} (${devanagariName})`;
@@ -406,7 +419,7 @@ export default function ChapterPage() {
         title={chapterTitle}
         description={chapterDescription}
         path={`/chapter/${chapterNum}`}
-        image={headerImage || undefined}
+        image={resolvedHeaderImage || undefined}
         type="article"
         structuredData={{
           "@context": "https://schema.org",
@@ -447,10 +460,10 @@ export default function ChapterPage() {
       {/* Chapter Header (#24, #44) */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-red-950/60 to-red-900/90 z-[1]" />
-        {headerImage && (
+        {resolvedHeaderImage && (
           <div
             className="absolute inset-0 bg-cover bg-center opacity-30"
-            style={{ backgroundImage: `url(${headerImage})` }}
+            style={{ backgroundImage: `url(${resolvedHeaderImage})` }}
           />
         )}
         {/* Translucent chapter number — top right (#44, #67) */}
@@ -477,12 +490,34 @@ export default function ChapterPage() {
 
           <div className="flex gap-5 items-center w-full">
             {/* Chapter image icon on left (#24) */}
-            {headerImage && (
-              <img
-                src={headerImage}
-                alt=""
-                className="w-24 h-24 lg:w-32 lg:h-32 rounded-xl object-cover flex-shrink-0 border-2 border-white/20 shadow-lg hidden sm:block"
-              />
+            {resolvedHeaderImage && (
+              <>
+                <div
+                  role="button"
+                  tabIndex={0}
+                  className="hidden sm:block flex-shrink-0 cursor-pointer rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:ring-offset-2 focus-visible:ring-offset-red-950/80 group/chapter-hero-img"
+                  onClick={() => setChapterHeroImageModalOpen(true)}
+                  onKeyDown={(e: KeyboardEvent) => {
+                    if (e.key !== "Enter" && e.key !== " ") return;
+                    e.preventDefault();
+                    setChapterHeroImageModalOpen(true);
+                  }}
+                  aria-label="Open chapter illustration full screen"
+                >
+                  <img
+                    src={resolvedHeaderImage}
+                    alt=""
+                    className="w-24 h-24 lg:w-32 lg:h-32 rounded-xl object-cover border-2 border-white/20 shadow-lg transition-opacity [@media(hover:hover)]:group-hover/chapter-hero-img:opacity-90"
+                  />
+                </div>
+                {chapterHeroImageModalOpen && (
+                  <ImageModal
+                    src={resolvedHeaderImage}
+                    alt={`Chapter ${chapterNum} illustration`}
+                    onClose={() => setChapterHeroImageModalOpen(false)}
+                  />
+                )}
+              </>
             )}
 
             <div className="flex-1 min-w-0">

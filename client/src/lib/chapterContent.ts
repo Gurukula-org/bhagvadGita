@@ -24,12 +24,30 @@ export function hasGeneratedChapterSynopsis(chapter: ChapterMeta): boolean {
   return (chapter.generated_description || "").trim().length > 0;
 }
 
-export function getChapterHeaderImage(data: GitaData, chapter: ChapterMeta): string | null {
+/** Meaning image used in chapter hero / SEO (Ch12 uses verse 2; others use first key verse). */
+export function getChapterHeaderMeaningImage(
+  data: GitaData,
+  chapter: ChapterMeta,
+): { url: string; imageKey: string } | null {
   const verses = getChapterVerses(data, chapter);
-  if (chapter.chapter === 12) {
-    const verse2 = verses.find((verse) => verse.verse === 2);
-    if (verse2?.images?.meaning?.url) return verse2.images.meaning.url;
+  const ch = chapter.chapter;
+  if (ch === 12) {
+    const verse2 = verses.find((v) => v.verse === 2);
+    if (verse2?.images?.meaning?.url) {
+      return { url: verse2.images.meaning.url, imageKey: "ch12_v2_meaning" };
+    }
   }
-  return verses[0]?.images?.meaning?.url || null;
+  const first = verses[0];
+  if (first?.images?.meaning?.url) {
+    return {
+      url: first.images.meaning.url,
+      imageKey: `ch${ch}_v${first.verse}_meaning`,
+    };
+  }
+  return null;
+}
+
+export function getChapterHeaderImage(data: GitaData, chapter: ChapterMeta): string | null {
+  return getChapterHeaderMeaningImage(data, chapter)?.url ?? null;
 }
 
