@@ -17,8 +17,9 @@ build/
 # IDE and editor files
 .vscode/
 .idea/
-# Cursor project rules (local only; do not commit)
-.cursor/rules/
+# Cursor rules: ignore by default; commit only team-shared workflows (see exceptions below)
+.cursor/rules/*
+!.cursor/rules/post-chapter-import-audit.mdc
 *.swp
 *.swo
 *~

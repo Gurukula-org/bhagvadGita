@@ -1,5 +1,7 @@
 # Post–chapter import audit
 
+**Audience:** Every developer who edits verse JSON after a chapter import. You only need Node/npm (same as the rest of the repo); Cursor is optional. Step-by-step import flow: `docs/new-chapter-content-import.md` §6.5.
+
 Run this **after** merging a chapter’s verses (and `more_stories` / images) into `client/src/data/gitaData.json`, **before** you consider the import done.
 
 ## Command

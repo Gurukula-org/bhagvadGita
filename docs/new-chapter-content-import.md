@@ -143,7 +143,7 @@ For each shloka in the CREATE list, in **verse-number order**:
 
 ## 6.5 Post-import audit (before audio / manual QA)
 
-After `gitaData.json` edits for the chapter are complete, run:
+**Required for all contributors** (any editor / IDE). After `gitaData.json` edits for the chapter are complete, run:
 
 ```bash
 npm run audit-chapter-import -- --chapter=<N>

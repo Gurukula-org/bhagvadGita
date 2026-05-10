@@ -1,0 +1,16 @@
+---
+description: After importing chapter content into gitaData.json, run the post-import audit script
+alwaysApply: false
+---
+
+# Post–chapter import audit
+
+When **chapter shloka content** (especially `more_stories`, `story`, or `images.more_stories`) is added or updated in `client/src/data/gitaData.json`:
+
+1. Run **`npm run audit-chapter-import -- --chapter=<N>`** (use the chapter you imported).
+2. Fix **errors** (parsed `more_stories` count vs image slots).
+3. Review **warnings** (fake `N. ` lines in bodies; `\n\n` splits that put almost the whole tale in the takeaway callout).
+
+Canonical checklist for **all developers** (not Cursor-specific): **`docs/post-chapter-import-audit.md`**.
+
+Do not skip this after a multi-verse import — mismatches only show up as wrong images or huge amber blocks in the UI.
