@@ -14,6 +14,8 @@ TypeScript types for the data are in:
 client/src/types/gita.ts
 ```
 
+**Local dev:** `.env.development` (optional) can set `VITE_DEV_VISIBLE_CHAPTERS` so the Home chapter grid matches what you are working on when `/api/chapter-visibility` is unavailable; production builds do not load this file. See `client/src/contexts/ChapterVisibilityContext.tsx`.
+
 ## Canonical chapter metadata + generated description
 
 Chapter metadata now has a **single canonical source** in:
@@ -162,7 +164,7 @@ That doc enforces three things this main file deliberately delegates:
 
 Important context the workflow relies on:
 
-- `client/src/data/gitaData.json` already contains a **chapter-card scaffold** (name, subtitle, summary, theme, color, icon, iast_name, devanagari_name, placeholder generated_description) for **all 18 chapters**. Only Chapter 12 has populated `key_verses`. A new chapter import is purely a `key_verses` population task and must NOT rewrite the scaffold (only `iast_name`, `devanagari_name`, `generated_description` may be regenerated, and only via `npm run generate-chapter-descriptions -- --chapter=<n>`).
+- `client/src/data/gitaData.json` already contains a **chapter-card scaffold** (name, subtitle, summary, theme, color, icon, iast_name, devanagari_name, placeholder generated_description) for **all 18 chapters**. **Chapters 3 and 12** currently have **full gold-standard** `key_verses` for every verse in those chapters’ curated lists; other chapters may still use sparse stubs until imported. Re-scan the file before assuming only one chapter is “done.” A new chapter import is purely a `key_verses` population task and must NOT rewrite the scaffold (only `iast_name`, `devanagari_name`, `generated_description` may be regenerated, and only via `npm run generate-chapter-descriptions -- --chapter=<n>`).
 - Runtime data sinks are fixed: verse content → `gitaData.json`; audio → `gs://sample-f6f12.appspot.com/bhagvad-gita/audio/ch<n>/<n>.<v>.mp3`; verse images → `gs://sample-f6f12.appspot.com/bhagvad-gita/images/ch<n>/v<v>/...`. No new permanent local shloka files anywhere else.
 - SEO, sitemap, and `/topics/...` "Gita by life situation" wiring is covered end-to-end in `docs/new-chapter-content-import.md` §10. `docs/new-chapter-rollout-checklist.md` remains reference-only for new-topic-hub creation and chapter-synopsis flows.
 
@@ -180,13 +182,13 @@ When the user says **Fix New Issue** (same intent, any reasonable casing):
 5. **Do not** add repo-local Excel files, npm scripts, or dependencies for this workflow. If the live sheet is not fetchable, use a **user-provided export** or pasted rows as fallback.
 6. After fixing, the user may mark rows **Completed** in the sheet (the repo does not store sheet edits).
 
-This workflow is also captured in `.cursor/rules/fix-new-issue.mdc` for Cursor agents.
+Cursor agents may also load `.cursor/rules/fix-new-issue.mdc` when it exists locally; it is **not** checked into this repo (unlike `.cursor/rules/post-chapter-import-audit.mdc`). This `CLAUDE.md` section is the canonical description for all contributors.
 
 ## Your Task
 
 **Populate the next verse with rich content, following the Chapter 12 Verse 1 gold standard.**
 
-All **Chapter 12** `key_verses` in `gitaData.json` are fully enriched (same field set as the template). The other chapters still have sparse `key_verses` (basic fields only). Your job is to bring the **next** verse up to that depth.
+**Chapters 3 and 12:** every `key_verse` in `gitaData.json` is fully enriched (same field set as the template). **Other chapters** still have sparse `key_verses` (basic fields only) until you fill them. Your job is to bring the **next** verse up to that depth (see scan steps below).
 
 ### How to determine which verse to work on
 
@@ -295,6 +297,7 @@ Every fully populated verse MUST have ALL of these fields. Use **Chapter 12 Vers
 
 ### rich_grammar
 - `padacchedah`: split compound words, show each word separately in Devanagari
+- Optional **`padaparicayah`**: array of `{ word, anta, linga, vibhakti, vacanam, type, dhatu, lakara }` when the source supplies full pada analysis (Chapter 12 pattern); see `docs/new-chapter-content-import.md` and Ch12 verses in `gitaData.json`.
 - `pratipadarthah`: pipe-separated word-by-word meanings: `"word = meaning | word = meaning"`
 - `anvayah`: reconstruct the verse in prose word order (Devanagari)
 - `sandhi`: show phonetic combinations: `"word + word → combined"` (pipe-separated)
@@ -350,7 +353,7 @@ npm run build
 
 This validates TypeScript and ensures JSON bundles correctly. Fix any errors before committing. After changing chapter summary images, confirm `/chapter/<n>/summary` in dev or preview and that image paths under `/chapter-summaries/` load.
 
-Other useful scripts: `npm run strip-translit` (see above), `npm run generate-chapter-descriptions`, `npm run format` (Prettier).
+Other useful scripts: `npm run strip-translit` (see above), `npm run generate-chapter-descriptions`, `npm run audit-chapter-import` (after chapter JSON landings; see `docs/post-chapter-import-audit.md`), `npm run format` (Prettier).
 
 ## Commit Convention
 
