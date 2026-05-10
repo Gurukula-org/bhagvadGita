@@ -539,7 +539,7 @@ export default function VersePage() {
     return `${m}:${s.toString().padStart(2, "0")}`;
   }
 
-  const { isChapterVisible } = useChapterVisibility();
+  const { isChapterVisible, loading: visibilityLoading } = useChapterVisibility();
   const chapter = data.chapters.find(c => c.chapter === chapterNum);
   const verses: Verse[] =
     chapterNum === 6 ? data.chapter6_full : chapter?.key_verses || [];
@@ -584,6 +584,7 @@ export default function VersePage() {
     verseHeaderImageMeta?.url ?? ""
   );
 
+  if (visibilityLoading) return <Layout><div className="p-8 text-center text-muted-foreground">Loading…</div></Layout>;
   if (!isChapterVisible(chapterNum)) return <Redirect to="/" />;
 
   if (!chapter || !verse) {

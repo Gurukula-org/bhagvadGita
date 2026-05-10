@@ -65,10 +65,11 @@ export default function ChapterSummaryPage() {
   const params = useParams<{ chapterNum: string }>();
   const chapterNum = parseInt(params.chapterNum || "1", 10);
   const [, setLocation] = useLocation();
-  const { isChapterVisible } = useChapterVisibility();
+  const { isChapterVisible, loading: visibilityLoading } = useChapterVisibility();
   const chapter = data.chapters.find((c) => c.chapter === chapterNum);
 
   if (!chapter) return <div className="p-8 text-center">Chapter not found</div>;
+  if (visibilityLoading) return <Layout><div className="p-8 text-center text-muted-foreground">Loading…</div></Layout>;
   if (!isChapterVisible(chapterNum)) return <Redirect to="/" />;
 
   const verses = getChapterVerses(data, chapter);

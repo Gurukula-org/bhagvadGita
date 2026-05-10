@@ -17,7 +17,7 @@ interface ChapterVisibilityValue {
 }
 
 const ALL_CHAPTERS = Array.from({ length: 18 }, (_, i) => i + 1);
-const DEFAULT_VISIBLE = new Set([12]);
+const DEFAULT_VISIBLE = new Set([3, 12]);
 
 /**
  * When `npm run dev` cannot reach `/api/chapter-visibility`, optionally override

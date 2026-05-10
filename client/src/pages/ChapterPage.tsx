@@ -373,7 +373,7 @@ export default function ChapterPage() {
     };
   }, []);
 
-  const { isChapterVisible } = useChapterVisibility();
+  const { isChapterVisible, loading: visibilityLoading } = useChapterVisibility();
   const chapter = data.chapters.find(c => c.chapter === chapterNum);
 
   const headerMeaningMeta = useMemo(
@@ -419,6 +419,7 @@ export default function ChapterPage() {
   }, [chapter, chapterNum, persistedSynopsis]);
 
   if (!chapter) return <div className="p-8 text-center">Chapter not found</div>;
+  if (visibilityLoading) return <Layout><div className="p-8 text-center text-muted-foreground">Loading…</div></Layout>;
   if (!isChapterVisible(chapterNum)) return <Redirect to="/" />;
 
   const prevChapter = chapterNum > 1 ? chapterNum - 1 : null;
