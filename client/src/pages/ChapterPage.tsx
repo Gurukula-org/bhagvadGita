@@ -1,4 +1,11 @@
-import { useState, useRef, useCallback, useMemo, useEffect, type MouseEvent } from "react";
+import {
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+  useEffect,
+  type MouseEvent,
+} from "react";
 import { Link, useParams, Redirect, useLocation } from "wouter";
 import { navigateWithViewTransition } from "@/lib/navigateWithViewTransition";
 import Layout from "@/components/Layout";
@@ -7,7 +14,17 @@ import gitaData from "@/data/gitaData.json";
 import type { GitaData, Verse } from "@/types/gita";
 import { useChapterVisibility } from "@/contexts/ChapterVisibilityContext";
 import { useImageUrl } from "@/hooks/useImages";
-import { ChevronLeft, ChevronRight, BookOpen, Sparkles, Gamepad2, Play, Pause, RotateCcw, RotateCw } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  BookOpen,
+  Sparkles,
+  Gamepad2,
+  Play,
+  Pause,
+  RotateCcw,
+  RotateCw,
+} from "lucide-react";
 import {
   getChapterDisplayNames,
   getChapterHeaderImage,
@@ -16,12 +33,23 @@ import {
   hasGeneratedChapterSynopsis,
 } from "@/lib/chapterContent";
 import { getChapterIntentTerms } from "@/lib/seoKeywords";
-import { stripTransliterationVerseSuffix } from "@/lib/transliterationDisplay";
+import {
+  stripTransliterationVerseSuffix,
+  splitVerseLines,
+} from "@/lib/transliterationDisplay";
 import { SandhiText } from "@/components/SandhiText";
 
 const data = gitaData as unknown as GitaData;
 
-function MeaningThumbnail({ chapterNum, verseNum, verse }: { chapterNum: number; verseNum: number; verse: Verse }) {
+function MeaningThumbnail({
+  chapterNum,
+  verseNum,
+  verse,
+}: {
+  chapterNum: number;
+  verseNum: number;
+  verse: Verse;
+}) {
   const fallback = verse.images?.meaning?.url || "";
   const url = useImageUrl(`ch${chapterNum}_v${verseNum}_meaning`, fallback);
   if (!url) return null;
@@ -35,11 +63,25 @@ function MeaningThumbnail({ chapterNum, verseNum, verse }: { chapterNum: number;
   );
 }
 
-const activeAudioRef: { current: HTMLAudioElement | null; verseNum: number | null; onEnd: (() => void) | null } = {
-  current: null, verseNum: null, onEnd: null,
+const activeAudioRef: {
+  current: HTMLAudioElement | null;
+  verseNum: number | null;
+  onEnd: (() => void) | null;
+} = {
+  current: null,
+  verseNum: null,
+  onEnd: null,
 };
 
-function VerseAudioButton({ audioUrl, verseNum, onEnded }: { audioUrl: string; verseNum: number; onEnded?: () => void }) {
+function VerseAudioButton({
+  audioUrl,
+  verseNum,
+  onEnded,
+}: {
+  audioUrl: string;
+  verseNum: number;
+  onEnded?: () => void;
+}) {
   const [playing, setPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -184,7 +226,15 @@ function VerseAudioButton({ audioUrl, verseNum, onEnded }: { audioUrl: string; v
           stopProgressLoop();
         });
     }
-  }, [ensureAudio, playing, verseNum, onEnded, startProgressLoop, stopProgressLoop, syncProgressFromAudio]);
+  }, [
+    ensureAudio,
+    playing,
+    verseNum,
+    onEnded,
+    startProgressLoop,
+    stopProgressLoop,
+    syncProgressFromAudio,
+  ]);
 
   const SIZE = 44;
   const STROKE = 4;
@@ -194,7 +244,10 @@ function VerseAudioButton({ audioUrl, verseNum, onEnded }: { audioUrl: string; v
   const showProgressRing = playing || progress > 0;
 
   return (
-    <div className="flex items-center gap-0.5 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
+    <div
+      className="flex items-center gap-0.5 flex-shrink-0"
+      onClick={e => e.stopPropagation()}
+    >
       <button
         type="button"
         onClick={skip(-5)}
@@ -207,7 +260,7 @@ function VerseAudioButton({ audioUrl, verseNum, onEnded }: { audioUrl: string; v
       <button
         type="button"
         data-verse-play
-        onClick={(e) => {
+        onClick={e => {
           e.preventDefault();
           e.stopPropagation();
           toggle();
@@ -216,16 +269,28 @@ function VerseAudioButton({ audioUrl, verseNum, onEnded }: { audioUrl: string; v
         style={{ width: SIZE, height: SIZE }}
         title={playing ? "Pause" : "Play shloka"}
       >
-        <svg width={SIZE} height={SIZE} className="absolute inset-0 -rotate-90 pointer-events-none">
+        <svg
+          width={SIZE}
+          height={SIZE}
+          className="absolute inset-0 -rotate-90 pointer-events-none"
+        >
           <circle
-            cx={SIZE / 2} cy={SIZE / 2} r={RADIUS}
-            fill="none" stroke="currentColor" strokeWidth={STROKE}
+            cx={SIZE / 2}
+            cy={SIZE / 2}
+            r={RADIUS}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={STROKE}
             className="text-red-200"
           />
           {showProgressRing && (
             <circle
-              cx={SIZE / 2} cy={SIZE / 2} r={RADIUS}
-              fill="none" stroke="currentColor" strokeWidth={STROKE}
+              cx={SIZE / 2}
+              cy={SIZE / 2}
+              r={RADIUS}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={STROKE}
               strokeDasharray={CIRCUMFERENCE}
               strokeDashoffset={strokeDashoffset}
               strokeLinecap="round"
@@ -233,10 +298,18 @@ function VerseAudioButton({ audioUrl, verseNum, onEnded }: { audioUrl: string; v
             />
           )}
         </svg>
-        <span className={`absolute inset-[4px] rounded-full flex items-center justify-center transition-all ${
-          playing ? "bg-red-900 text-white" : "bg-red-950 text-orange-300 [@media(hover:hover)]:hover:bg-red-800"
-        }`}>
-          {playing ? <Pause size={16} /> : <Play size={16} className="ml-0.5" />}
+        <span
+          className={`absolute inset-[4px] rounded-full flex items-center justify-center transition-all ${
+            playing
+              ? "bg-red-900 text-white"
+              : "bg-red-950 text-orange-300 [@media(hover:hover)]:hover:bg-red-800"
+          }`}
+        >
+          {playing ? (
+            <Pause size={16} />
+          ) : (
+            <Play size={16} className="ml-0.5" />
+          )}
         </span>
       </button>
       <button
@@ -279,11 +352,13 @@ export default function ChapterPage() {
   }, []);
 
   const { isChapterVisible } = useChapterVisibility();
-  const chapter = data.chapters.find((c) => c.chapter === chapterNum);
+  const chapter = data.chapters.find(c => c.chapter === chapterNum);
 
   const verses: Verse[] = chapter ? getChapterVerses(data, chapter) : [];
 
-  const persistedSynopsis = chapter ? hasGeneratedChapterSynopsis(chapter) : false;
+  const persistedSynopsis = chapter
+    ? hasGeneratedChapterSynopsis(chapter)
+    : false;
   const synopsis = chapter ? getChapterSynopsis(chapter) : "";
   const versesSorted = useMemo(
     () => [...verses].sort((a, b) => a.verse - b.verse),
@@ -321,7 +396,8 @@ export default function ChapterPage() {
   const intentTerms = getChapterIntentTerms(chapterNum);
 
   const chapterTitle = `Bhagavad Gita Chapter ${chapterNum} — ${iastName || chapter.name} (${devanagariName})`;
-  const chapterDescription = synopsis ||
+  const chapterDescription =
+    synopsis ||
     `${chapter.subtitle} — Explore ${chapter.verses_count} verses of Chapter ${chapterNum} (${chapter.name}) with focus on ${intentTerms.slice(0, 3).join(", ")}.`;
 
   return (
@@ -388,7 +464,7 @@ export default function ChapterPage() {
             <Link
               href="/"
               className="hover:text-orange-300 transition-colors touch-manipulation"
-              onClick={(e) => {
+              onClick={e => {
                 e.preventDefault();
                 navigateWithViewTransition(() => setLocation("/"));
               }}
@@ -414,18 +490,27 @@ export default function ChapterPage() {
               <h1 className="text-white font-display text-3xl lg:text-5xl font-bold leading-tight mb-1">
                 {iastName || chapter.name}
               </h1>
-              <p className="text-orange-300 font-devanagari text-xl lg:text-2xl mb-0">{devanagariName}</p>
+              <p className="text-orange-300 font-devanagari text-xl lg:text-2xl mb-0">
+                {devanagariName}
+              </p>
               <div className="mt-2">
                 <Link
                   href={`/chapter/${chapterNum}/summary`}
                   aria-label={`Open chapter ${chapterNum} summary — full synopsis and illustrations`}
                   className="group inline-flex h-8 items-center gap-1.5 rounded-md bg-gradient-to-r from-amber-300 via-orange-300 to-orange-400 px-3 text-xs sm:text-sm font-semibold text-red-950 shadow-sm ring-1 ring-white/60 hover:from-amber-200 hover:via-orange-200 hover:to-orange-300 hover:shadow-md active:scale-[0.98] transition-all touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-red-950/80 whitespace-nowrap"
-                  onClick={(e) => {
+                  onClick={e => {
                     e.preventDefault();
-                    navigateWithViewTransition(() => setLocation(`/chapter/${chapterNum}/summary`));
+                    navigateWithViewTransition(() =>
+                      setLocation(`/chapter/${chapterNum}/summary`)
+                    );
                   }}
                 >
-                  <BookOpen size={15} strokeWidth={2.25} className="shrink-0" aria-hidden />
+                  <BookOpen
+                    size={15}
+                    strokeWidth={2.25}
+                    className="shrink-0"
+                    aria-hidden
+                  />
                   <span>Read Chapter Summary</span>
                 </Link>
               </div>
@@ -434,7 +519,10 @@ export default function ChapterPage() {
 
           {!persistedSynopsis && import.meta.env.DEV && (
             <div className="mt-2 rounded-md border border-amber-300/60 bg-amber-100/90 px-3 py-2 text-[11px] sm:text-xs text-amber-900">
-              Missing <code>generated_description</code> for chapter {chapterNum}. Run <code>npm run generate-chapter-descriptions</code> and commit the JSON update.
+              Missing <code>generated_description</code> for chapter{" "}
+              {chapterNum}. Run{" "}
+              <code>npm run generate-chapter-descriptions</code> and commit the
+              JSON update.
             </div>
           )}
           {versesSorted.length > 0 && (
@@ -454,11 +542,12 @@ export default function ChapterPage() {
                     className="inline-flex h-9 items-center rounded-lg border border-white/35 bg-white/20 px-3 text-white text-xs sm:text-sm font-semibold whitespace-nowrap"
                     title={`This chapter has ${chapter.verses_count} verses in the Bhagavad Gita`}
                   >
-                    {chapter.verses_count} {chapter.verses_count === 1 ? "Shloka" : "Shlokas"}
+                    {chapter.verses_count}{" "}
+                    {chapter.verses_count === 1 ? "Shloka" : "Shlokas"}
                   </span>
                   <button
                     type="button"
-                    onClick={() => setJumpMenuOpen((open) => !open)}
+                    onClick={() => setJumpMenuOpen(open => !open)}
                     aria-expanded={jumpMenuOpen}
                     aria-controls={`jump-shloka-panel-${chapterNum}`}
                     className="inline-flex h-9 w-fit items-center gap-1.5 rounded-lg border-2 border-orange-300/60 bg-white/15 px-3 text-orange-50 text-sm font-bold shadow-sm transition-all [@media(hover:hover)]:hover:bg-orange-400/30 [@media(hover:hover)]:hover:border-orange-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200 focus-visible:ring-offset-2 focus-visible:ring-offset-red-950/90 whitespace-nowrap"
@@ -479,18 +568,21 @@ export default function ChapterPage() {
                 </div>
 
                 {jumpMenuOpen && (
-                  <div id={`jump-shloka-panel-${chapterNum}`} className="w-full">
+                  <div
+                    id={`jump-shloka-panel-${chapterNum}`}
+                    className="w-full"
+                  >
                     {/* Phone view: dropdown only */}
                     <div className="sm:hidden">
                       <select
                         id={`jump-shloka-${chapterNum}`}
                         key={jumpSelectKey}
                         defaultValue=""
-                        onChange={(e) => {
+                        onChange={e => {
                           const v = e.target.value;
                           if (!v) return;
                           scrollToVerseCard(Number(v));
-                          setJumpSelectKey((k) => k + 1);
+                          setJumpSelectKey(k => k + 1);
                         }}
                         className="w-auto min-w-[10.5rem] rounded-lg border-2 border-orange-300/60 bg-red-950/85 text-orange-50 text-sm font-bold tabular-nums px-3 py-2 shadow-sm cursor-pointer transition-colors [@media(hover:hover)]:hover:border-orange-200 [@media(hover:hover)]:hover:bg-red-900/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200 focus-visible:ring-offset-2 focus-visible:ring-offset-red-950/90"
                         aria-label={`Choose a shloka number to scroll to in chapter ${chapterNum}`}
@@ -498,7 +590,7 @@ export default function ChapterPage() {
                         <option value="" disabled>
                           Choose number…
                         </option>
-                        {versesSorted.map((v) => (
+                        {versesSorted.map(v => (
                           <option key={v.verse} value={String(v.verse)}>
                             {v.verse}
                           </option>
@@ -508,7 +600,7 @@ export default function ChapterPage() {
 
                     {/* Responsive/tablet and desktop: show all shloka boxes */}
                     <div className="hidden sm:flex xl:hidden flex-wrap gap-1.5 sm:gap-2 items-center mt-2">
-                      {versesSorted.map((v) => (
+                      {versesSorted.map(v => (
                         <button
                           key={v.verse}
                           type="button"
@@ -523,7 +615,7 @@ export default function ChapterPage() {
 
                     {/* Widescreen desktop: show all shloka boxes */}
                     <div className="hidden xl:flex flex-wrap gap-1.5 sm:gap-2 items-center mt-2">
-                      {versesSorted.map((v) => (
+                      {versesSorted.map(v => (
                         <button
                           key={v.verse}
                           type="button"
@@ -546,18 +638,24 @@ export default function ChapterPage() {
               <>
                 <div className="flex items-center gap-2 bg-orange-400/20 border border-orange-400/40 rounded-full px-3 py-1.5">
                   <Sparkles size={13} className="text-orange-400" />
-                  <span className="text-orange-300 text-sm font-semibold">{verses.length} full explanations</span>
+                  <span className="text-orange-300 text-sm font-semibold">
+                    {verses.length} full explanations
+                  </span>
                 </div>
                 <Link
                   href={`/chapter/${chapterNum}/games`}
-                  onClick={(e) => {
+                  onClick={e => {
                     e.preventDefault();
-                    navigateWithViewTransition(() => setLocation(`/chapter/${chapterNum}/games`));
+                    navigateWithViewTransition(() =>
+                      setLocation(`/chapter/${chapterNum}/games`)
+                    );
                   }}
                 >
                   <div className="flex items-center gap-2 bg-pink-400/20 border border-pink-400/40 hover:bg-pink-400/30 rounded-full px-3 py-1.5 transition-all cursor-pointer touch-manipulation">
                     <Gamepad2 size={13} className="text-pink-300" />
-                    <span className="text-pink-200 text-sm font-semibold">5 Interactive Games</span>
+                    <span className="text-pink-200 text-sm font-semibold">
+                      5 Interactive Games
+                    </span>
                   </div>
                 </Link>
               </>
@@ -572,7 +670,9 @@ export default function ChapterPage() {
           <div className="text-center py-12 text-muted-foreground">
             <BookOpen size={40} className="mx-auto mb-3 opacity-30" />
             <p className="text-lg font-display">Key verses coming soon</p>
-            <p className="text-sm mt-1">Chapter {chapterNum} content is being prepared</p>
+            <p className="text-sm mt-1">
+              Chapter {chapterNum} content is being prepared
+            </p>
           </div>
         )}
 
@@ -580,18 +680,25 @@ export default function ChapterPage() {
           <div className="mb-6">
             <Link
               href={`/chapter/${chapterNum}/games`}
-              onClick={(e) => {
+              onClick={e => {
                 e.preventDefault();
-                navigateWithViewTransition(() => setLocation(`/chapter/${chapterNum}/games`));
+                navigateWithViewTransition(() =>
+                  setLocation(`/chapter/${chapterNum}/games`)
+                );
               }}
             >
               <div className="bg-gradient-to-r from-pink-500 to-violet-600 rounded-2xl p-5 flex items-center justify-between shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5 cursor-pointer touch-manipulation">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-2xl">🎮</span>
-                    <span className="text-white font-kids font-bold text-lg">Play Learning Games!</span>
+                    <span className="text-white font-kids font-bold text-lg">
+                      Play Learning Games!
+                    </span>
                   </div>
-                  <p className="text-pink-100 font-kids text-sm">5 fun games: Match, Quiz, Fill-in-Blank, Scramble & Speed Round</p>
+                  <p className="text-pink-100 font-kids text-sm">
+                    5 fun games: Match, Quiz, Fill-in-Blank, Scramble & Speed
+                    Round
+                  </p>
                 </div>
                 <div className="bg-white/20 rounded-full p-3 flex-shrink-0">
                   <Gamepad2 size={24} className="text-white" />
@@ -607,7 +714,7 @@ export default function ChapterPage() {
               key={verse.verse}
               href={`/chapter/${chapterNum}/verse/${verse.verse}`}
               id={`verse-card-${verse.verse}`}
-              onClick={(e) => {
+              onClick={e => {
                 e.preventDefault();
                 navigateWithViewTransition(() =>
                   setLocation(`/chapter/${chapterNum}/verse/${verse.verse}`)
@@ -617,11 +724,11 @@ export default function ChapterPage() {
               <div className="group bg-card border-2 border-orange-200/70 [@media(hover:hover)]:hover:border-orange-400 rounded-xl p-3 sm:p-4 transition-all [@media(hover:hover)]:hover:shadow-xl active:scale-[0.995] cursor-pointer h-full flex flex-col relative touch-manipulation">
                 <div
                   className="mb-2 border-b border-violet-200 pb-1.5"
-                  onPointerDownCapture={(e) => {
+                  onPointerDownCapture={e => {
                     e.preventDefault();
                     e.stopPropagation();
                   }}
-                  onClick={(e) => e.stopPropagation()}
+                  onClick={e => e.stopPropagation()}
                 >
                   <div className="flex items-center justify-between gap-1.5">
                     <div className="flex flex-wrap items-center gap-x-0.5 gap-y-1">
@@ -629,11 +736,13 @@ export default function ChapterPage() {
                         <span key={label} className="inline-flex items-center">
                           <button
                             type="button"
-                            onClick={(e) => {
+                            onClick={e => {
                               e.preventDefault();
                               e.stopPropagation();
                               navigateWithViewTransition(() =>
-                                setLocation(`/chapter/${chapterNum}/verse/${verse.verse}?tab=${tab}`)
+                                setLocation(
+                                  `/chapter/${chapterNum}/verse/${verse.verse}?tab=${tab}`
+                                )
                               );
                             }}
                             className="inline-flex items-center border-b border-transparent px-1 py-0 text-[11px] sm:text-xs font-semibold text-violet-800 hover:text-violet-900 hover:border-violet-300 transition-colors"
@@ -641,18 +750,22 @@ export default function ChapterPage() {
                             {label}
                           </button>
                           {idx < CARD_TAB_LINKS.length - 1 && (
-                            <span className="text-violet-300 text-[10px] sm:text-xs select-none px-0.5">|</span>
+                            <span className="text-violet-300 text-[10px] sm:text-xs select-none px-0.5">
+                              |
+                            </span>
                           )}
                         </span>
                       ))}
                     </div>
                     <button
                       type="button"
-                      onClick={(e) => {
+                      onClick={e => {
                         e.preventDefault();
                         e.stopPropagation();
                         navigateWithViewTransition(() =>
-                          setLocation(`/chapter/${chapterNum}/verse/${verse.verse}`)
+                          setLocation(
+                            `/chapter/${chapterNum}/verse/${verse.verse}`
+                          )
                         );
                       }}
                       className="inline-flex items-center gap-0.5 rounded-full border border-violet-300 bg-white px-1.5 py-0.5 text-[11px] sm:text-xs font-bold text-violet-800 hover:bg-violet-100 transition-colors whitespace-nowrap"
@@ -664,7 +777,11 @@ export default function ChapterPage() {
                 </div>
                 {/* Header: thumbnail + verse label + optional Listen (titles on verse page only) */}
                 <div className="flex items-start gap-3 mb-2">
-                  <MeaningThumbnail chapterNum={chapterNum} verseNum={verse.verse} verse={verse} />
+                  <MeaningThumbnail
+                    chapterNum={chapterNum}
+                    verseNum={verse.verse}
+                    verse={verse}
+                  />
                   <div className="flex-1 min-w-0 flex items-start justify-between gap-2 sm:gap-3">
                     <div className="min-w-0 flex-1">
                       <span className="text-xl sm:text-2xl font-bold text-red-950 block tabular-nums tracking-tight">
@@ -674,11 +791,11 @@ export default function ChapterPage() {
                     {verse.audio_url && (
                       <div
                         className="shrink-0 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 rounded-lg border border-orange-200/90 bg-gradient-to-br from-orange-50/95 to-amber-50/70 px-2 py-1.5 shadow-sm max-w-[calc(100%-0.5rem)] sm:max-w-none"
-                        onPointerDownCapture={(e) => {
+                        onPointerDownCapture={e => {
                           e.preventDefault();
                           e.stopPropagation();
                         }}
-                        onClick={(e) => e.stopPropagation()}
+                        onClick={e => e.stopPropagation()}
                       >
                         <span className="text-[11px] sm:text-xs font-extrabold uppercase tracking-wide text-orange-950">
                           Listen
@@ -686,20 +803,36 @@ export default function ChapterPage() {
                         <VerseAudioButton
                           audioUrl={verse.audio_url}
                           verseNum={verse.verse}
-                          onEnded={idx < verses.length - 1 && verses[idx + 1].audio_url ? () => {
-                            const nextCard = document.getElementById(`verse-card-${verses[idx + 1].verse}`);
-                            if (!nextCard) return;
-                            const rect = nextCard.getBoundingClientRect();
-                            const headerH = 64;
-                            const cardVisible = rect.top >= headerH && rect.top < window.innerHeight - 100;
-                            if (!cardVisible) {
-                              const y = window.scrollY + rect.top - headerH - 12;
-                              window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
-                            }
-                            setTimeout(() => {
-                              nextCard.querySelector<HTMLButtonElement>("button[data-verse-play]")?.click();
-                            }, 600);
-                          } : undefined}
+                          onEnded={
+                            idx < verses.length - 1 && verses[idx + 1].audio_url
+                              ? () => {
+                                  const nextCard = document.getElementById(
+                                    `verse-card-${verses[idx + 1].verse}`
+                                  );
+                                  if (!nextCard) return;
+                                  const rect = nextCard.getBoundingClientRect();
+                                  const headerH = 64;
+                                  const cardVisible =
+                                    rect.top >= headerH &&
+                                    rect.top < window.innerHeight - 100;
+                                  if (!cardVisible) {
+                                    const y =
+                                      window.scrollY + rect.top - headerH - 12;
+                                    window.scrollTo({
+                                      top: Math.max(0, y),
+                                      behavior: "smooth",
+                                    });
+                                  }
+                                  setTimeout(() => {
+                                    nextCard
+                                      .querySelector<HTMLButtonElement>(
+                                        "button[data-verse-play]"
+                                      )
+                                      ?.click();
+                                  }, 600);
+                                }
+                              : undefined
+                          }
                         />
                       </div>
                     )}
@@ -708,16 +841,22 @@ export default function ChapterPage() {
 
                 {/* Sanskrit — no negative margin (avoids overlap with thumbnail) */}
                 <div className="font-devanagari text-red-900 text-lg leading-relaxed mb-1.5">
-                  {verse.sanskrit.split('\n').map((line, i) => (
-                    <p key={i}><SandhiText text={line} /></p>
+                  {splitVerseLines(verse.sanskrit).map((line, i) => (
+                    <p key={i}>
+                      <SandhiText text={line} />
+                    </p>
                   ))}
                 </div>
 
                 {/* IAST transliteration */}
                 {verse.transliteration && (
                   <div className="text-orange-700 text-base italic leading-relaxed mb-2">
-                    {verse.transliteration.split('\n').map((line, i) => (
-                      <p key={i}><SandhiText text={stripTransliterationVerseSuffix(line)} /></p>
+                    {splitVerseLines(verse.transliteration).map((line, i) => (
+                      <p key={i}>
+                        <SandhiText
+                          text={stripTransliterationVerseSuffix(line)}
+                        />
+                      </p>
                     ))}
                   </div>
                 )}
@@ -731,17 +870,30 @@ export default function ChapterPage() {
                 {verse.rich_grammar?.pratipadarthah && (
                   <div className="border-t border-border pt-2 mb-2">
                     <p className="text-base leading-relaxed">
-                      {verse.rich_grammar.pratipadarthah.split('|').map((item, i, arr) => {
-                        const [word, meaning] = item.split('=').map(s => s.trim());
-                        if (!word || !meaning) return null;
-                        return (
-                          <span key={i}>
-                            <span className="font-devanagari text-red-800 font-semibold">{word}</span>
-                            <span className="text-foreground/70"> = {meaning}</span>
-                            {i < arr.length - 1 && <span className="text-muted-foreground">, </span>}
-                          </span>
-                        );
-                      })}
+                      {verse.rich_grammar.pratipadarthah
+                        .split("|")
+                        .map((item, i, arr) => {
+                          const [word, meaning] = item
+                            .split("=")
+                            .map(s => s.trim());
+                          if (!word || !meaning) return null;
+                          return (
+                            <span key={i}>
+                              <span className="font-devanagari text-red-800 font-semibold">
+                                {word}
+                              </span>
+                              <span className="text-foreground/70">
+                                {" "}
+                                = {meaning}
+                              </span>
+                              {i < arr.length - 1 && (
+                                <span className="text-muted-foreground">
+                                  ,{" "}
+                                </span>
+                              )}
+                            </span>
+                          );
+                        })}
                     </p>
                   </div>
                 )}
@@ -749,14 +901,25 @@ export default function ChapterPage() {
                 {/* Reflection questions */}
                 {verse.reflection && (
                   <div className="border-t border-border pt-2 mt-auto">
-                    <p className="text-sm font-semibold text-violet-600 mb-1">Reflection</p>
+                    <p className="text-sm font-semibold text-violet-600 mb-1">
+                      Reflection
+                    </p>
                     <div className="space-y-1">
-                      {verse.reflection.split('\n').filter(l => l.trim()).slice(0, 2).map((q, i) => (
-                        <p key={i} className="text-sm text-muted-foreground leading-relaxed flex gap-1.5">
-                          <span className="text-violet-400 flex-shrink-0">◈</span>
-                          <span className="line-clamp-2">{q}</span>
-                        </p>
-                      ))}
+                      {verse.reflection
+                        .split("\n")
+                        .filter(l => l.trim())
+                        .slice(0, 2)
+                        .map((q, i) => (
+                          <p
+                            key={i}
+                            className="text-sm text-muted-foreground leading-relaxed flex gap-1.5"
+                          >
+                            <span className="text-violet-400 flex-shrink-0">
+                              ◈
+                            </span>
+                            <span className="line-clamp-2">{q}</span>
+                          </p>
+                        ))}
                     </div>
                   </div>
                 )}
@@ -778,26 +941,36 @@ export default function ChapterPage() {
           {prevChapter ? (
             <Link
               href={`/chapter/${prevChapter}`}
-              onClick={(e) => {
+              onClick={e => {
                 e.preventDefault();
-                navigateWithViewTransition(() => setLocation(`/chapter/${prevChapter}`));
+                navigateWithViewTransition(() =>
+                  setLocation(`/chapter/${prevChapter}`)
+                );
               }}
             >
-              <button type="button" className="flex items-center gap-2 text-sm text-red-800 hover:text-orange-600 transition-colors font-semibold touch-manipulation">
+              <button
+                type="button"
+                className="flex items-center gap-2 text-sm text-red-800 hover:text-orange-600 transition-colors font-semibold touch-manipulation"
+              >
                 <ChevronLeft size={16} />
                 Chapter {prevChapter}
               </button>
             </Link>
-          ) : <div />}
+          ) : (
+            <div />
+          )}
 
           <Link
             href="/"
-            onClick={(e) => {
+            onClick={e => {
               e.preventDefault();
               navigateWithViewTransition(() => setLocation("/"));
             }}
           >
-            <button type="button" className="text-sm text-muted-foreground hover:text-foreground transition-colors touch-manipulation">
+            <button
+              type="button"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors touch-manipulation"
+            >
               All Chapters
             </button>
           </Link>
@@ -805,17 +978,24 @@ export default function ChapterPage() {
           {nextChapter ? (
             <Link
               href={`/chapter/${nextChapter}`}
-              onClick={(e) => {
+              onClick={e => {
                 e.preventDefault();
-                navigateWithViewTransition(() => setLocation(`/chapter/${nextChapter}`));
+                navigateWithViewTransition(() =>
+                  setLocation(`/chapter/${nextChapter}`)
+                );
               }}
             >
-              <button type="button" className="flex items-center gap-2 text-sm text-red-800 hover:text-orange-600 transition-colors font-semibold touch-manipulation">
+              <button
+                type="button"
+                className="flex items-center gap-2 text-sm text-red-800 hover:text-orange-600 transition-colors font-semibold touch-manipulation"
+              >
                 Chapter {nextChapter}
                 <ChevronRight size={16} />
               </button>
             </Link>
-          ) : <div />}
+          ) : (
+            <div />
+          )}
         </div>
       </div>
     </Layout>

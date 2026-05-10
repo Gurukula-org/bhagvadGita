@@ -152,7 +152,7 @@ There must be **one** summary implementation: **`ChapterSummaryPage` + `chapterS
 
 ## New chapter content import (Drive → app)
 
-When the user provides a new chapter's shloka Word docs + MP3s in Drive, follow the dedicated workflow in **`docs/new-chapter-content-import.md`**.
+When the user provides a new chapter's shloka Word docs + MP3s in Drive, follow the dedicated workflow in **`docs/new-chapter-content-import.md`**. After verses land in JSON, run **`npm run audit-chapter-import -- --chapter=<N>`** per **`docs/post-chapter-import-audit.md`**.
 
 That doc enforces three things this main file deliberately delegates:
 

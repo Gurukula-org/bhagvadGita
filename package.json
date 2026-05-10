@@ -11,6 +11,7 @@
     "check": "tsc --noEmit",
     "generate-chapter-descriptions": "node scripts/generate-chapter-descriptions.mjs",
     "strip-translit": "node scripts/strip-transliteration-json.mjs",
+    "audit-chapter-import": "node scripts/audit-chapter-import.mjs",
     "format": "prettier --write ."
   },
   "dependencies": {

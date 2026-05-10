@@ -7,6 +7,7 @@ Use this checklist whenever a new chapter's **shloka Word documents** and **MP3 
 > - Verse schema + "gold standard" → `CLAUDE.md` ("Content Schema — The Gold Standard") and Ch12 V1 in `client/src/data/gitaData.json`.
 > - Chapter-level synopsis import (long-form summary, not verses) → `scripts/import-chapter-synopsis.md`.
 > - Post-content rollout (general / new-hub creation) → `docs/new-chapter-rollout-checklist.md`.
+> - Post–JSON audit (`more_stories` vs images, takeaway formatting) → `docs/post-chapter-import-audit.md`.
 
 ---
 
@@ -139,6 +140,16 @@ For each shloka in the CREATE list, in **verse-number order**:
 4. **Never** modify any other chapter's data, and on chapter `<N>` itself never modify any of these scaffold fields during a content import: `name`, `name_hindi`, `subtitle`, `theme`, `color`, `icon`, `verses_count`, or `summary`. The only chapter-level fields a content import may rewrite are `iast_name`, `devanagari_name`, and `generated_description`, and those are written **only** by `npm run generate-chapter-descriptions -- --chapter=<N>` in §10.1, not by hand.
 
 > **Special case for Chapter 6:** verses also live in `chapter6_full[]` with `full_journey_text` + `grammar_notes`. If importing Ch6, also keep the legacy fields and add the rich fields alongside, per `CLAUDE.md` ("For Chapter 6 Conversion").
+
+## 6.5 Post-import audit (before audio / manual QA)
+
+After `gitaData.json` edits for the chapter are complete, run:
+
+```bash
+npm run audit-chapter-import -- --chapter=<N>
+```
+
+This catches **mis-counted `more_stories` segments vs `images.more_stories`**, **accidental `N. ` lines inside story bodies**, and **`\n\n` splits that put almost the whole narrative into the amber takeaway callout** — the same checks you would do by hand against `VersePage.tsx`. Details and fixes: **`docs/post-chapter-import-audit.md`**.
 
 ## 7. Audio upload
 

@@ -1,6 +1,12 @@
 // Verse Match Game — Flip cards to match Sanskrit shloka with its meaning
 import { useState, useEffect, useCallback } from "react";
-import { getChapter6Verses, pickRandom, getScoreEmoji, getScoreMessage } from "./gameData";
+import { splitVerseLines } from "@/lib/transliterationDisplay";
+import {
+  getChapter6Verses,
+  pickRandom,
+  getScoreEmoji,
+  getScoreMessage,
+} from "./gameData";
 import { RotateCcw, Trophy } from "lucide-react";
 
 interface MatchCard {
@@ -20,10 +26,27 @@ function buildCards(count = 5): MatchCard[] {
   const verses = pickRandom(getChapter6Verses(), count);
   const cards: MatchCard[] = [];
   verses.forEach((v, i) => {
-    const sanskrit = v.sanskrit.split('\n')[0].replace(/॥.*॥/, '').trim();
-    cards.push({ id: `s-${i}`, content: sanskrit, type: "sanskrit", pairId: i, isFlipped: false, isMatched: false });
-    const meaning = v.one_line_meaning.length > 90 ? v.one_line_meaning.slice(0, 90) + "…" : v.one_line_meaning;
-    cards.push({ id: `m-${i}`, content: meaning, type: "meaning", pairId: i, isFlipped: false, isMatched: false });
+    const sanskrit = splitVerseLines(v.sanskrit)[0].replace(/॥.*॥/, "").trim();
+    cards.push({
+      id: `s-${i}`,
+      content: sanskrit,
+      type: "sanskrit",
+      pairId: i,
+      isFlipped: false,
+      isMatched: false,
+    });
+    const meaning =
+      v.one_line_meaning.length > 90
+        ? v.one_line_meaning.slice(0, 90) + "…"
+        : v.one_line_meaning;
+    cards.push({
+      id: `m-${i}`,
+      content: meaning,
+      type: "meaning",
+      pairId: i,
+      isFlipped: false,
+      isMatched: false,
+    });
   });
   return cards.sort(() => Math.random() - 0.5);
 }
@@ -51,25 +74,33 @@ export default function VerseMatchGame({ chapterNum: _ }: Props) {
 
   const handleCardClick = (cardId: string) => {
     if (isChecking) return;
-    const card = cards.find((c) => c.id === cardId);
+    const card = cards.find(c => c.id === cardId);
     if (!card || card.isFlipped || card.isMatched) return;
     if (selected.includes(cardId)) return;
 
     const newSelected = [...selected, cardId];
-    setCards((prev) => prev.map((c) => c.id === cardId ? { ...c, isFlipped: true } : c));
+    setCards(prev =>
+      prev.map(c => (c.id === cardId ? { ...c, isFlipped: true } : c))
+    );
     setSelected(newSelected);
 
     if (newSelected.length === 2) {
-      setMoves((m) => m + 1);
+      setMoves(m => m + 1);
       setIsChecking(true);
-      const [first, second] = newSelected.map((id) => cards.find((c) => c.id === id)!);
+      const [first, second] = newSelected.map(
+        id => cards.find(c => c.id === id)!
+      );
 
       setTimeout(() => {
         if (first.pairId === second.pairId) {
           // Match!
-          setCards((prev) => prev.map((c) =>
-            c.id === first.id || c.id === second.id ? { ...c, isMatched: true } : c
-          ));
+          setCards(prev =>
+            prev.map(c =>
+              c.id === first.id || c.id === second.id
+                ? { ...c, isMatched: true }
+                : c
+            )
+          );
           const newCount = matchedCount + 1;
           setMatchedCount(newCount);
           if (newCount === totalPairs) setGameOver(true);
@@ -77,9 +108,13 @@ export default function VerseMatchGame({ chapterNum: _ }: Props) {
           // No match — flip back
           setWrongPair([first.id, second.id]);
           setTimeout(() => {
-            setCards((prev) => prev.map((c) =>
-              c.id === first.id || c.id === second.id ? { ...c, isFlipped: false } : c
-            ));
+            setCards(prev =>
+              prev.map(c =>
+                c.id === first.id || c.id === second.id
+                  ? { ...c, isFlipped: false }
+                  : c
+              )
+            );
             setWrongPair([]);
           }, 800);
         }
@@ -91,16 +126,30 @@ export default function VerseMatchGame({ chapterNum: _ }: Props) {
 
   if (gameOver) {
     const emoji = getScoreEmoji(totalPairs, totalPairs);
-    const msg = moves <= totalPairs + 2 ? "Incredible memory!" : moves <= totalPairs * 2 ? "Well done!" : "You did it!";
+    const msg =
+      moves <= totalPairs + 2
+        ? "Incredible memory!"
+        : moves <= totalPairs * 2
+          ? "Well done!"
+          : "You did it!";
     return (
       <div className="text-center py-8 px-4">
         <div className="text-6xl mb-4">{emoji}</div>
-        <h3 className="font-kids font-bold text-2xl text-red-900 mb-2">All Matched! 🎉</h3>
+        <h3 className="font-kids font-bold text-2xl text-red-900 mb-2">
+          All Matched! 🎉
+        </h3>
         <p className="text-red-700 font-kids text-lg mb-1">{msg}</p>
-        <p className="text-gray-600 font-kids mb-6">You matched all {totalPairs} pairs in <strong>{moves} moves</strong>!</p>
+        <p className="text-gray-600 font-kids mb-6">
+          You matched all {totalPairs} pairs in <strong>{moves} moves</strong>!
+        </p>
         <div className="bg-orange-50 border border-orange-200 rounded-xl p-4 mb-6 text-left">
-          <p className="text-orange-800 font-kids font-bold text-sm mb-2">🌟 What you learned:</p>
-          <p className="text-orange-700 font-kids text-sm">You matched {totalPairs} Sanskrit shlokas from Chapter 6 with their meanings. Great job learning the Bhagavad Gita!</p>
+          <p className="text-orange-800 font-kids font-bold text-sm mb-2">
+            🌟 What you learned:
+          </p>
+          <p className="text-orange-700 font-kids text-sm">
+            You matched {totalPairs} Sanskrit shlokas from Chapter 6 with their
+            meanings. Great job learning the Bhagavad Gita!
+          </p>
         </div>
         <button
           onClick={resetGame}
@@ -125,7 +174,10 @@ export default function VerseMatchGame({ chapterNum: _ }: Props) {
             Matched: {matchedCount}/{totalPairs}
           </div>
         </div>
-        <button onClick={resetGame} className="text-gray-400 hover:text-gray-600 transition-colors">
+        <button
+          onClick={resetGame}
+          className="text-gray-400 hover:text-gray-600 transition-colors"
+        >
           <RotateCcw size={16} />
         </button>
       </div>
@@ -137,7 +189,7 @@ export default function VerseMatchGame({ chapterNum: _ }: Props) {
 
       {/* Card Grid */}
       <div className="grid grid-cols-2 gap-2 sm:gap-3">
-        {cards.map((card) => {
+        {cards.map(card => {
           const isWrong = wrongPair.includes(card.id);
           return (
             <button
@@ -146,15 +198,16 @@ export default function VerseMatchGame({ chapterNum: _ }: Props) {
               disabled={card.isMatched || card.isFlipped}
               className={`
                 relative min-h-[90px] sm:min-h-[100px] rounded-xl p-3 text-left transition-all duration-300 border-2
-                ${card.isMatched
-                  ? "bg-green-100 border-green-400 cursor-default scale-95"
-                  : card.isFlipped
-                    ? isWrong
-                      ? "bg-red-100 border-red-400"
-                      : card.type === "sanskrit"
-                        ? "bg-red-100 border-orange-400"
-                        : "bg-orange-100 border-orange-400"
-                    : "bg-white border-gray-200 hover:border-violet-300 hover:shadow-md active:scale-95"
+                ${
+                  card.isMatched
+                    ? "bg-green-100 border-green-400 cursor-default scale-95"
+                    : card.isFlipped
+                      ? isWrong
+                        ? "bg-red-100 border-red-400"
+                        : card.type === "sanskrit"
+                          ? "bg-red-100 border-orange-400"
+                          : "bg-orange-100 border-orange-400"
+                      : "bg-white border-gray-200 hover:border-violet-300 hover:shadow-md active:scale-95"
                 }
               `}
             >
@@ -167,16 +220,26 @@ export default function VerseMatchGame({ chapterNum: _ }: Props) {
               ) : (
                 <div>
                   {card.isMatched && (
-                    <span className="absolute top-1 right-1 text-green-500 text-xs">✓</span>
+                    <span className="absolute top-1 right-1 text-green-500 text-xs">
+                      ✓
+                    </span>
                   )}
-                  <div className={`text-xs font-bold mb-1 uppercase tracking-wide ${
-                    card.type === "sanskrit" ? "text-red-800" : "text-orange-600"
-                  }`}>
+                  <div
+                    className={`text-xs font-bold mb-1 uppercase tracking-wide ${
+                      card.type === "sanskrit"
+                        ? "text-red-800"
+                        : "text-orange-600"
+                    }`}
+                  >
                     {card.type === "sanskrit" ? "🕉 Sanskrit" : "💡 Meaning"}
                   </div>
-                  <p className={`text-xs leading-relaxed ${
-                    card.type === "sanskrit" ? "font-devanagari text-red-900 text-sm" : "font-kids text-gray-800"
-                  }`}>
+                  <p
+                    className={`text-xs leading-relaxed ${
+                      card.type === "sanskrit"
+                        ? "font-devanagari text-red-900 text-sm"
+                        : "font-kids text-gray-800"
+                    }`}
+                  >
                     {card.content}
                   </p>
                 </div>
