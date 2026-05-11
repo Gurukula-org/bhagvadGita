@@ -203,6 +203,8 @@ async function startServer() {
     }
 
     res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
     if (!htmlTemplate) {
       try {
         htmlTemplate = fs.readFileSync(path.join(staticPath, "index.html"), "utf-8");
