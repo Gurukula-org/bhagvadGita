@@ -401,9 +401,16 @@ export default function VersePage() {
   );
 
   useEffect(() => {
-    applyTabFromLocation();
-    // Keep the top of the shloka (title/header) in view; do not auto-scroll to the tab strip on prev/next or reload.
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const resolvedTab = applyTabFromLocation();
+    if (resolvedTab !== "meaning" && tabNavRef.current) {
+      // A specific tab was requested (e.g. from chapter-page tab buttons) — scroll it into view.
+      setTimeout(() => {
+        tabNavRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
+    } else {
+      // Default: keep the shloka header in view.
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.removeAttribute("src");
