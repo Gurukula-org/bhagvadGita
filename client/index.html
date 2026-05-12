@@ -53,20 +53,30 @@
       })();
     </script>
     <script>
-      // Detect stale Vite asset loads (404 after redeployment) and auto-reload once
-      window.addEventListener("error", function(e) {
-        var target = e.target;
-        if (target && target.tagName === "SCRIPT" && target.src && target.src.includes("/assets/")) {
-          if (!sessionStorage.getItem("__asset_reload")) {
-            sessionStorage.setItem("__asset_reload", "1");
+      // Detect stale Vite asset loads after redeployment and auto-reload once.
+      // Covers: <script> load errors (DOM events) AND dynamic import() failures (promise rejections).
+      (function() {
+        var KEY = "__asset_reload";
+        function doReload() {
+          if (!sessionStorage.getItem(KEY)) {
+            sessionStorage.setItem(KEY, "1");
             window.location.reload();
           }
         }
-      }, true);
-      // Clear the reload flag on successful page load
-      window.addEventListener("load", function() {
-        sessionStorage.removeItem("__asset_reload");
-      });
+        window.addEventListener("error", function(e) {
+          var t = e.target;
+          if (t && (t.tagName === "SCRIPT" || t.tagName === "LINK") && (t.src || t.href || "").includes("/assets/")) {
+            doReload();
+          }
+        }, true);
+        window.addEventListener("unhandledrejection", function(e) {
+          var msg = e.reason && (e.reason.message || String(e.reason));
+          if (msg && (/Failed to fetch dynamically imported module/i.test(msg) || /Loading (CSS )?chunk .* failed/i.test(msg))) {
+            doReload();
+          }
+        });
+        window.addEventListener("load", function() { sessionStorage.removeItem(KEY); });
+      })();
     </script>
   </body>
 </html>

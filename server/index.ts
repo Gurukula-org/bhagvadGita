@@ -185,6 +185,28 @@ async function startServer() {
     })
   );
 
+  // Fallback for missing hashed assets (stale HTML referencing old builds).
+  // Returns a tiny JS snippet that forces a clean page reload instead of a 404.
+  app.use("/assets", (req, res) => {
+    if (req.path.endsWith(".js")) {
+      res.setHeader("Content-Type", "application/javascript");
+      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+      res.status(200).send(
+        "sessionStorage.setItem('__asset_reload','1');" +
+        "var u=location.href.split('?')[0];" +
+        "location.replace(u+(u.indexOf('?')>-1?'&':'?')+'_v='+Date.now());"
+      );
+      return;
+    }
+    if (req.path.endsWith(".css")) {
+      res.setHeader("Content-Type", "text/css");
+      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+      res.status(200).send("/* asset expired */");
+      return;
+    }
+    res.status(404).end();
+  });
+
   app.use(express.static(staticPath, {
     maxAge: 0,
     setHeaders: (res, filePath) => {
@@ -203,6 +225,8 @@ async function startServer() {
     }
 
     res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader("CDN-Cache-Control", "no-store");
+    res.setHeader("Surrogate-Control", "no-store");
     res.setHeader("Pragma", "no-cache");
     res.setHeader("Expires", "0");
     if (!htmlTemplate) {
