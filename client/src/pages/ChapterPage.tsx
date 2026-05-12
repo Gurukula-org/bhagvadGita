@@ -959,12 +959,52 @@ export default function ChapterPage() {
                 {verse.rich_grammar?.pratipadarthah && (
                   <div className="border-t border-border pt-2 mb-2">
                     <p className="text-base leading-relaxed">
-                      {verse.rich_grammar.pratipadarthah
-                        .split("|")
-                        .map((item, i, arr) => {
-                          const [word, meaning] = item
-                            .split("=")
-                            .map(s => s.trim());
+                      {(() => {
+                        const raw = verse.rich_grammar.pratipadarthah!;
+                        // Format B: "Devanagari | (iast) = meaning ..." (3.12+)
+                        if (raw.includes("| (")) {
+                          const regex =
+                            /([\u0900-\u097F][^|]*?)\|\s*\(([^)]+)\)\s*=\s*(.+?)(?=\s+[\u0900-\u097F]|$)/g;
+                          const entries: {
+                            dv: string;
+                            ia: string;
+                            mn: string;
+                          }[] = [];
+                          let m;
+                          while ((m = regex.exec(raw)) !== null) {
+                            entries.push({
+                              dv: m[1].trim(),
+                              ia: m[2].trim(),
+                              mn: m[3].trim(),
+                            });
+                          }
+                          return entries.map((e, i) => (
+                            <span key={i}>
+                              <span className="font-devanagari text-red-800 font-semibold">
+                                {e.dv}
+                              </span>
+                              <span className="text-xs text-violet-700 italic">
+                                {" "}
+                                {e.ia}
+                              </span>
+                              <span className="text-foreground/70">
+                                {" "}
+                                = {e.mn}
+                              </span>
+                              {i < entries.length - 1 && (
+                                <span className="text-muted-foreground">
+                                  ,{" "}
+                                </span>
+                              )}
+                            </span>
+                          ));
+                        }
+                        // Format A: "word = meaning | word = meaning" (pre-3.12)
+                        return raw.split("|").map((item, i, arr) => {
+                          const eqIdx = item.indexOf("=");
+                          if (eqIdx === -1) return null;
+                          const word = item.slice(0, eqIdx).trim();
+                          const meaning = item.slice(eqIdx + 1).trim();
                           if (!word || !meaning) return null;
                           return (
                             <span key={i}>
@@ -982,7 +1022,8 @@ export default function ChapterPage() {
                               )}
                             </span>
                           );
-                        })}
+                        });
+                      })()}
                     </p>
                   </div>
                 )}

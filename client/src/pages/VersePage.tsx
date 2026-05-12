@@ -401,9 +401,16 @@ export default function VersePage() {
   );
 
   useEffect(() => {
-    applyTabFromLocation();
-    // Keep the top of the shloka (title/header) in view; do not auto-scroll to the tab strip on prev/next or reload.
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const resolvedTab = applyTabFromLocation();
+    if (resolvedTab !== "meaning" && tabNavRef.current) {
+      // A specific tab was requested (e.g. from chapter-page tab buttons) — scroll it into view.
+      setTimeout(() => {
+        tabNavRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
+    } else {
+      // Default: keep the shloka header in view.
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.removeAttribute("src");
@@ -1575,12 +1582,48 @@ export default function VersePage() {
                       पदार्थः (Pratipadārthaḥ — Word Meanings)
                     </h5>
                     <div className="text-base leading-relaxed text-gray-700">
-                      {verse.rich_grammar.pratipadarthah
-                        .split("|")
-                        .map((item, i) => {
-                          const [word, meaning] = item
-                            .split("=")
-                            .map(s => s.trim());
+                      {(() => {
+                        const raw = verse.rich_grammar.pratipadarthah!;
+                        // Format B: "Devanagari | (iast) = meaning ..." (3.12+)
+                        if (raw.includes("| (")) {
+                          const regex =
+                            /([\u0900-\u097F][^|]*?)\|\s*\(([^)]+)\)\s*=\s*(.+?)(?=\s+[\u0900-\u097F]|$)/g;
+                          const entries: {
+                            dv: string;
+                            ia: string;
+                            mn: string;
+                          }[] = [];
+                          let m;
+                          while ((m = regex.exec(raw)) !== null) {
+                            entries.push({
+                              dv: m[1].trim(),
+                              ia: m[2].trim(),
+                              mn: m[3].trim(),
+                            });
+                          }
+                          return entries.map((e, i) => (
+                            <div
+                              key={i}
+                              className="flex items-baseline gap-2 py-1.5 border-b border-border last:border-0"
+                            >
+                              <span className="min-w-[130px] shrink-0">
+                                <span className="font-devanagari font-semibold text-red-800">
+                                  {e.dv}
+                                </span>
+                                <span className="text-xs text-violet-600 italic">
+                                  {" "}{e.ia}
+                                </span>
+                              </span>
+                              <span className="text-gray-600">= {e.mn}</span>
+                            </div>
+                          ));
+                        }
+                        // Format A: "word = meaning | word = meaning" (pre-3.12)
+                        return raw.split("|").map((item, i) => {
+                          const eqIdx = item.indexOf("=");
+                          if (eqIdx === -1) return null;
+                          const word = item.slice(0, eqIdx).trim();
+                          const meaning = item.slice(eqIdx + 1).trim();
                           if (!word || !meaning) return null;
                           return (
                             <div
@@ -1593,7 +1636,8 @@ export default function VersePage() {
                               <span className="text-gray-600">= {meaning}</span>
                             </div>
                           );
-                        })}
+                        });
+                      })()}
                     </div>
                   </div>
                 )}
