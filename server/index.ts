@@ -128,6 +128,7 @@ async function startServer() {
 
       res.json({ url: publicUrl });
     } catch (err: unknown) {
+      console.error("Upload error:", err);
       const message = err instanceof Error ? err.message : "Upload failed";
       res.status(500).json({ error: message });
     }
@@ -256,7 +257,7 @@ async function startServer() {
     res.send(html);
   });
 
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || (process.env.NODE_ENV === "production" ? 3000 : 3001);
 
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
