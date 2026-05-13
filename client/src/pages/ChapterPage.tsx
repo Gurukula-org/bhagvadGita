@@ -48,6 +48,25 @@ const chapterSummaryMap = chapterSummaries as Record<string, unknown>;
 // Reversible experiment: set to false to disable shared-element verse transitions.
 const ENABLE_VERSE_SHARED_TRANSITION_EXPERIMENT = true;
 
+/**
+ * When true, on md–xl (2-column chapter grid) the verse number and Listen strip
+ * stack vertically so they do not overlap. Set to false to fully restore the
+ * previous single-row header at all breakpoints.
+ */
+const CHAPTER_VERSE_CARD_STACK_AUDIO_IN_MID_BREAKPOINT = true;
+
+const chapterVerseCardHeaderInnerClass = CHAPTER_VERSE_CARD_STACK_AUDIO_IN_MID_BREAKPOINT
+  ? "flex-1 min-w-0 flex flex-row items-start justify-between gap-2 sm:gap-3 md:max-xl:flex-col md:max-xl:items-stretch md:max-xl:justify-start md:max-xl:gap-2 xl:flex-row xl:items-start xl:justify-between"
+  : "flex-1 min-w-0 flex items-start justify-between gap-2 sm:gap-3";
+
+const chapterVerseCardVerseNumWrapClass = CHAPTER_VERSE_CARD_STACK_AUDIO_IN_MID_BREAKPOINT
+  ? "min-w-0 flex-1 md:max-xl:flex-none md:max-xl:w-full xl:flex-1"
+  : "min-w-0 flex-1";
+
+const chapterVerseCardListenWrapClass = CHAPTER_VERSE_CARD_STACK_AUDIO_IN_MID_BREAKPOINT
+  ? "shrink-0 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 rounded-lg border border-orange-200/90 bg-gradient-to-br from-orange-50/95 to-amber-50/70 px-2 py-1.5 shadow-sm max-w-[calc(100%-0.5rem)] sm:max-w-none md:max-xl:self-start md:max-xl:max-w-full"
+  : "shrink-0 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 rounded-lg border border-orange-200/90 bg-gradient-to-br from-orange-50/95 to-amber-50/70 px-2 py-1.5 shadow-sm max-w-[calc(100%-0.5rem)] sm:max-w-none";
+
 function verseTransitionName(chapterNum: number, verseNum: number, part: "thumb" | "chip") {
   if (!ENABLE_VERSE_SHARED_TRANSITION_EXPERIMENT) return undefined;
   return `verse-${part}-${chapterNum}-${verseNum}`;
@@ -858,8 +877,8 @@ export default function ChapterPage() {
                       "thumb"
                     )}
                   />
-                  <div className="flex-1 min-w-0 flex items-start justify-between gap-2 sm:gap-3">
-                    <div className="min-w-0 flex-1">
+                  <div className={chapterVerseCardHeaderInnerClass}>
+                    <div className={chapterVerseCardVerseNumWrapClass}>
                       <span
                         className="text-xl sm:text-2xl font-bold text-red-950 block tabular-nums tracking-tight"
                         style={
@@ -879,7 +898,7 @@ export default function ChapterPage() {
                     </div>
                     {verse.audio_url && (
                       <div
-                        className="shrink-0 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 rounded-lg border border-orange-200/90 bg-gradient-to-br from-orange-50/95 to-amber-50/70 px-2 py-1.5 shadow-sm max-w-[calc(100%-0.5rem)] sm:max-w-none"
+                        className={chapterVerseCardListenWrapClass}
                         onPointerDownCapture={e => {
                           e.preventDefault();
                           e.stopPropagation();

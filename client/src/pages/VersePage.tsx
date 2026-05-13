@@ -87,6 +87,9 @@ const MORE_STORIES_TAB_FLOAT_WRAP_LAYOUT = true;
 // Reversible experiment: set to false to disable shared-element verse transitions.
 const ENABLE_VERSE_SHARED_TRANSITION_EXPERIMENT = true;
 
+/** Set false to disable scrolling the tab panel to the top when switching tabs. */
+const SCROLL_VERSE_TAB_PANEL_TO_TOP_ON_TAB_CHANGE = true;
+
 function verseTransitionName(chapterNum: number, verseNum: number, part: "thumb" | "chip") {
   if (!ENABLE_VERSE_SHARED_TRANSITION_EXPERIMENT) return undefined;
   return `verse-${part}-${chapterNum}-${verseNum}`;
@@ -354,6 +357,7 @@ export default function VersePage() {
     useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const tabNavRef = useRef<HTMLDivElement | null>(null);
+  const tabContentRef = useRef<HTMLDivElement | null>(null);
 
   const [, setLocation] = useLocation();
 
@@ -433,6 +437,31 @@ export default function VersePage() {
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
   }, [applyTabFromLocation]);
+
+  /**
+   * When switching tabs, scroll so the tab panel starts just below the sticky tab strip.
+   * Mobile: document scroll. lg+: `Layout` main is the scrollport — scrollIntoView respects that.
+   */
+  useEffect(() => {
+    if (!SCROLL_VERSE_TAB_PANEL_TO_TOP_ON_TAB_CHANGE) return;
+    const nav = tabNavRef.current;
+    const content = tabContentRef.current;
+    if (!nav || !content) return;
+
+    let innerRaf = 0;
+    const outerRaf = requestAnimationFrame(() => {
+      innerRaf = requestAnimationFrame(() => {
+        const prevMargin = content.style.scrollMarginTop;
+        content.style.scrollMarginTop = `${nav.offsetHeight}px`;
+        content.scrollIntoView({ block: "start", behavior: "smooth" });
+        content.style.scrollMarginTop = prevMargin;
+      });
+    });
+    return () => {
+      cancelAnimationFrame(outerRaf);
+      cancelAnimationFrame(innerRaf);
+    };
+  }, [activeTab]);
 
   useEffect(() => {
     const chapter = data.chapters.find(c => c.chapter === chapterNum);
@@ -1094,8 +1123,8 @@ export default function VersePage() {
         </div>
       </div>
 
-      {/* Tab Content — full width (#27) */}
-      <div className="px-4 py-5 lg:py-8">
+      {/* Tab Content — full width (#27); ref for scroll-into-view when switching tabs */}
+      <div ref={tabContentRef} className="px-4 py-5 lg:py-8">
         {/* MEANING TAB */}
         {activeTab === "meaning" && (
           <div className="verse-section space-y-5">
