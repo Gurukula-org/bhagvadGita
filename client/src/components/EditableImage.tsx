@@ -34,7 +34,11 @@ export default function EditableImage({
   asBg,
 }: EditableImageProps) {
   const { isAdmin, user } = useAuth();
-  const url = useImageUrl(imageKey, fallbackUrl);
+  const resolvedUrl = useImageUrl(imageKey, fallbackUrl);
+  // Optimistically override the URL right after a successful upload so the
+  // image refreshes immediately, before the Firestore listener fires.
+  const [localUrl, setLocalUrl] = useState<string | null>(null);
+  const url = localUrl ?? resolvedUrl;
   const [dialogOpen, setDialogOpen] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
@@ -58,10 +62,21 @@ export default function EditableImage({
   );
 
   const handleUpload = useCallback(async () => {
-    if (!file || !user?.email || !auth) return;
+    if (!file) {
+      toast.error("Please choose an image first");
+      return;
+    }
+    if (!auth) {
+      toast.error("Firebase is not configured");
+      return;
+    }
+    if (!auth.currentUser || !user?.email) {
+      toast.error("Please sign in as an admin to upload images");
+      return;
+    }
     setUploading(true);
     try {
-      const token = await auth.currentUser?.getIdToken();
+      const token = await auth.currentUser.getIdToken();
       if (!token) throw new Error("Not authenticated");
 
       const res = await fetch("/api/upload", {
@@ -74,9 +89,16 @@ export default function EditableImage({
         body: file,
       });
 
+      const data = await res
+        .json()
+        .catch(() => ({ error: `Upload failed (${res.status})` }));
+
       if (!res.ok) {
-        const data = await res.json().catch(() => ({ error: "Upload failed" }));
         throw new Error(data.error || `Upload failed (${res.status})`);
+      }
+
+      if (typeof data?.url === "string" && data.url) {
+        setLocalUrl(data.url);
       }
 
       toast.success("Image updated successfully");

@@ -25,17 +25,19 @@ export const TOPIC_HUBS: TopicHub[] = [
       "Bhagavad Gita for mental peace",
       "Gita anxiety relief",
     ],
-    // Until additional chapters are editorially ready, topic hubs intentionally point only to Chapter 12.
-    // When onboarding a new chapter, update these mappings and run the chapter SEO rollout checklist.
-    chapterNumbers: [12],
+    chapterNumbers: [12, 15],
     // Ch.12 editorial mapping (meaning_detail + reflection + detailed_meaning): difficulty of the subtle path and
     // body-identified mind (5); rescue from mortality/saṃsāra as existential dread (7); not disturbing others / not
     // shaken by the world, explicitly freeing fear and anxiety (15); freedom from dependence and binding expectation (16).
+    // Ch.15: rāga-dveṣa-vāsanās named as the secondary roots of bondage; reflection targets craving/aversion directly (2);
+    // qualities of the wise—dvandva-vimuktāḥ, jita-saṅga-doṣā, freedom from the pairs of opposites and from rāga-dveṣa (5).
     suggestedVerses: [
       { chapter: 12, verse: 5 },
       { chapter: 12, verse: 7 },
       { chapter: 12, verse: 15 },
       { chapter: 12, verse: 16 },
+      { chapter: 15, verse: 2 },
+      { chapter: 15, verse: 5 },
     ],
   },
   {
@@ -97,11 +99,14 @@ export const TOPIC_HUBS: TopicHub[] = [
       "practical spirituality",
       "meaning of life in Bhagavad Gita",
     ],
-    chapterNumbers: [3, 12],
+    chapterNumbers: [3, 12, 15],
     // Ch.3: Two lifestyles (karma-pradhāna and jñāna-pradhāna) as Vedic order (3); Veda born from Brahman (15); the self-fulfilled jñānī (17).
     // Metaphysical arc of the opening answer: niṣkāma saguṇa upāsanā as highest yoga in Arjuna’s terms (2); nirguṇa akṣara as
     // avyakta / acintya / anirdeśya (3); inner qualifications for that subtle contemplation—indriya-jaya and sama-buddhi (4);
     // Viśvarūpa conviction—buddhi + manas fixed on “cause–effect” non-duality of the world and Īśvara (8).
+    // Ch.15 (Puruṣottama-yoga): the upside-down aśvattha tree of saṃsāra with Brahman as the hidden root and vedavit as one
+    // who knows the root (1); surrender to the primordial Puruṣa as the path to the imperishable padam from which none return (4);
+    // self-effulgent Brahman not illumined by sun, moon, or fire — the supreme dhāma of Bhagavān (6).
     suggestedVerses: [
       { chapter: 3, verse: 3 },
       { chapter: 3, verse: 15 },
@@ -110,6 +115,9 @@ export const TOPIC_HUBS: TopicHub[] = [
       { chapter: 12, verse: 3 },
       { chapter: 12, verse: 4 },
       { chapter: 12, verse: 8 },
+      { chapter: 15, verse: 1 },
+      { chapter: 15, verse: 4 },
+      { chapter: 15, verse: 6 },
     ],
   },
 ];

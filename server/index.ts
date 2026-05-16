@@ -2,6 +2,7 @@ import express from "express";
 import fs from "fs";
 import { createServer } from "http";
 import path from "path";
+import { randomUUID } from "crypto";
 import { fileURLToPath } from "url";
 import { initializeApp, cert, getApps } from "firebase-admin/app";
 import { getStorage } from "firebase-admin/storage";
@@ -101,10 +102,16 @@ async function startServer() {
 
     const imageKey = req.headers["x-image-key"] as string;
     const contentType = req.headers["content-type"] || "image/webp";
-    const ext = contentType.split("/")[1] || "webp";
+    // Normalize extension (handles cases like "image/svg+xml")
+    const ext = (contentType.split("/")[1] || "webp").split(/[+;]/)[0] || "webp";
 
     if (!imageKey) {
       res.status(400).json({ error: "Missing x-image-key header" });
+      return;
+    }
+
+    if (!req.body || !(req.body instanceof Buffer) || req.body.length === 0) {
+      res.status(400).json({ error: "Empty upload body" });
       return;
     }
 
@@ -113,12 +120,36 @@ async function startServer() {
       const storagePath = `bhagvad-gita/images/${imageKey}/${Date.now()}.${ext}`;
       const file = bucket.file(storagePath);
 
-      await file.save(req.body, {
-        metadata: { contentType, cacheControl: "public, max-age=31536000" },
-      });
-      await file.makePublic();
+      // Embed a Firebase download token so the URL is publicly readable
+      // without depending on per-object ACLs (which break on buckets with
+      // uniform bucket-level access).
+      const downloadToken = randomUUID();
 
-      const publicUrl = `https://storage.googleapis.com/${BUCKET_NAME}/${storagePath}`;
+      await file.save(req.body, {
+        metadata: {
+          contentType,
+          cacheControl: "public, max-age=31536000",
+          metadata: {
+            firebaseStorageDownloadTokens: downloadToken,
+          },
+        },
+      });
+
+      // Best-effort: also try makePublic for buckets that allow ACLs.
+      // Ignore failures (e.g. uniform bucket-level access) — the token URL
+      // below works either way.
+      try {
+        await file.makePublic();
+      } catch (aclErr) {
+        console.warn(
+          "makePublic skipped (likely uniform bucket-level access):",
+          aclErr instanceof Error ? aclErr.message : aclErr,
+        );
+      }
+
+      const publicUrl =
+        `https://firebasestorage.googleapis.com/v0/b/${BUCKET_NAME}` +
+        `/o/${encodeURIComponent(storagePath)}?alt=media&token=${downloadToken}`;
 
       await getFirestore().collection("gita_images").doc(imageKey).set({
         url: publicUrl,
