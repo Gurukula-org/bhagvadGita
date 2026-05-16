@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { Pencil, Upload, Loader2, ImageIcon, ImageOff } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -40,13 +40,34 @@ export default function EditableImage({
   const [localUrl, setLocalUrl] = useState<string | null>(null);
   const url = localUrl ?? resolvedUrl;
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [preview, setPreview] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const MAX_UPLOAD_BYTES = 10 * 1024 * 1024; // keep in sync with server limit
-  const ACCEPTED_MIME = new Set(["image/jpeg", "image/png", "image/webp"]);
+  const ACCEPTED_MIME = useMemo(
+    () => new Set(["image/jpeg", "image/png", "image/webp"]),
+    [],
+  );
+
+  // Derive the preview URL from `file`. Doing this in useMemo (not inside a
+  // setState updater) keeps state updaters pure — important under React 19's
+  // strict-mode double-invocation, where impure updaters can create orphaned
+  // blob URLs that render as broken images.
+  const preview = useMemo(() => {
+    if (!file) return null;
+    return URL.createObjectURL(file);
+  }, [file]);
+
+  // Revoke the object URL when `file` changes or the component unmounts. The
+  // dependency is `preview` so we always revoke the exact URL that was created
+  // for the file we just stopped using.
+  useEffect(() => {
+    if (!preview) return;
+    return () => {
+      URL.revokeObjectURL(preview);
+    };
+  }, [preview]);
 
   const handleFileChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,22 +87,9 @@ export default function EditableImage({
         return;
       }
       setFile(selected);
-      setPreview((prev) => {
-        if (prev && prev.startsWith("blob:")) URL.revokeObjectURL(prev);
-        return URL.createObjectURL(selected);
-      });
     },
-    [],
+    [ACCEPTED_MIME, MAX_UPLOAD_BYTES],
   );
-
-  // Revoke any outstanding object URL when the dialog closes or the component unmounts
-  useEffect(() => {
-    return () => {
-      if (preview && preview.startsWith("blob:")) {
-        URL.revokeObjectURL(preview);
-      }
-    };
-  }, [preview]);
 
   const handleUpload = useCallback(async () => {
     if (!file) {
@@ -141,7 +149,6 @@ export default function EditableImage({
       toast.success("Image updated successfully");
       setDialogOpen(false);
       setFile(null);
-      setPreview(null);
     } catch (err: unknown) {
       const message =
         err instanceof Error ? err.message : "Upload failed";
@@ -153,7 +160,6 @@ export default function EditableImage({
 
   const resetDialog = useCallback(() => {
     setFile(null);
-    setPreview(null);
     if (inputRef.current) inputRef.current.value = "";
   }, []);
 
@@ -241,17 +247,22 @@ function UploadDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent
+        // Force an opaque card so the page can never bleed through, regardless
+        // of whether the `--background` CSS variable resolves on this build.
+        // `!bg-white` (with `!` important) wins over the base `bg-background`.
+        className="sm:max-w-md !bg-white !text-neutral-900 !border-neutral-200 shadow-2xl z-[60]"
+      >
         <DialogHeader>
-          <DialogTitle>Replace Image</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-neutral-900">Replace Image</DialogTitle>
+          <DialogDescription className="text-neutral-600">
             Select a new image to upload. It will replace the current one.
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
           <div>
-            <p className="text-xs text-muted-foreground mb-1">Current</p>
+            <p className="text-xs text-neutral-500 mb-1">Current</p>
             <DialogPreviewImage
               src={currentUrl}
               alt="Current"
@@ -261,13 +272,13 @@ function UploadDialog({
 
           {preview ? (
             <div>
-              <p className="text-xs text-muted-foreground mb-1">New image</p>
+              <p className="text-xs text-neutral-500 mb-1">New image</p>
               <DialogPreviewImage
                 src={preview}
                 alt="Preview"
                 fallbackMessage="Couldn't render preview — the file may be corrupt or in an unsupported format."
               />
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-xs text-neutral-500 mt-1">
                 {file?.name}
                 {file && (
                   <span className="ml-1 opacity-70">
@@ -279,7 +290,7 @@ function UploadDialog({
           ) : (
             <button
               onClick={() => inputRef.current?.click()}
-              className="w-full border-2 border-dashed border-border rounded-lg p-6 flex flex-col items-center gap-2 text-muted-foreground hover:border-orange-400 hover:text-orange-600 transition-colors"
+              className="w-full border-2 border-dashed border-neutral-300 bg-neutral-50 rounded-lg p-6 flex flex-col items-center gap-2 text-neutral-500 hover:border-orange-400 hover:text-orange-600 transition-colors"
             >
               <ImageIcon size={24} />
               <span className="text-sm font-medium">
@@ -305,7 +316,7 @@ function UploadDialog({
                 if (inputRef.current) inputRef.current.value = "";
                 inputRef.current?.click();
               }}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors mr-auto"
+              className="text-sm text-neutral-500 hover:text-neutral-900 transition-colors mr-auto"
               disabled={uploading}
             >
               Choose different
@@ -352,7 +363,7 @@ function DialogPreviewImage({
 
   if (!src || errored) {
     return (
-      <div className="w-full h-32 flex flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-border bg-muted/40 text-muted-foreground text-xs px-3 text-center">
+      <div className="w-full h-32 flex flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-neutral-300 bg-neutral-50 text-neutral-500 text-xs px-3 text-center">
         <ImageOff size={20} />
         <span>{fallbackMessage}</span>
       </div>
@@ -360,11 +371,13 @@ function DialogPreviewImage({
   }
 
   return (
-    <img
-      src={src}
-      alt={alt}
-      onError={() => setErrored(true)}
-      className="w-full max-h-40 object-cover rounded-lg border"
-    />
+    <div className="w-full h-40 rounded-lg border border-neutral-200 bg-neutral-50 overflow-hidden flex items-center justify-center">
+      <img
+        src={src}
+        alt={alt}
+        onError={() => setErrored(true)}
+        className="w-full h-full object-contain"
+      />
+    </div>
   );
 }
