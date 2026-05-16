@@ -1,5 +1,5 @@
-import { useState, useRef, useCallback } from "react";
-import { Pencil, Upload, Loader2, ImageIcon } from "lucide-react";
+import { useState, useRef, useCallback, useEffect } from "react";
+import { Pencil, Upload, Loader2, ImageIcon, ImageOff } from "lucide-react";
 import { toast } from "sonner";
 import {
   Dialog,
@@ -45,21 +45,43 @@ export default function EditableImage({
   const [uploading, setUploading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const MAX_UPLOAD_BYTES = 10 * 1024 * 1024; // keep in sync with server limit
+  const ACCEPTED_MIME = new Set(["image/jpeg", "image/png", "image/webp"]);
+
   const handleFileChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const selected = e.target.files?.[0];
       if (!selected) return;
       if (!selected.type.startsWith("image/")) {
-        toast.error("Please select an image file");
+        toast.error("Please select an image file (JPG, PNG, or WebP)");
+        return;
+      }
+      if (!ACCEPTED_MIME.has(selected.type)) {
+        toast.error(`Unsupported image type: ${selected.type || "unknown"}`);
+        return;
+      }
+      if (selected.size > MAX_UPLOAD_BYTES) {
+        const mb = (selected.size / (1024 * 1024)).toFixed(1);
+        toast.error(`Image is ${mb} MB. Max upload size is 10 MB.`);
         return;
       }
       setFile(selected);
-      const reader = new FileReader();
-      reader.onload = () => setPreview(reader.result as string);
-      reader.readAsDataURL(selected);
+      setPreview((prev) => {
+        if (prev && prev.startsWith("blob:")) URL.revokeObjectURL(prev);
+        return URL.createObjectURL(selected);
+      });
     },
     [],
   );
+
+  // Revoke any outstanding object URL when the dialog closes or the component unmounts
+  useEffect(() => {
+    return () => {
+      if (preview && preview.startsWith("blob:")) {
+        URL.revokeObjectURL(preview);
+      }
+    };
+  }, [preview]);
 
   const handleUpload = useCallback(async () => {
     if (!file) {
@@ -79,13 +101,24 @@ export default function EditableImage({
       const token = await auth.currentUser.getIdToken();
       if (!token) throw new Error("Not authenticated");
 
+      const headers: Record<string, string> = {
+        "Content-Type": file.type,
+        Authorization: `Bearer ${token}`,
+        "x-image-key": imageKey,
+      };
+      // Tell the server which storage object to overwrite. Prefer the live
+      // Firestore-resolved URL when it's a real CDN URL; fall back to the
+      // baked-in fallbackUrl from gitaData.json. The server validates this
+      // is under the project bucket before using it.
+      const referenceUrl =
+        (resolvedUrl && /^https?:\/\//.test(resolvedUrl) && resolvedUrl) ||
+        (fallbackUrl && /^https?:\/\//.test(fallbackUrl) && fallbackUrl) ||
+        "";
+      if (referenceUrl) headers["x-image-path"] = referenceUrl;
+
       const res = await fetch("/api/upload", {
         method: "POST",
-        headers: {
-          "Content-Type": file.type,
-          Authorization: `Bearer ${token}`,
-          "x-image-key": imageKey,
-        },
+        headers,
         body: file,
       });
 
@@ -98,7 +131,11 @@ export default function EditableImage({
       }
 
       if (typeof data?.url === "string" && data.url) {
-        setLocalUrl(data.url);
+        // Bust the browser cache so the freshly-overwritten object is fetched
+        // again (the canonical URL is unchanged and was cached for a year).
+        const cacheBuster = `v=${Date.now()}`;
+        const separator = data.url.includes("?") ? "&" : "?";
+        setLocalUrl(`${data.url}${separator}${cacheBuster}`);
       }
 
       toast.success("Image updated successfully");
@@ -112,7 +149,7 @@ export default function EditableImage({
     } finally {
       setUploading(false);
     }
-  }, [file, user, imageKey]);
+  }, [file, user, imageKey, resolvedUrl, fallbackUrl]);
 
   const resetDialog = useCallback(() => {
     setFile(null);
@@ -215,23 +252,28 @@ function UploadDialog({
         <div className="space-y-4">
           <div>
             <p className="text-xs text-muted-foreground mb-1">Current</p>
-            <img
+            <DialogPreviewImage
               src={currentUrl}
               alt="Current"
-              className="w-full max-h-40 object-cover rounded-lg border"
+              fallbackMessage="Current image failed to load — uploading a new one will replace it."
             />
           </div>
 
           {preview ? (
             <div>
               <p className="text-xs text-muted-foreground mb-1">New image</p>
-              <img
+              <DialogPreviewImage
                 src={preview}
                 alt="Preview"
-                className="w-full max-h-40 object-cover rounded-lg border"
+                fallbackMessage="Couldn't render preview — the file may be corrupt or in an unsupported format."
               />
               <p className="text-xs text-muted-foreground mt-1">
                 {file?.name}
+                {file && (
+                  <span className="ml-1 opacity-70">
+                    ({(file.size / 1024).toFixed(0)} KB)
+                  </span>
+                )}
               </p>
             </div>
           ) : (
@@ -289,5 +331,40 @@ function UploadDialog({
         </DialogFooter>
       </DialogContent>
     </Dialog>
+  );
+}
+
+function DialogPreviewImage({
+  src,
+  alt,
+  fallbackMessage,
+}: {
+  src: string;
+  alt: string;
+  fallbackMessage: string;
+}) {
+  const [errored, setErrored] = useState(false);
+
+  // Reset error state whenever the src changes (e.g. after a successful upload)
+  useEffect(() => {
+    setErrored(false);
+  }, [src]);
+
+  if (!src || errored) {
+    return (
+      <div className="w-full h-32 flex flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-border bg-muted/40 text-muted-foreground text-xs px-3 text-center">
+        <ImageOff size={20} />
+        <span>{fallbackMessage}</span>
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      onError={() => setErrored(true)}
+      className="w-full max-h-40 object-cover rounded-lg border"
+    />
   );
 }

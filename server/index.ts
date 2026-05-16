@@ -30,6 +30,107 @@ function initFirebaseAdmin() {
   });
 }
 
+// Map the underscore-separated suffix used in imageKey (e.g. "more_stories_3")
+// to the hyphenated filename suffix used in canonical storage paths
+// (e.g. "more-stories-4"). 1-based indexing matches existing files like
+// "ch3v42-story-1.png" and "ch3v42-more-stories-3.png".
+function imageKeySuffixToFilename(suffix: string): string | null {
+  const storyMatch = suffix.match(/^story_(\d+)$/);
+  if (storyMatch) return `story-${parseInt(storyMatch[1], 10) + 1}`;
+
+  const moreMatch = suffix.match(/^more_stories_(\d+)$/);
+  if (moreMatch) return `more-stories-${parseInt(moreMatch[1], 10) + 1}`;
+
+  const allowed = new Set([
+    "meaning",
+    "modern_life",
+    "kids_explain",
+    "kids_story",
+    "detailed_meaning",
+    "grammar",
+  ]);
+  if (allowed.has(suffix)) return suffix.replace(/_/g, "-");
+
+  return null;
+}
+
+const STORAGE_PATH_PREFIX = "bhagvad-gita/images/";
+
+// Pull the storage object path out of any URL that points at the project
+// bucket (legacy storage.googleapis.com or Firebase token URLs). Returns null
+// for anything not under bhagvad-gita/images/.
+function extractStoragePathFromUrl(raw: string): string | null {
+  if (!raw) return null;
+  try {
+    const u = new URL(raw);
+    let candidate: string | null = null;
+
+    if (u.hostname === "storage.googleapis.com") {
+      // /<bucket>/<object>
+      const parts = u.pathname.replace(/^\/+/, "").split("/");
+      if (parts[0] === BUCKET_NAME) {
+        candidate = parts.slice(1).join("/");
+      }
+    } else if (u.hostname === "firebasestorage.googleapis.com") {
+      // /v0/b/<bucket>/o/<encoded-object>
+      const m = u.pathname.match(/^\/v0\/b\/([^/]+)\/o\/(.+)$/);
+      if (m && m[1] === BUCKET_NAME) {
+        candidate = decodeURIComponent(m[2]);
+      }
+    }
+
+    if (!candidate) return null;
+    if (!candidate.startsWith(STORAGE_PATH_PREFIX)) return null;
+    return candidate;
+  } catch {
+    return null;
+  }
+}
+
+// Resolve the canonical bucket object path for an upload. Priority:
+//   1. Explicit x-image-path header (must be under bhagvad-gita/images/).
+//   2. Existing URL in Firestore gita_images/<imageKey> (also restricted).
+//   3. Derived from imageKey using the documented naming convention.
+async function resolveStoragePath(
+  imageKey: string,
+  requestedPath: string,
+  uploadedExt: string,
+): Promise<string | null> {
+  const fromHeader = extractStoragePathFromUrl(requestedPath) ||
+    (requestedPath.startsWith(STORAGE_PATH_PREFIX) ? requestedPath : null);
+  if (fromHeader) return fromHeader;
+
+  try {
+    const snap = await getFirestore()
+      .collection("gita_images")
+      .doc(imageKey)
+      .get();
+    if (snap.exists) {
+      const data = snap.data() ?? {};
+      const existingPath =
+        (typeof data.storagePath === "string" && data.storagePath) ||
+        (typeof data.url === "string" && extractStoragePathFromUrl(data.url)) ||
+        null;
+      if (existingPath && existingPath.startsWith(STORAGE_PATH_PREFIX)) {
+        return existingPath;
+      }
+    }
+  } catch (err) {
+    console.warn(
+      "Failed to read existing gita_images doc while resolving path:",
+      err instanceof Error ? err.message : err,
+    );
+  }
+
+  // Derive from imageKey: ch<N>_v<V>_<suffix>
+  const m = imageKey.match(/^ch(\d+)_v(\d+)_(.+)$/);
+  if (!m) return null;
+  const [, chapter, verse, suffix] = m;
+  const filenameSuffix = imageKeySuffixToFilename(suffix);
+  if (!filenameSuffix) return null;
+  return `${STORAGE_PATH_PREFIX}ch${chapter}/v${verse}/ch${chapter}v${verse}-${filenameSuffix}.${uploadedExt}`;
+}
+
 async function verifyAdmin(authHeader: string | undefined): Promise<string | null> {
   if (!authHeader?.startsWith("Bearer ")) return null;
   try {
@@ -101,9 +202,10 @@ async function startServer() {
     }
 
     const imageKey = req.headers["x-image-key"] as string;
+    const requestedPathHeader = (req.headers["x-image-path"] as string | undefined) || "";
     const contentType = req.headers["content-type"] || "image/webp";
     // Normalize extension (handles cases like "image/svg+xml")
-    const ext = (contentType.split("/")[1] || "webp").split(/[+;]/)[0] || "webp";
+    const uploadedExt = (contentType.split("/")[1] || "webp").split(/[+;]/)[0] || "webp";
 
     if (!imageKey) {
       res.status(400).json({ error: "Missing x-image-key header" });
@@ -115,9 +217,16 @@ async function startServer() {
       return;
     }
 
+    const storagePath = await resolveStoragePath(imageKey, requestedPathHeader, uploadedExt);
+    if (!storagePath) {
+      res.status(400).json({
+        error: "Could not resolve a canonical storage path for this image key",
+      });
+      return;
+    }
+
     try {
       const bucket = getStorage().bucket();
-      const storagePath = `bhagvad-gita/images/${imageKey}/${Date.now()}.${ext}`;
       const file = bucket.file(storagePath);
 
       // Embed a Firebase download token so the URL is publicly readable
@@ -126,6 +235,9 @@ async function startServer() {
       const downloadToken = randomUUID();
 
       await file.save(req.body, {
+        // Overwrite the existing object at the canonical path so that any
+        // URL already referencing that path keeps working with the new bytes.
+        resumable: false,
         metadata: {
           contentType,
           cacheControl: "public, max-age=31536000",
@@ -147,17 +259,28 @@ async function startServer() {
         );
       }
 
-      const publicUrl =
+      const tokenUrl =
         `https://firebasestorage.googleapis.com/v0/b/${BUCKET_NAME}` +
         `/o/${encodeURIComponent(storagePath)}?alt=media&token=${downloadToken}`;
+      // The legacy public URL (works once the object is publicly readable, which
+      // we achieved via makePublic and/or the bucket-level allUsers grant).
+      const legacyPublicUrl =
+        `https://storage.googleapis.com/${BUCKET_NAME}/${storagePath}`;
+
+      // Prefer the legacy public URL when available so existing references in
+      // gitaData.json keep matching the served URL; fall back to the token URL
+      // for buckets where makePublic failed.
+      const publicUrl = legacyPublicUrl;
 
       await getFirestore().collection("gita_images").doc(imageKey).set({
         url: publicUrl,
+        tokenUrl,
+        storagePath,
         updatedAt: new Date(),
         updatedBy: email,
       }, { merge: true });
 
-      res.json({ url: publicUrl });
+      res.json({ url: publicUrl, tokenUrl, storagePath });
     } catch (err: unknown) {
       console.error("Upload error:", err);
       const message = err instanceof Error ? err.message : "Upload failed";
