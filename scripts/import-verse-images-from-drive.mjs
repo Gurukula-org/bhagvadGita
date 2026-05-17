@@ -90,10 +90,21 @@ function titleCaseSlug(slug) {
     .join(" ");
 }
 
-function captionFromDescription(desc, verseLabel) {
-  if (!desc) return `Illustration for verse ${verseLabel}`;
-  const title = titleCaseSlug(desc);
-  return `${title} — illustrating the teaching of verse ${verseLabel}`;
+/** Placeholder from Drive filename slug only — replace in JSON per docs/new-chapter-content-import.md §8d. */
+function captionFromDescription(desc) {
+  if (!desc) return "";
+  return titleCaseSlug(desc);
+}
+
+function isMinimalCaption(caption) {
+  if (!caption || !String(caption).trim()) return true;
+  if (/illustrating the teaching of verse/i.test(caption)) return true;
+  return false;
+}
+
+function resolveCaption(existingCaption, description) {
+  if (!isMinimalCaption(existingCaption)) return existingCaption;
+  return captionFromDescription(description);
 }
 
 function parseFilename(name) {
@@ -183,12 +194,10 @@ function jsonSlotKey(storageSlot) {
   return storageSlot;
 }
 
-function applyToVerse(verse, uploads, chapter, verseNum) {
-  const label = `${chapter}.${verseNum}`;
+function applyToVerse(verse, uploads, _chapter, _verseNum) {
   if (!verse.images) verse.images = {};
 
   for (const u of uploads) {
-    const caption = captionFromDescription(u.description, label);
     const url = u.url;
     const key = jsonSlotKey(u.storageSlot);
 
@@ -196,15 +205,27 @@ function applyToVerse(verse, uploads, chapter, verseNum) {
       const idx = Number(u.storageSlot.split("-")[1]) - 1;
       if (!Array.isArray(verse.images.story)) verse.images.story = [];
       while (verse.images.story.length <= idx) verse.images.story.push({ url: "", caption: "" });
-      verse.images.story[idx] = { url, caption };
+      const existing = verse.images.story[idx];
+      verse.images.story[idx] = {
+        url,
+        caption: resolveCaption(existing?.caption, u.description),
+      };
     } else if (key === "more_stories") {
       const idx = Number(u.storageSlot.split("-")[2]) - 1;
       if (!Array.isArray(verse.images.more_stories)) verse.images.more_stories = [];
       while (verse.images.more_stories.length <= idx)
         verse.images.more_stories.push({ url: "", caption: "" });
-      verse.images.more_stories[idx] = { url, caption };
+      const existing = verse.images.more_stories[idx];
+      verse.images.more_stories[idx] = {
+        url,
+        caption: resolveCaption(existing?.caption, u.description),
+      };
     } else {
-      verse.images[key] = { url, caption };
+      const existing = verse.images[key];
+      verse.images[key] = {
+        url,
+        caption: resolveCaption(existing?.caption, u.description),
+      };
     }
   }
 }

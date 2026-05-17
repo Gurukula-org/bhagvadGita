@@ -181,7 +181,7 @@ When the user asks to **update verse tab images**, import illustrations from Dri
    - Script: `scripts/import-verse-images-from-drive.mjs` (version logic: `scripts/lib/verse-image-version.mjs`).
    - Each upload uses a **new** object name: `ch<N>v<V>-<slot>-v<version>.png` (legacy unversioned URL in JSON → next import is `-v2`, then `-v3`, …).
    - Optional: `--dry-run` first to print the plan without uploading.
-   - Updates `images.*.url` and `images.*.caption` only — **not** `story`, `more_stories`, or other prose.
+   - Updates `images.*.url` and `images.*.caption` only (rewrite minimal captions per `update-verse-images.md` §5) — **not** `story`, `more_stories`, or other prose.
 7. After import: `npm run check` and `npm run audit-chapter-import -- --chapter=<N>` when online.
 
 ## New chapter content import (Drive → app)
@@ -192,7 +192,7 @@ That doc enforces three things this main file deliberately delegates:
 
 - The **gate question** ("Which chapter?") before any download, parse, or edit.
 - **Per-shloka, per-image idempotency** so already-built shlokas/images are never redone during import (§8 generates from doc prompts). **Replace with Drive PNGs** only when the user explicitly requests it — then use **`docs/update-verse-images.md`** (`-vN` bump, not overwrite).
-- The **Chapter 12 image model** (slot keys, Storage paths, caption→image alignment) and **in-import image generation** from doc `Prompt:` strings (§8 — not `import-verse-images`).
+- The **Chapter 12 image model** (slot keys, Storage paths, caption→image alignment), **in-import image generation** from doc `Prompt:` strings (§8 — not `import-verse-images`), and **editorial image captions** from the prose above each tab (§8d — no `illustrating the teaching of verse …` boilerplate).
 - Post-import verification including **image loadability checks** (`/images/...` existence under `client/public` + HTTP HEAD for remote URLs). Use `--skip-images` only when offline.
 
 Important context the workflow relies on:

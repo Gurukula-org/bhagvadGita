@@ -212,7 +212,7 @@ Examples (Ch12 V1 — some legacy objects omit `-vN`; new uploads should use ver
 - `…/ch12/v1/ch12v1-story-bhishma.webp` (descriptive suffix is allowed for `story` and `more_stories`)
 - `…/ch12/v1/ch12v1-more-stories-3-hanuman.png`
 
-Public URL goes into `images.<slot>.url`. Caption goes into `images.<slot>.caption` and **must be the one-line caption from the source doc verbatim** (Ch12 captions even cite the source paragraph, e.g. _"(More Stories, Image 11)"_ — preserve that style).
+Public URL goes into `images.<slot>.url`.
 
 Local fallback (only for the existing Ch12 V1 mirror): `client/public/images/ch12/v1/<filename>.png`. Do **not** add new local copies for new chapters.
 
@@ -227,13 +227,32 @@ For each missing image slot in the GENERATE IMAGES list:
 5. **Never** invent a Storage URL. If you skip generation for any reason, leave the slot key out entirely (don't emit a placeholder URL).
 6. If the slot already has a URL in JSON, **skip** unless the user says "regenerate images for `<N>.<V>`" (or specifies a slot).
 
-### 8d. Caption-to-image alignment audit (must run before commit)
+### 8d. Image captions (required — same standard as Ch3)
+
+Every `images.<slot>.caption` is a **short editorial description** of what the illustration shows, written from the **prose directly above that image** in the verse (not from the image `Prompt:` alone).
+
+Rules:
+
+- **1–3 sentences**, present tense, concrete who/what is happening (match the tone of Ch3 captions in `gitaData.json`).
+- Tie the caption to the **tab content it sits under**: `meaning` / `detailed_meaning` / `story` / `modern_life` / `kids_explain` / `kids_story` / the matching numbered `more_stories` entry.
+- For `more_stories[i]`, read the **i-th numbered story** title and body; the caption should summarize the key moment that image depicts (often the turning point), not just name characters.
+- **Do not** end with boilerplate such as `— illustrating the teaching of verse <N>.<V>` or `Illustration for verse …`.
+- **Do not** use filename slugs, section labels, or title-case stubs as the final caption (e.g. `Samsara Tree`, `Modern Life`).
+
+**Example (15.1, first `more_stories` image):** story title *Indra Returns Again and Again to Prajāpati for the True Self* → acceptable caption:
+
+> Prajāpati instructed Indra and Virocana. While Virocana was satisfied with the first answer, Indra dug deep until he understood fully.
+
+**Reference:** Chapter 3 `key_verses` image captions (e.g. 3.1 `meaning`, `story[]`, `more_stories[]`) in `client/src/data/gitaData.json`.
+
+### 8e. Caption-to-image alignment audit (must run before commit)
 
 After insertion, verify per shloka:
 
 - `images.story.length` ≤ 2.
 - `images.more_stories.length` == number of numbered entries parsed from `more_stories` text by `/^\d+\.\s/` (the same regex the UI uses in `ImageManagerPage.tsx > parseMoreStoryTitles`).
-- Each `more_stories[i].caption` references the same character/episode as the i-th story title.
+- Each `more_stories[i].caption` references the same character/episode as the i-th story title and reads like a real scene description (not a stub or verse boilerplate).
+- Every populated `images.*.caption` passes the rules in §8d.
 - All Storage URLs return HTTP 200 (sanity check, optional but recommended).
 
 ## 9. Local persistence (don't re-open Drive on every page load)
@@ -378,6 +397,7 @@ Plus a manual smoke test of:
 - **Never** re-generate an image whose `images.<slot>.url` is already populated in JSON, unless the user explicitly opts in.
 - **Never** run **`docs/update-verse-images.md`** or suggest Drive PNG re-import as part of or after chapter import; that workflow is **only** when the user explicitly asks to update/replace verse images.
 - **Never** treat a missing `chapter00NN/images/<N>.<V>/` Drive folder as a reason to defer chapter import — generate from doc prompts in §8 instead.
+- **Never** ship image captions that are filename stubs or end with `— illustrating the teaching of verse <N>.<V>` — write editorial captions per §8d.
 - **Never** invent a Storage URL, audio URL, image, story, or grammar field. Missing source ⇒ deferred shloka, reported back to the user.
 - **Never** edit chapter scaffold fields (`name`, `name_hindi`, `subtitle`, `summary`, `theme`, `color`, `icon`, `verses_count`) during a content import. The only chapter-level mutations allowed are `iast_name`, `devanagari_name`, and `generated_description`, and only via `npm run generate-chapter-descriptions -- --chapter=<N>`.
 - **Never** commit unless the user asked for a commit (per repo policy).

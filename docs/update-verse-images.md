@@ -215,11 +215,29 @@ node scripts/import-verse-images-from-drive.mjs \
 
 The script uploads all PNGs and writes **`gitaData.json` once** (batch) or per verse (single).
 
-### 5. Prose alignment (manual, when needed)
+### 5. Image captions (required when missing or minimal)
 
-Import updates **`images.*.url`** and **`images.*.caption` only** — not `story`, `more_stories`, or other text. Align copy separately if art and narrative differ.
+The batch importer may set a **placeholder** caption from the Drive filename. After upload, **always review** `images.*.caption` in `gitaData.json`.
 
-### 6. Verify
+**Rewrite the caption** when it is missing, empty, a filename slug, or otherwise minimal — including any text ending with `— illustrating the teaching of verse <N>.<V>`.
+
+Write captions the same way as chapter import §8d in `docs/new-chapter-content-import.md`:
+
+- 1–3 sentences from the **prose directly above that image** in the verse (the tab’s `meaning_detail`, `story`, `more_stories` segment, etc.).
+- Concrete scene description; no verse-number boilerplate at the end.
+- For `more_stories[i]`, summarize the key moment of the **i-th numbered story**, not only character names.
+
+**Example (15.1, first `more_stories`):**
+
+> Prajāpati instructed Indra and Virocana. While Virocana was satisfied with the first answer, Indra dug deep until he understood fully.
+
+**Preserve** existing captions that already meet §8d (the importer skips overwriting non-minimal captions).
+
+### 6. Prose alignment (manual, when needed)
+
+Import updates **`images.*.url`** and **`images.*.caption`** (caption only when missing/minimal — see §5) — not `story`, `more_stories`, or other prose fields. Align narrative copy separately if art and text differ.
+
+### 7. Verify
 
 ```bash
 npm run check
@@ -228,7 +246,7 @@ npm run audit-chapter-import -- --chapter=3
 
 Spot-check: `/chapter/3/verse/19` (all image tabs).
 
-### 7. Commit (when asked)
+### 8. Commit (when asked)
 
 Commit `gitaData.json` (and doc changes if any). **Never** commit credentials or `.cache/`.
 
