@@ -42,6 +42,7 @@ export function getImageUrlForSlot(verse, storageSlot) {
   }
   const keyBySlot = {
     meaning: "meaning",
+    "panel-summary": "panel_summary",
     "modern-life": "modern_life",
     "kids-explain": "kids_explain",
     "kids-story": "kids_story",

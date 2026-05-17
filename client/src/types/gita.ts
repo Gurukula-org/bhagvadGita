@@ -77,6 +77,8 @@ export interface Verse {
   rich_grammar?: RichGrammar;
   // Section images keyed by section name
   images?: {
+    /** Single 12-panel composite visual summary (GCS: ch{N}v{V}-panel-summary-v{N}.png) */
+    panel_summary?: VerseImage;
     meaning?: VerseImage;
     story?: VerseImage[];
     modern_life?: VerseImage;

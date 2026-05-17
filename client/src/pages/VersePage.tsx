@@ -10,6 +10,7 @@ import {
 import { Link, useParams, useLocation, Redirect } from "wouter";
 import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
+import { PanelSummaryHero } from "@/components/PanelSummaryHero";
 import { ImageModal } from "@/components/ImageModal";
 import { useChapterVisibility } from "@/contexts/ChapterVisibilityContext";
 import EditableImage from "@/components/EditableImage";
@@ -1059,6 +1060,20 @@ export default function VersePage() {
           )}
         </div>
       </div>
+
+      {verse.images?.panel_summary?.url?.trim() ? (
+        <PanelSummaryHero
+          chapterNum={chapterNum}
+          verseNum={verseNum}
+          url={verse.images.panel_summary.url}
+          caption={verse.images.panel_summary.caption}
+          title={
+            verse.title
+              ? `Bhagavad Gita ${chapterNum}.${verseNum} — ${verse.title}`
+              : undefined
+          }
+        />
+      ) : null}
 
       {/* Tab Navigation — sticky at viewport top on mobile (document scroll), at top in desktop scroll container (#56) */}
       <div

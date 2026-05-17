@@ -96,7 +96,25 @@ If `images/` is missing under `chapter00NN`, or shloka folders are empty, stop a
 
 - Subfolder name: **`<chapter>.<verse>`** (e.g. `3.19`, `12.1`).
 - PNG only for the batch importer.
-- Skip files with `panel-summary` in the name.
+- Skip files with `panel-summary` in the name (handled by `npm run import-panel-summary`).
+
+### Panel summary (12-panel composite)
+
+**Filename:** `<chapter>.<verse>-panel-summary.png` (same Drive folder as tab PNGs)
+
+**GCS:** `bhagvad-gita/images/ch<N>/v<V>/ch<N>v<V>-panel-summary-v<version>.png`
+
+**JSON:** `verse.images.panel_summary` → `{ url, caption }`
+
+**Import:**
+
+```bash
+export GOOGLE_APPLICATION_CREDENTIALS="${PWD}/sample-f6f12-0e67b9d712cf.json"
+npm run import-panel-summary -- --chapter 3 --root-dir .cache/chapter-import/_drive_root/chapter0003/images --verses 19,20,21
+npm run import-panel-summary -- --chapter 15 --verses 1,2
+```
+
+The verse page shows a hero block above tabs only when `panel_summary.url` is set.
 
 ### Filename pattern
 

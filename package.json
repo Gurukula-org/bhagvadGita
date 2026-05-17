@@ -14,6 +14,7 @@
     "strip-translit": "node scripts/strip-transliteration-json.mjs",
     "audit-chapter-import": "node scripts/audit-chapter-import.mjs",
     "import-verse-images": "node scripts/import-verse-images-from-drive.mjs",
+    "import-panel-summary": "node scripts/import-panel-summary-from-drive.mjs",
     "format": "prettier --write .",
     "firebase:deploy-rules": "npx firebase-tools deploy --only firestore:rules,storage --project sample-f6f12",
     "firebase:push-ch3v42-meaning": "node scripts/push-verse-image-to-storage.mjs --chapter 3 --verse 42 --slot meaning --file client/public/images/ch3/v42/ch3v42-meaning.png"
