@@ -358,6 +358,8 @@ export default function VersePage() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const tabNavRef = useRef<HTMLDivElement | null>(null);
   const tabContentRef = useRef<HTMLDivElement | null>(null);
+  /** Skip one activeTab panel scroll after chapter/verse navigation (card, More, View details). */
+  const skipTabPanelScrollRef = useRef(false);
 
   const [, setLocation] = useLocation();
 
@@ -405,14 +407,18 @@ export default function VersePage() {
   );
 
   useEffect(() => {
-    const resolvedTab = applyTabFromLocation();
-    if (resolvedTab !== "meaning" && tabNavRef.current) {
-      // A specific tab was requested (e.g. from chapter-page tab buttons) — scroll it into view.
+    skipTabPanelScrollRef.current = true;
+    const hadExplicitTab = new URLSearchParams(window.location.search).has(
+      "tab",
+    );
+    applyTabFromLocation();
+    if (hadExplicitTab && tabNavRef.current) {
+      // Chapter-page tab link (Meaning, Story, Life Impact, …) — scroll tabs into view.
       setTimeout(() => {
         tabNavRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 50);
     } else {
-      // Default: keep the shloka header in view.
+      // Card body, More, View details — keep the shloka header at the top.
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
     if (audioRef.current) {
@@ -444,6 +450,10 @@ export default function VersePage() {
    */
   useEffect(() => {
     if (!SCROLL_VERSE_TAB_PANEL_TO_TOP_ON_TAB_CHANGE) return;
+    if (skipTabPanelScrollRef.current) {
+      skipTabPanelScrollRef.current = false;
+      return;
+    }
     const nav = tabNavRef.current;
     const content = tabContentRef.current;
     if (!nav || !content) return;

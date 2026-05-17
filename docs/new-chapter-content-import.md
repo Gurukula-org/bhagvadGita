@@ -218,14 +218,61 @@ Local fallback (only for the existing Ch12 V1 mirror): `client/public/images/ch1
 
 ### 8c. Generation rules
 
+**Default image workflow (per verse):** follow **§8c.2** — one **`meaning`** preview for user approval, then generate all remaining slots automatically. The user does **not** approve each image in the app; in Cursor they may need to allow batched `GenerateImage` tool calls once after the preview is accepted.
+
 For each missing image slot in the GENERATE IMAGES list:
 
-1. Pull the **exact `Prompt:` string** from the shloka source (main `N.V` doc and/or `N.V images` doc) — do not paraphrase.
-2. Generate the image using the project's standard generator/tooling (same model parameters used for Ch12).
-3. Upload to the Storage path in §8b. Make the file public; set `cacheControl: public, max-age=31536000`.
-4. Write `images.<slot>` (or push into the array for `story` / `more_stories`) with `{ url, caption }`. Keep the array order **identical** to the order the corresponding stories appear in `more_stories` text — `more_stories[i]` image must visually depict `more_stories` story number `i+1`.
-5. **Never** invent a Storage URL. If you skip generation for any reason, leave the slot key out entirely (don't emit a placeholder URL).
-6. If the slot already has a URL in JSON, **skip** unless the user says "regenerate images for `<N>.<V>`" (or specifies a slot).
+1. **Phase A (§8c.2):** generate only `meaning`, show the user, wait for style approval.
+2. **Phase B (§8c.2):** generate every other slot in batches (same §8c.1 assembly per slot) without pausing for per-image approval unless the tool environment blocks progress.
+3. Build each generation input per **§8c.1** (exact doc `Prompt:` + standard append block — never a shortened rewrite).
+4. Name files for `scripts/import-verse-images-from-drive.mjs`, e.g. `<N>.<V>-image-<seq>-<section>-<slug>.png` (see Ch15.2 in `.cache/chapter-import/ch15-images/15.2/` for a full-verse example), copy into `.cache/chapter-import/ch<N>-images/<N>.<V>/`, and run the importer for that verse.
+5. Upload lands at the Storage path in §8b (importer handles upload + `images.*.url`). Set `cacheControl: public, max-age=31536000` via the script.
+6. **Replace importer stub captions** with editorial captions per **§8d** (the importer may write filename slugs from the PNG name; those are not shippable).
+7. Keep `story` / `more_stories` array order **identical** to numbered story order in prose — `more_stories[i]` image must depict story `i+1`.
+8. **Never** invent a Storage URL. If you skip generation for any reason, leave the slot key out entirely (don't emit a placeholder URL).
+9. If the slot already has a URL in JSON, **skip** unless the user says "regenerate images for `<N>.<V>`" (or specifies a slot).
+
+### 8c.1. Generation prompt assembly (required)
+
+Each Drive image entry is a line starting with `Prompt:` in the shloka Word doc (section **Image Prompts**, usually `Image 1`, `Image 2`, … in prompt order).
+
+**Do not** replace that text with a new shortened prompt. The doc already includes Pixar-style, kid-friendly, and “avoid full shloka / too many words” rules. Paraphrasing often causes the model to add Sanskrit, verse numbers, or long on-image text.
+
+**Assembly (every image):**
+
+```
+<exact Prompt: text from the doc, including everything after "Prompt:" on that image row>
+
+Additional generation rules: Use bright, saturated, cheerful colors (not dull or muted). Keep strict Pixar-style 3D cartoon rendering throughout—no watercolor, painterly, or soft-wash look on any element. On-image text: very minimal only (short labels explicitly named in the prompt above, or none); no Sanskrit, shloka lines, verse numbers, or long captions.
+```
+
+Rules for the append block:
+
+- **Always** append it verbatim (same wording every time). Do not weaken or omit it.
+- **Bright / saturated** — avoids dull, muted, “watercolor haze” outputs.
+- **Strict 3D cartoon** — no part of the image should look like a watercolor or painterly illustration.
+- **Minimal text** — the doc may allow a few short labels (e.g. “higher lokas,” “desire,” “action”); do not add paragraphs, shloka lines, or extra labels beyond what the doc prompt names.
+- The doc footer already says not to place full shloka text; the append block reinforces that for the generator.
+
+Extract prompts from the docx programmatically when possible (e.g. parse `word/document.xml` or `textutil -convert txt`) and cache under `.cache/chapter-import/ch<N>/parsed/<N>.<V>.prompts.json` so re-runs stay consistent.
+
+### 8c.2. Meaning-image preview, then batch the rest (default)
+
+Use this **every time** you generate images for a verse during chapter import (unless the user explicitly says to skip the preview and generate all slots at once).
+
+**Phase A — one approval (style check)**
+
+1. Generate **only** the `meaning` slot (first `Prompt:` / `Image 1` → `…-image-01-3-meaning-…` filename) using §8c.1.
+2. Show the preview to the user (do not upload to GCP or write JSON for the full verse set until style is accepted, unless you are only replacing `meaning`).
+3. Wait for explicit approval (e.g. “looks good”, “proceed”, “do the rest”). If they request changes, regenerate `meaning` only until approved.
+
+**Phase B — automatic for remaining slots**
+
+4. After approval, generate **all other** image slots for that verse using the **same** §8c.1 assembly (exact doc `Prompt:` + append block per slot). Run generations in parallel batches (e.g. 3–4 at a time) without asking the user to review each file.
+5. The user should **not** need to click Generate in the Bhagavad Gita app. In Cursor, they may see tool-approval prompts depending on IDE settings; batch as many calls as the environment allows after Phase A is done.
+6. Then upload via `import-verse-images-from-drive.mjs`, write URLs, and replace captions per §8d.
+
+**Skip Phase A** only if the user explicitly says to generate all images without a meaning preview (e.g. regenerating a single slot, or repeating a verse whose style was already approved in the same session).
 
 ### 8d. Image captions (required — same standard as Ch3)
 
@@ -395,9 +442,10 @@ Plus a manual smoke test of:
 - **Never** re-download a Drive file already cached unchanged in `.cache/chapter-import/`.
 - **Never** re-parse a Word doc whose cached JSON is already current.
 - **Never** re-generate an image whose `images.<slot>.url` is already populated in JSON, unless the user explicitly opts in.
+- **Never** paraphrase or shorten Drive `Prompt:` text for image generation — use §8c.1 (exact doc prompt + standard append block).
 - **Never** run **`docs/update-verse-images.md`** or suggest Drive PNG re-import as part of or after chapter import; that workflow is **only** when the user explicitly asks to update/replace verse images.
 - **Never** treat a missing `chapter00NN/images/<N>.<V>/` Drive folder as a reason to defer chapter import — generate from doc prompts in §8 instead.
-- **Never** ship image captions that are filename stubs or end with `— illustrating the teaching of verse <N>.<V>` — write editorial captions per §8d.
+- **Never** ship image captions that are filename stubs or end with `— illustrating the teaching of verse <N>.<V>` — write editorial captions per §8d (replace any stubs left by `import-verse-images-from-drive.mjs`).
 - **Never** invent a Storage URL, audio URL, image, story, or grammar field. Missing source ⇒ deferred shloka, reported back to the user.
 - **Never** edit chapter scaffold fields (`name`, `name_hindi`, `subtitle`, `summary`, `theme`, `color`, `icon`, `verses_count`) during a content import. The only chapter-level mutations allowed are `iast_name`, `devanagari_name`, and `generated_description`, and only via `npm run generate-chapter-descriptions -- --chapter=<N>`.
 - **Never** commit unless the user asked for a commit (per repo policy).
