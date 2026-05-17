@@ -175,6 +175,8 @@ For each shloka in the UPLOAD AUDIO list:
 
 This is the most error-prone section. The Ch12 V1 implementation is the reference (see `gitaData.json` lines ~370–423 and `client/public/images/ch12/v1/…`).
 
+**Replacing or batch-uploading finished Drive PNGs** (under `chapter00NN/images/<N>.<V>/`, filename `N.V-image-SEQ-SECTION-…`) without re-importing prose: see **`docs/update-verse-images.md`** (Drive root, credentials, **must run** `scripts/import-verse-images-from-drive.mjs`, versioned GCS paths).
+
 ### 8a. Image-slot vocabulary (must match `Verse.images` in `types/gita.ts`)
 
 | Slot key                     | Cardinality                  | Where it renders                              |
@@ -195,10 +197,12 @@ The image companion doc (`N.V images`) for each shloka must explicitly assign ea
 Firebase Storage (primary):
 
 ```
-gs://sample-f6f12.appspot.com/bhagvad-gita/images/ch<N>/v<V>/ch<N>v<V>-<slot>.<ext>
+gs://sample-f6f12.appspot.com/bhagvad-gita/images/ch<N>/v<V>/ch<N>v<V>-<slot>-v<version>.<ext>
 ```
 
-Examples (Ch12 V1):
+For **replacing** existing art, increment `version` (see **`docs/update-verse-images.md`**) — do not overwrite the same object path (CDN cache).
+
+Examples (Ch12 V1 — some legacy objects omit `-vN`; new uploads should use versioning):
 
 - `…/ch12/v1/ch12v1-meaning.webp`
 - `…/ch12/v1/ch12v1-story-bhishma.webp` (descriptive suffix is allowed for `story` and `more_stories`)

@@ -152,6 +152,36 @@ There must be **one** summary implementation: **`ChapterSummaryPage` + `chapterS
 
 - Unlike Firebase-backed verse images, synopsis illustrations are **checked into** `client/public/chapter-summaries/`. Do not invent URLs; add real files and reference them in `chapterSummaries.json`.
 
+## Update verse section images (Drive PNGs → GCS → gitaData.json)
+
+When the user asks to **update verse tab images**, import illustrations from Drive, or refresh cached CDN images for specific shlokas:
+
+1. Follow **`docs/update-verse-images.md`** (canonical runbook).
+2. **Gate:** confirm **chapter number** and **verse list** before any download or upload.
+3. **Drive root:** [Bhagavad Gita Journey Content](https://drive.google.com/drive/folders/12eaLMBMDFMOwgMhtLtLi3NP6gHRuQEXq) → `chapter00NN/images/<N>.<V>/` (e.g. chapter `3`, verse `20` → `chapter0003/images/3.20/`). Finished PNGs live under `images/` only (prose/audio docs sit at the chapter folder root).
+4. **Download** with `gdown` into `.cache/chapter-import/` (gitignored). Local `--root-dir` must be the folder whose **direct children** are `3.19`, `3.20`, … (the `images/` directory), not `chapter0003` itself.
+5. **Credentials:** repo-root `sample-f6f12-0e67b9d712cf.json` (gitignored). Cursor may `@sample-f6f12-0e67b9d712cf.json` for path context only — never paste key material into chat, markdown, or commits.
+
+   ```bash
+   export GOOGLE_APPLICATION_CREDENTIALS="${PWD}/sample-f6f12-0e67b9d712cf.json"
+   test -f "$GOOGLE_APPLICATION_CREDENTIALS"
+   ```
+
+6. **MUST** run the importer (versioned CDN busting + JSON update). Do not hand-edit Storage URLs or overwrite an existing object path in place.
+
+   ```bash
+   npm run import-verse-images -- \
+     --chapter 3 \
+     --root-dir .cache/chapter-import/ch3-images-drive \
+     --verses 19,20,21
+   ```
+
+   - Script: `scripts/import-verse-images-from-drive.mjs` (version logic: `scripts/lib/verse-image-version.mjs`).
+   - Each upload uses a **new** object name: `ch<N>v<V>-<slot>-v<version>.png` (legacy unversioned URL in JSON → next import is `-v2`, then `-v3`, …).
+   - Optional: `--dry-run` first to print the plan without uploading.
+   - Updates `images.*.url` and `images.*.caption` only — **not** `story`, `more_stories`, or other prose.
+7. After import: `npm run check` and `npm run audit-chapter-import -- --chapter=<N>` when online.
+
 ## New chapter content import (Drive → app)
 
 When the user provides a new chapter's shloka Word docs + MP3s in Drive, follow the dedicated workflow in **`docs/new-chapter-content-import.md`**. After verses land in JSON, run **`npm run audit-chapter-import -- --chapter=<N>`** per **`docs/post-chapter-import-audit.md`**.
@@ -159,14 +189,14 @@ When the user provides a new chapter's shloka Word docs + MP3s in Drive, follow 
 That doc enforces three things this main file deliberately delegates:
 
 - The **gate question** ("Which chapter?") before any download, parse, or edit.
-- **Per-shloka, per-image idempotency** so already-built shlokas/images are never redone.
+- **Per-shloka, per-image idempotency** so already-built shlokas/images are never redone (exception: user explicitly requests **replace** finished Drive PNGs — use **`docs/update-verse-images.md`**, which bumps `-vN` instead of overwriting paths).
 - The **Chapter 12 image model** (slot keys, Storage paths, caption→image alignment).
 - Post-import verification including **image loadability checks** (`/images/...` existence under `client/public` + HTTP HEAD for remote URLs). Use `--skip-images` only when offline.
 
 Important context the workflow relies on:
 
 - `client/src/data/gitaData.json` already contains a **chapter-card scaffold** (name, subtitle, summary, theme, color, icon, iast_name, devanagari_name, placeholder generated_description) for **all 18 chapters**. **Chapters 3 and 12** currently have **full gold-standard** `key_verses` for every verse in those chapters’ curated lists; other chapters may still use sparse stubs until imported. Re-scan the file before assuming only one chapter is “done.” A new chapter import is purely a `key_verses` population task and must NOT rewrite the scaffold (only `iast_name`, `devanagari_name`, `generated_description` may be regenerated, and only via `npm run generate-chapter-descriptions -- --chapter=<n>`).
-- Runtime data sinks are fixed: verse content → `gitaData.json`; audio → `gs://sample-f6f12.appspot.com/bhagvad-gita/audio/ch<n>/<n>.<v>.mp3`; verse images → `gs://sample-f6f12.appspot.com/bhagvad-gita/images/ch<n>/v<v>/...`. No new permanent local shloka files anywhere else.
+- Runtime data sinks are fixed: verse content → `gitaData.json`; audio → `gs://sample-f6f12.appspot.com/bhagvad-gita/audio/ch<n>/<n>.<v>.mp3`; verse images → `gs://sample-f6f12.appspot.com/bhagvad-gita/images/ch<n>/v<v>/ch<n>v<v>-<slot>-v<version>.png` (increment version on replace — see **`docs/update-verse-images.md`**). No new permanent local shloka files anywhere else.
 - SEO, sitemap, and `/topics/...` "Gita by life situation" wiring is covered end-to-end in `docs/new-chapter-content-import.md` §10. `docs/new-chapter-rollout-checklist.md` remains reference-only for new-topic-hub creation and chapter-synopsis flows.
 
 ## Fix New Issue (Google Sheets)
@@ -255,8 +285,9 @@ Every fully populated verse MUST have ALL of these fields. Use **Chapter 12 Vers
 
 - **DO NOT** create or fabricate image URLs
 - **DO NOT** add the `images` field unless real images already exist
-- Images are uploaded separately by the admin through the app's UI
-- Leave the `images` field out entirely for new verses
+- **Batch upload from Drive:** use **`npm run import-verse-images`** per **`docs/update-verse-images.md`** (not manual URL edits). Admin UI upload is an alternative for single slots.
+- Leave the `images` field out entirely for new verses until real assets exist
+- **Replacing art:** always bump GCS object version (`-v2`, `-v3`, …) via the importer — never reuse the same Storage path (CDN cache)
 
 ## Content Quality Guidelines
 
@@ -354,7 +385,7 @@ npm run build
 
 This validates TypeScript and ensures JSON bundles correctly. Fix any errors before committing. After changing chapter summary images, confirm `/chapter/<n>/summary` in dev or preview and that image paths under `/chapter-summaries/` load.
 
-Other useful scripts: `npm run strip-translit` (see above), `npm run generate-chapter-descriptions`, `npm run audit-chapter-import` (after chapter JSON landings; see `docs/post-chapter-import-audit.md`), `npm run format` (Prettier).
+Other useful scripts: `npm run strip-translit` (see above), `npm run generate-chapter-descriptions`, `npm run import-verse-images` (Drive PNGs → versioned GCS + `gitaData.json`; see `docs/update-verse-images.md`), `npm run audit-chapter-import` (after chapter JSON landings; see `docs/post-chapter-import-audit.md`), `npm run format` (Prettier).
 
 ### Verse page interaction notes (do not regress)
 
