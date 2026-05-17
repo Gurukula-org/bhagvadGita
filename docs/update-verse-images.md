@@ -1,9 +1,13 @@
 # Update verse section images (Drive → GCS → gitaData.json)
 
+**Scope:** user-prompted image update only. Run this when the user explicitly asks to **update**, **replace**, or **import finished Drive PNGs** for specific shlokas.
+
+**Not part of chapter import.** `docs/new-chapter-content-import.md` §8 already generates images from doc `Prompt:` strings and uploads to GCS. Do **not** run this doc during or after a chapter import unless the user requests it. Do **not** suggest it as a follow-up when `chapter00NN/images/<N>.<V>/` is empty on Drive.
+
 Use this workflow when **finished PNG illustrations** exist in Google Drive and you need to upload them to Firebase Storage and sync `client/src/data/gitaData.json` for **one or many shlokas**.
 
 **Automation (required):** `scripts/import-verse-images-from-drive.mjs`  
-**Related:** prose/audio import → `docs/new-chapter-content-import.md`; post-import checks → `docs/post-chapter-import-audit.md`.
+**Related:** full shloka import (prose + audio + generated images) → `docs/new-chapter-content-import.md`; post-import checks → `docs/post-chapter-import-audit.md`.
 
 ---
 

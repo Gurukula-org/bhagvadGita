@@ -152,7 +152,9 @@ There must be **one** summary implementation: **`ChapterSummaryPage` + `chapterS
 
 - Unlike Firebase-backed verse images, synopsis illustrations are **checked into** `client/public/chapter-summaries/`. Do not invent URLs; add real files and reference them in `chapterSummaries.json`.
 
-## Update verse section images (Drive PNGs → GCS → gitaData.json)
+## Update verse section images (Drive PNGs → GCS → gitaData.json) — user prompt only
+
+**Not implicit in chapter import.** New chapter import already generates per-tab images from doc prompts and uploads to GCS (`docs/new-chapter-content-import.md` §8). Use the workflow below **only** when the user explicitly asks to update/replace images with finished Drive PNGs.
 
 When the user asks to **update verse tab images**, import illustrations from Drive, or refresh cached CDN images for specific shlokas:
 
@@ -189,8 +191,8 @@ When the user provides a new chapter's shloka Word docs + MP3s in Drive, follow 
 That doc enforces three things this main file deliberately delegates:
 
 - The **gate question** ("Which chapter?") before any download, parse, or edit.
-- **Per-shloka, per-image idempotency** so already-built shlokas/images are never redone (exception: user explicitly requests **replace** finished Drive PNGs — use **`docs/update-verse-images.md`**, which bumps `-vN` instead of overwriting paths).
-- The **Chapter 12 image model** (slot keys, Storage paths, caption→image alignment).
+- **Per-shloka, per-image idempotency** so already-built shlokas/images are never redone during import (§8 generates from doc prompts). **Replace with Drive PNGs** only when the user explicitly requests it — then use **`docs/update-verse-images.md`** (`-vN` bump, not overwrite).
+- The **Chapter 12 image model** (slot keys, Storage paths, caption→image alignment) and **in-import image generation** from doc `Prompt:` strings (§8 — not `import-verse-images`).
 - Post-import verification including **image loadability checks** (`/images/...` existence under `client/public` + HTTP HEAD for remote URLs). Use `--skip-images` only when offline.
 
 Important context the workflow relies on:

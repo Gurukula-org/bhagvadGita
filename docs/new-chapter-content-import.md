@@ -88,7 +88,7 @@ Print this table to the user before any writes. Then derive the **action set**:
 - **SKIP** any shloka whose row is fully populated (`richFields` + `audioInJson` + `imagesInJson`), unless the user explicitly says "redo verse `<V>`".
 - **CREATE** rich content only for shlokas where `docInDrive == true` AND `richFields == false`.
 - **UPLOAD AUDIO** only for shlokas where `audioInDrive == true` AND `audioInJson == false`.
-- **GENERATE IMAGES** only for slots where the slot URL is missing in JSON AND `imagesDocInDrive == true`.
+- **GENERATE IMAGES** only for slots where the slot URL is missing in JSON AND the shloka source supplies image prompts (in the main `N.V` Word doc — e.g. “Image Prompts” — and/or a separate `N.V images` doc). **Do not** wait for or require `chapter00NN/images/<N>.<V>/` PNG folders on Drive; that path is for the optional **image-update** workflow only (see below).
 - **DEFER** any shloka whose Drive Word doc is missing — list it under "Awaiting source" and continue with the rest. Never fabricate content for a missing shloka.
 - **NEVER** mutate the chapter scaffold during a content import (see §6).
 
@@ -171,11 +171,15 @@ For each shloka in the UPLOAD AUDIO list:
 4. Use a parametrised version of `scripts/upload-audio.ts`. The version checked in is hard-coded for `12.1` and uses the older `ch12_v1.mp3` path — do not blindly copy it; the canonical path is `ch<N>/<N>.<V>.mp3`, which is already used by Chapter 12 verses 1–10 in `gitaData.json`.
 5. Never overwrite an existing `audio_url` in JSON unless the user explicitly says "re-upload audio for `<N>.<V>`".
 
-## 8. Image generation (Chapter 12 model)
+## 8. Image generation (Chapter 12 model) — **included in every chapter import**
+
+Image generation is **part of chapter import**, not a separate follow-up task. For each shloka in scope, generate illustrations from the **`Prompt:`** strings in the source doc, upload to Firebase Storage (§8b), and write `images.*` in `gitaData.json` (§8c). An empty or missing `chapter00NN/images/<N>.<V>/` folder on Drive is **normal** and does **not** block import.
+
+**Do not** run `docs/update-verse-images.md` / `npm run import-verse-images` during or after chapter import unless the user **explicitly** asks to update or replace images with finished Drive PNGs. Do **not** suggest “re-import images when PNGs land in Drive” as an implicit next step.
+
+**User-prompted image update only** (finished Drive PNGs under `chapter00NN/images/<N>.<V>/`, filenames `N.V-image-SEQ-SECTION-…`, without re-importing prose): **`docs/update-verse-images.md`** → `scripts/import-verse-images-from-drive.mjs` (versioned GCS paths).
 
 This is the most error-prone section. The Ch12 V1 implementation is the reference (see `gitaData.json` lines ~370–423 and `client/public/images/ch12/v1/…`).
-
-**Replacing or batch-uploading finished Drive PNGs** (under `chapter00NN/images/<N>.<V>/`, filename `N.V-image-SEQ-SECTION-…`) without re-importing prose: see **`docs/update-verse-images.md`** (Drive root, credentials, **must run** `scripts/import-verse-images-from-drive.mjs`, versioned GCS paths).
 
 ### 8a. Image-slot vocabulary (must match `Verse.images` in `types/gita.ts`)
 
@@ -200,7 +204,7 @@ Firebase Storage (primary):
 gs://sample-f6f12.appspot.com/bhagvad-gita/images/ch<N>/v<V>/ch<N>v<V>-<slot>-v<version>.<ext>
 ```
 
-For **replacing** existing art, increment `version` (see **`docs/update-verse-images.md`**) — do not overwrite the same object path (CDN cache).
+For **replacing** existing art after import (user-requested image update only), increment `version` (see **`docs/update-verse-images.md`**) — do not overwrite the same object path (CDN cache).
 
 Examples (Ch12 V1 — some legacy objects omit `-vN`; new uploads should use versioning):
 
@@ -216,7 +220,7 @@ Local fallback (only for the existing Ch12 V1 mirror): `client/public/images/ch1
 
 For each missing image slot in the GENERATE IMAGES list:
 
-1. Pull the **exact `Prompt:` string** from the `N.V images` doc — do not paraphrase.
+1. Pull the **exact `Prompt:` string** from the shloka source (main `N.V` doc and/or `N.V images` doc) — do not paraphrase.
 2. Generate the image using the project's standard generator/tooling (same model parameters used for Ch12).
 3. Upload to the Storage path in §8b. Make the file public; set `cacheControl: public, max-age=31536000`.
 4. Write `images.<slot>` (or push into the array for `story` / `more_stories`) with `{ url, caption }`. Keep the array order **identical** to the order the corresponding stories appear in `more_stories` text — `more_stories[i]` image must visually depict `more_stories` story number `i+1`.
@@ -372,6 +376,8 @@ Plus a manual smoke test of:
 - **Never** re-download a Drive file already cached unchanged in `.cache/chapter-import/`.
 - **Never** re-parse a Word doc whose cached JSON is already current.
 - **Never** re-generate an image whose `images.<slot>.url` is already populated in JSON, unless the user explicitly opts in.
+- **Never** run **`docs/update-verse-images.md`** or suggest Drive PNG re-import as part of or after chapter import; that workflow is **only** when the user explicitly asks to update/replace verse images.
+- **Never** treat a missing `chapter00NN/images/<N>.<V>/` Drive folder as a reason to defer chapter import — generate from doc prompts in §8 instead.
 - **Never** invent a Storage URL, audio URL, image, story, or grammar field. Missing source ⇒ deferred shloka, reported back to the user.
 - **Never** edit chapter scaffold fields (`name`, `name_hindi`, `subtitle`, `summary`, `theme`, `color`, `icon`, `verses_count`) during a content import. The only chapter-level mutations allowed are `iast_name`, `devanagari_name`, and `generated_description`, and only via `npm run generate-chapter-descriptions -- --chapter=<N>`.
 - **Never** commit unless the user asked for a commit (per repo policy).
