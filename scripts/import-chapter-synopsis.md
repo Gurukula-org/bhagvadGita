@@ -26,6 +26,13 @@ Chapter 12 used this mapping from **source paragraph numbers** to **image order*
 
 `3→1, 6→2, 8→3, 13→4, 17→5, 19→6, 21→7, 23→8, 27→9, 33→10, 35→11, 37→12, 42→13, 44→14, 49→15`
 
+**Chapter 3:** `2→1, 8→2, 19→3, 29→4, 24→5, 33→6, 38→7, 40→8, 43→9, 49→10` (10 images). Build JSON with:
+
+```bash
+node scripts/build-chapter-synopsis-from-txt.mjs --chapter 3 \
+  --txt .cache/chapter-import/ch3-synopsis/chapter0003-synopsis.txt
+```
+
 For a **new chapter**, re-derive this map from that chapter’s synopsis “Image Prompts” section: each image’s Placement line gives the paragraph number after which the image appears.
 
 The app expects:
